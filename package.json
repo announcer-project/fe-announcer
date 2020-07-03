@@ -8,8 +8,26 @@
     "start": "next start"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-basic-styles": "^20.0.0",
+    "@ckeditor/ckeditor5-build-classic": "^20.0.0",
+    "@ckeditor/ckeditor5-dev-utils": "^21.0.0",
+    "@ckeditor/ckeditor5-editor-classic": "^20.0.0",
+    "@ckeditor/ckeditor5-essentials": "^20.0.0",
+    "@ckeditor/ckeditor5-paragraph": "^20.0.0",
+    "@ckeditor/ckeditor5-react": "^2.1.0",
+    "@ckeditor/ckeditor5-theme-lark": "^20.0.0",
+    "antd": "^4.4.0",
+    "axios": "^0.19.2",
+    "jwt-decode": "^2.2.0",
     "next": "9.4.4",
+    "nookies": "^2.3.2",
+    "nprogress": "^0.2.0",
     "react": "16.13.1",
-    "react-dom": "16.13.1"
+    "react-dom": "16.13.1",
+    "styled-components": "^5.1.1",
+    "sweetalert2": "^9.15.2"
+  },
+  "devDependencies": {
+    "babel-plugin-styled-components": "^1.10.7"
   }
 }
