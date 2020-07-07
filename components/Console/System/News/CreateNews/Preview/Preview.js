@@ -1,13 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
-import styled from "styled-components";
-import { NotificationFilled, FileAddFilled } from "@ant-design/icons";
-import { CreateNewsContext } from "../../../../../../store/CreateNewsProvider";
-import moment from "moment";
-import { Modal } from "antd";
-import cookie from "../../../../../../tools/cookie";
-import Swal from "sweetalert2";
 import Router from "next/router";
 import axios from "axios";
+import styled from "styled-components";
+import { NotificationFilled, FileAddFilled } from "@ant-design/icons";
+import { Modal } from "antd";
+import moment from "moment";
+import Swal from "sweetalert2";
+
+import cookie from "../../../../../../tools/cookie";
+import { CreateNewsContext } from "../../../../../../store/CreateNewsProvider";
 
 const NewsType = styled.div`
     border-radius: 20px;

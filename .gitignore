@@ -5,6 +5,7 @@
 /.pnp
 .pnp.js
 next.config.js
+.env
 
 # testing
 /coverage

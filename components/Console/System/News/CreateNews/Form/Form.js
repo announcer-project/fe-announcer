@@ -1,11 +1,11 @@
 import React, { useContext, useState, useEffect } from "react";
+import dynamic from "next/dynamic";
+import moment from "moment";
+import Swal from "sweetalert2";
 import styled from "styled-components";
 import { Input, Checkbox, DatePicker, Upload, Modal } from "antd";
 import { PlusOutlined, EyeOutlined } from "@ant-design/icons";
-import moment from "moment";
-import Swal from "sweetalert2";
 import { CreateNewsContext } from "../../../../../../store/CreateNewsProvider";
-import dynamic from "next/dynamic";
 
 const CKEditor = dynamic(() => import("./CKEditor"), {
   ssr: false,
@@ -35,8 +35,8 @@ export default function FromCreateNews(props) {
   const { expiredate, changeExpiredate } = useContext(CreateNewsContext);
   const { fileImage, changeFileImage } = useContext(CreateNewsContext);
   const { newsTypes, selectNewsType } = useContext(CreateNewsContext);
-  const { step, changeStep } = useContext(CreateNewsContext);
-  const { postdate, setPostdate } = useContext(CreateNewsContext);
+  const { changeStep } = useContext(CreateNewsContext);
+  const { setPostdate } = useContext(CreateNewsContext);
 
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState("");

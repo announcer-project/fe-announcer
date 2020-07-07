@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
 import Head from "next/head";
-import cookie from "../../tools/cookie";
 import axios from "axios";
+import cookie from "../../tools/cookie";
 import { withNotAuth } from "../../tools/withNotAuth";
 
 import Page from "../../components/Login/LoginPage";

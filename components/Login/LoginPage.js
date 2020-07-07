@@ -30,6 +30,8 @@ const ImageContent = styled.img`
 `;
 
 function LoginPage() {
+  console.log("fe", process.env.REACT_APP_FE_PATH);
+  console.log("be", process.env.REACT_APP_BE_PATH);
   return (
     <>
       <div className="col-12">
