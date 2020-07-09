@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import Router from "next/router";
 
 import ButtonLogin from "./LoginButton";
@@ -32,6 +33,10 @@ const ImageContent = styled.img`
 function LoginPage() {
   console.log("fe", process.env.REACT_APP_FE_PATH);
   console.log("be", process.env.REACT_APP_BE_PATH);
+  const responseFacebook = (response) => {
+    console.log(response);
+    Router.push(`/login?code=${response.userID}&state=facebooklogin`)
+  };
   return (
     <>
       <div className="col-12">
@@ -50,13 +55,27 @@ function LoginPage() {
               <div className="col-10 p-0 mx-auto">
                 <div className="mb-3">
                   <a
-                    href={`https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${process.env.REACT_APP_CHANNEL_ID_LOGIN}&redirect_uri=${process.env.REACT_APP_FE_PATH}/login&state=12345abcde&scope=profile%20openid&nonce=09876xyz`}
+                    href={`https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${
+                      process.env.REACT_APP_CHANNEL_ID_LOGIN
+                    }&redirect_uri=${
+                      process.env.REACT_APP_FE_PATH
+                    }/login&state=${"linelogin"}&scope=profile%20openid&nonce=09876xyz`}
                   >
                     <ButtonLogin>Line</ButtonLogin>
                   </a>
                 </div>
                 <div className="mb-3">
-                  <ButtonLogin>Facebook</ButtonLogin>
+                  <FacebookLogin
+                    appId="696178021130957"
+                    autoLoad={false}
+                    fields="name,email,picture"
+                    callback={responseFacebook}
+                    render={(renderProps) => (
+                      <ButtonLogin onClick={renderProps.onClick}>
+                        Facebook
+                      </ButtonLogin>
+                    )}
+                  />
                 </div>
                 <div>
                   <ButtonLogin>Google</ButtonLogin>
