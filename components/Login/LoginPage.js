@@ -63,7 +63,7 @@ function LoginPage() {
                 </div>
                 <div className="mb-3">
                   <FacebookLogin
-                    redirectUri="http://localhost:3000/login"
+                    redirectUri={`${process.env.REACT_APP_FE_PATH}/login`}
                     appId="696178021130957"
                     autoLoad={false}
                     fields="name,email,picture"

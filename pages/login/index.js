@@ -61,10 +61,10 @@ export async function getServerSideProps(ctx) {
       res.setHeader("location", "/console/systems");
       res.statusCode = 302;
       res.end();
-      return {};
+      return {props:{}};
     }
   }
-  return {};
+  return {props:{}};
 }
 
 export default LoginPage;
