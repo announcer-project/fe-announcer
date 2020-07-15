@@ -25,7 +25,7 @@ const fetchJWT = async (ctx) => {
     social = "facebook";
   }
   await axios
-    .get(`${process.env.REACT_APP_BE_PATH}/linelogin`, {
+    .get(`${process.env.REACT_APP_BE_PATH}/login`, {
       headers: {
         Code: query.code,
         Social: social,
@@ -35,9 +35,17 @@ const fetchJWT = async (ctx) => {
     .then(async (res) => {
       await cookie.setJWT(ctx, res.data, 30);
     })
-    .catch((err) => {
+    .catch(async (err) => {
       const { res } = ctx;
-      res.setHeader("location", "/register");
+      let state = "";
+      let socialid = err.response.data;
+      if (query.state === "linelogin") {
+        state = "line";
+      } else if (query.state === "facebooklogin") {
+        state = "facebook";
+      }
+      let path = `/register?state=${state}&code=${socialid}`;
+      res.setHeader("location", path);
       res.statusCode = 302;
       res.end();
     });
@@ -47,25 +55,16 @@ export async function getServerSideProps(ctx) {
   await withNotAuth(ctx);
   const { code, state } = ctx.query;
   if (code !== undefined) {
-    if (state === "linelogin") {
-      console.log("code", code);
-      console.log("state", state);
-      console.log("ธฎฆธฆธฎฆธฆธ", state);
+    if (state === "linelogin" || state === "facebooklogin") {
       await fetchJWT(ctx);
       const { res } = ctx;
       res.setHeader("location", "/console/systems");
       res.statusCode = 302;
       res.end();
-    } else if (state === "facebooklogin") {
-      await fetchJWT(ctx);
-      console.log("code", code);
-      console.log("state", state);
+      return {};
     }
-    return { props: {} };
   }
-  return {
-    props: {},
-  };
+  return {};
 }
 
 export default LoginPage;

@@ -31,10 +31,7 @@ const ImageContent = styled.img`
 `;
 
 function LoginPage() {
-  console.log("fe", process.env.REACT_APP_FE_PATH);
-  console.log("be", process.env.REACT_APP_BE_PATH);
   const responseFacebook = (response) => {
-    console.log(response);
     Router.push(`/login?code=${response.userID}&state=facebooklogin`)
   };
   return (
@@ -66,6 +63,7 @@ function LoginPage() {
                 </div>
                 <div className="mb-3">
                   <FacebookLogin
+                    redirectUri="http://localhost:3000/login"
                     appId="696178021130957"
                     autoLoad={false}
                     fields="name,email,picture"
