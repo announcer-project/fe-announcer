@@ -16,6 +16,7 @@
     "@ckeditor/ckeditor5-paragraph": "^20.0.0",
     "@ckeditor/ckeditor5-react": "^2.1.0",
     "@ckeditor/ckeditor5-theme-lark": "^20.0.0",
+    "@zeit/next-css": "^1.0.1",
     "antd": "^4.4.0",
     "axios": "^0.19.2",
     "jwt-decode": "^2.2.0",
