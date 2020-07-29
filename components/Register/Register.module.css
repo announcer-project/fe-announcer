@@ -1,0 +1,17 @@
+.ant-steps-item-process .ant-steps-item-icon {
+    background: #050042;
+}
+
+.ant-steps-item-finish
+  > .ant-steps-item-container
+  > .ant-steps-item-tail::after {
+  background-color: #050042 !important;
+}
+
+.custome-step .ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-tail::after {
+    background-color: #050042 !important;
+  }
+
+.fomt-colorred {
+    color: red;
+}
