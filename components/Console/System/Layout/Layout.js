@@ -40,6 +40,11 @@ export default function LayoutPage(props) {
               <a>Home</a>
             </Link>
           </Menu.Item>
+          <Menu.Item key="broadcast" icon={<PieChartOutlined />}>
+            <Link href={path + "/broadcast"}>
+              <a>Broadcast</a>
+            </Link>
+          </Menu.Item>
           <SubMenu key="news" icon={<UserOutlined />} title="News">
             <Menu.Item key="allnews">
               <Link href={path + "/news/allnews"}>

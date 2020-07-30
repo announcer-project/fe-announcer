@@ -2,7 +2,6 @@ import Head from "next/head";
 import axios from "axios";
 import cookie from "../../../../../tools/cookie";
 import { withAuth } from "../../../../../tools/withAuth";
-import { CounterProvider } from "../../../../../store/CouterProvider";
 import { CreateNewsProvider } from "../../../../../store/CreateNewsProvider";
 import Page from "../../../../../components/Console/System/News/CreateNews/CreateNewsPage";
 
@@ -13,9 +12,7 @@ export default function CreateNewsPage(props) {
         <title>{props.query.systemname} - NMS</title>
       </Head>
       <CreateNewsProvider>
-        <CounterProvider>
           <Page {...props} />
-        </CounterProvider>
       </CreateNewsProvider>
     </>
   );
