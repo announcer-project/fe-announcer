@@ -1,0 +1,14 @@
+[
+    {
+        "id": 1,
+        "newstypename" : "Activity"
+    },
+    {
+        "id": 2,
+        "newstypename" : "Scholarship"
+    },
+    {
+        "id": 3,
+        "newstypename" : "IT3K"
+    }
+]
