@@ -46,9 +46,9 @@ function LoginPage() {
               <div className="col-8 p-0 mx-auto d-sm-none">
                 <img src="/img/logo.png" alt="pic news" width="100%" />
               </div>
-              <h3 className="text-center">
+              <p className="text-center font-title">
                 <b>SIGN IN</b>
-              </h3>
+              </p>
               <div className="col-10 p-0 mx-auto">
                 <div className="mb-3">
                   <a

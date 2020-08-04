@@ -11,10 +11,12 @@ const initialState = {
   checkusers: false,
   users: [],
   usersSelect: [],
-  messages: [{
-    type: "text",
-    data: "",
-  }],
+  messages: [
+    {
+      type: "text",
+      data: "",
+    },
+  ],
   news: [],
   step: 1,
 };
@@ -25,11 +27,15 @@ const createLineBroadcastReducer = (state, action) => {
       return {
         ...state, // copy state
         everyone: !action.payload, // set state counter
+        checknewstypes: false,
+        checktargetgroups: false,
+        checkusers: false,
       };
     case "CHECK_NEWSTYPES":
       return {
         ...state, // copy state
-        checknewstypes: !action.payload, // set state counter
+        checknewstypes: !action.payload,
+        everyone: false,
       };
     case "SELECT_NEWSTYPES":
       return {
@@ -40,6 +46,7 @@ const createLineBroadcastReducer = (state, action) => {
       return {
         ...state, // copy state
         checktargetgroups: !action.payload, // set state counter
+        everyone: false,
       };
     case "SELECT_TARGETGROUPS":
       return {
@@ -50,6 +57,7 @@ const createLineBroadcastReducer = (state, action) => {
       return {
         ...state, // copy state
         checkusers: !action.payload, // set state counter
+        everyone: false,
       };
     case "SELECT_USERS":
       return {

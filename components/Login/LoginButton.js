@@ -7,7 +7,6 @@ const Button = styled.button`
   border: none;
   background-color: #050042;
   color: white;
-  font-size: 20px;
 `;
 
 export default function ButtonLogin(props) {
@@ -17,7 +16,7 @@ export default function ButtonLogin(props) {
         className="mr-2"
         src={`/img/Login/${props.children}.png`}
         alt={props.children}
-        width="25px"
+        width="20px"
       />
       Sign in with {props.children}
     </Button>
