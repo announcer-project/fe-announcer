@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import Router from "next/router";
@@ -13,11 +14,23 @@ const Bar = styled.nav`
   background-color: white;
 `;
 
+const Profile = styled.img`
+  width: 34px;
+  height: 35px;
+  object-fit: cover;
+  border-radius: 17px;
+  cursor: pointer;
+`;
+
 export default function Navbar() {
-  let user = {};
-  try {
-    user = jwtDecode(cookie.getJWT());
-  } catch (error) {}
+  const [user, setUser] = useState({});
+  
+  useEffect(() => {
+    try {
+      let userData = jwtDecode(cookie.getJWT());
+      setUser(userData);
+    } catch (error) {}
+  }, []);
 
   const Logout = () => {
     cookie.clearJWT();
@@ -33,34 +46,32 @@ export default function Navbar() {
       </Menu>
     );
   };
-
+  console.log(user);
   return (
     <>
-      <Bar className="navbar navbar-light px-5">
-        <Link href="/">
+      <Bar className="navbar navbar-light">
+        <div className="container">
+          <Link href="/">
+            <div style={{ cursor: "pointer" }}>
+              <img
+                src="/img/logo.png"
+                alt="News Management System"
+                width="35px"
+                height="35px"
+              />
+              <span className="ml-2">Announcer</span>
+            </div>
+          </Link>
           <div>
-            <img
-              src="/img/logo.png"
-              alt="News Management System"
-              width="35px"
-              height="35px"
-            />
-            <span className="ml-2" style={{ fontSize: "20px" }}>
-              News Management System
-            </span>
+            <span className="d-none d-sm-inline-block">Hi' {user.fname}</span>
+            <Dropdown overlay={menu()} trigger={["click"]}>
+              <Profile
+                src={`${process.env.REACT_APP_STORAGE}/profile/${user.user_id}.jpg`}
+                alt={user.fname + "" + user.lname}
+                className="ml-3"
+              />
+            </Dropdown>
           </div>
-        </Link>
-        <div>
-          Hi' {user.fname}
-          <Dropdown overlay={menu()} trigger={["click"]}>
-            <img
-              src="/img/user-profile.png"
-              alt={user.fname + "" + user.lname}
-              className="ml-3"
-              width="34px"
-              height="34px"
-            />
-          </Dropdown>
         </div>
       </Bar>
     </>
