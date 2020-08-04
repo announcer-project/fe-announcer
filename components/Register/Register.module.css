@@ -1,17 +1,61 @@
-.ant-steps-item-process .ant-steps-item-icon {
-    background: #050042;
+#StepRegister .ant-steps-item-process .ant-steps-item-icon {
+  background: #050042;
 }
 
-.ant-steps-item-finish
+#StepRegister .ant-steps-item-process .ant-steps-item-icon {
+  border-color: #050042;
+}
+
+#StepRegister .ant-steps-item-finish .ant-steps-item-icon {
+  border-color: #050042;
+}
+
+#StepRegister .ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
+  color: #050042;
+}
+
+#StepRegister
+  .ant-steps-item-finish
   > .ant-steps-item-container
-  > .ant-steps-item-tail::after {
-  background-color: #050042 !important;
+  > .ant-steps-item-content
+  > .ant-steps-item-title::after {
+  background-color: #050042;
 }
 
-.custome-step .ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-tail::after {
-    background-color: #050042 !important;
-  }
+#StepRegister .ant-steps-small .ant-steps-item-title {
+  font-size: 12px;
+}
 
-.fomt-colorred {
-    color: red;
+#RegisterForm .ant-form-item-explain, .ant-form-item-extra {
+  font-size: 12px;
+}
+
+#BeforeUploadProfile .ant-upload-picture-card-wrapper {
+  width: auto;
+}
+
+#BeforeUploadProfile .ant-upload.ant-upload-select-picture-card {
+  width: 150px;
+  height: 150px;
+  border-radius: 150px;
+}
+
+#BeforeUploadProfile .ant-upload.ant-upload-select-picture-card:hover {
+  border-color: #050042;
+}
+
+#AfterUploadProfile .ant-upload.ant-upload-select-picture-card {
+  position: absolute;
+  bottom: 21px;
+  right: -1px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  width: auto;
+  height: auto;
+  text-align: center;
+  background-color: #050042;
+  border: none;
+  border-radius: 150px;
+  cursor: pointer;
+  color: white;
 }
