@@ -11,3 +11,23 @@ export const withNotAuth = (ctx) => {
     res.end();
   }
 };
+
+export const withNotAuthRegister = (ctx) => {
+  const jwt = cookie.getJWT(ctx);
+  const { state, code } = ctx.query;
+  if (ctx.req && !jwt) {
+    if (state && code) {
+      return;
+    } else {
+      const { res } = ctx;
+      res.setHeader("location", "/console/systems");
+      res.statusCode = 302;
+      res.end();
+    }
+  } else {
+    const { res } = ctx;
+    res.setHeader("location", "/console/systems");
+    res.statusCode = 302;
+    res.end();
+  }
+};
