@@ -28,14 +28,14 @@ const SocialBar = (props) => {
           className="text-center"
           key="image"
         >
-          <span>Image</span>
+          <span className="font-small">Image</span>
         </Menu.Item>
         <Menu.Item
           style={{ width: "33.34%" }}
           className="text-center"
           key="news"
         >
-          <span>News</span>
+          <span className="font-small">News</span>
         </Menu.Item>
       </Menu>
     </div>

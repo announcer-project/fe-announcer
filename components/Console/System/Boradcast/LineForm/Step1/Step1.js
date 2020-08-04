@@ -63,7 +63,7 @@ export default function Step1({ systemname, systemid }) {
 
   return (
     <div>
-      <div className="pt-3 px-3">
+      <div className="px-3">
         <div className="pb-5 border-bottom">
           <span className="font-large">Receiver</span>
           <div className="container px-5 pt-3">

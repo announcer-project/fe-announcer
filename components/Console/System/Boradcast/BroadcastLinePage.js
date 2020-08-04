@@ -51,7 +51,7 @@ export default function BroadcastLinePage(props) {
         <div className="p-5">
           <div className="container shadow-lg border-radius-small p-5">
             <p className="font-title mb-0">Line Broadcast</p>
-            <div className="container pt-3">
+            <div className="container pt-4">
               <div id="StepBroadcast" className="col-8 mx-auto">
                 <Steps size="small" current={step - 1}>
                   <Step title="Receiver" />
@@ -59,7 +59,7 @@ export default function BroadcastLinePage(props) {
                   <Step title="Preview" />
                 </Steps>
               </div>
-              <div className="pt-3 px-5">{StepForm(props)}</div>
+              <div className="p-4">{StepForm(props)}</div>
             </div>
           </div>
         </div>

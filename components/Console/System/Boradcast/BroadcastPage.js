@@ -20,7 +20,7 @@ export default function BroadcastPage(props) {
     <div>
       <Layout {...props}>
         <div className="px-5 pt-5">
-          <div className="container shadow-lg border-radius-small p-3">
+          <div className="shadow-lg border-radius-small p-5">
             <p className="font-title mb-0">Broadcast</p>
             <div className="col-12 mt-3">
               <div className="row">

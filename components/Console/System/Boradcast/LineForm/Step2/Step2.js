@@ -1,8 +1,16 @@
 import React, { useContext, useEffect } from "react";
+import styled from "styled-components";
 import Message from "./Message";
 import { CreateLineBroadcastContext } from "../../../../../../store/CreateLineBroadcastProvider";
 import Swal from "sweetalert2";
 import { ButtonBack, ButtonNext } from "../../Components";
+
+const ButtonManageMessage = styled.button`
+  border-radius: 30px;
+  border: none;
+  background-color: ${(props) => (props.add ? "#050042" : "#CE0000")};
+  color: white;
+`;
 
 export default function Step2() {
   const { messages, changeMessages, changeStep } = useContext(
@@ -26,6 +34,14 @@ export default function Step2() {
       title: "Oops...",
       text: text,
     });
+  };
+
+  const onRemoveMessage = (key) => {
+    if (key !== 0) {
+      let newMessages = messages;
+      newMessages.splice(key, 1);
+      changeMessages(newMessages);
+    }
   };
 
   const onAddMessage = () => {
@@ -78,24 +94,36 @@ export default function Step2() {
   };
 
   return (
-    <div className="pb-5 pt-3">
+    <div>
       <span className="font-large">Message</span>
-      <div className="container px-5 pb-5 border-bottom">
+      <div className="container p-5 pt-3 border-bottom">
         {messages.map((message, key) => {
           return (
-            <div key={key} className="mt-3">
+            <div key={key} className="mb-3">
               <Message boxnumber={key} message={message} />
+              <div className="pt-3 text-right">
+                <ButtonManageMessage
+                  add={false}
+                  className={`col-3 py-2 font-small ${
+                    messages.length === 5 ? "d-none" : ""
+                  }`}
+                  onClick={() => onRemoveMessage(key)}
+                >
+                  Remove
+                </ButtonManageMessage>
+              </div>
             </div>
           );
         })}
-        <div className="pt-3">
-          <button
-            className={`col-12 ${messages.length === 5 ? "d-none" : ""}`}
-            onClick={() => onAddMessage()}
-          >
-            + Add message
-          </button>
-        </div>
+        <ButtonManageMessage
+          add={true}
+          className={`col-12 py-2 font-small ${
+            messages.length === 5 ? "d-none" : ""
+          }`}
+          onClick={() => onAddMessage()}
+        >
+          + Add message
+        </ButtonManageMessage>
       </div>
       <div className="d-flex justify-content-between pt-3">
         <ButtonBack onClick={() => changeStep(1)}>Back</ButtonBack>

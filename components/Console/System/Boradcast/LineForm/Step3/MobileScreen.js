@@ -26,7 +26,7 @@ export default React.memo(function MobileScreen({ messages, systemname }) {
   return (
     <div>
       <Screen>
-        <Bar className="text-center pt-3">Announcer</Bar>
+        <Bar className="text-center pt-3">{systemname}</Bar>
         <ChatRoom className="pl-2 pt-2">
           <Profile className="rounded-circle d-inline-block align-top" />
           <div className="d-inline-block pl-2">

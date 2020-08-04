@@ -14,6 +14,14 @@
   color: #050042;
 }
 
-#StepBroadcast .ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title::after {
-    background-color: #050042;
-  }
+#StepBroadcast
+  .ant-steps-item-finish
+  > .ant-steps-item-container
+  > .ant-steps-item-content
+  > .ant-steps-item-title::after {
+  background-color: #050042;
+}
+
+#StepBroadcast .ant-steps-small .ant-steps-item-title {
+  font-size: 12px;
+}

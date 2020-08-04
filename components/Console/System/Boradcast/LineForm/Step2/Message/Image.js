@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import styled from "styled-components"
 import { Upload } from "antd";
 import {
   LoadingOutlined,
@@ -9,6 +10,14 @@ import { CreateLineBroadcastContext } from "../../../../../../../store/CreateLin
 
 import "./Upload.module.css";
 
+const ButtonRemove = styled.button`
+  cursor: pointer;
+  background-color: #CE0000;
+  border: none;
+  color: white;
+  position: absolute;
+  right: 0px;
+`
 export default function Image({ boxnumber }) {
   const { messages, changeMessages } = useContext(CreateLineBroadcastContext);
   const message = messages[boxnumber];
@@ -82,14 +91,12 @@ export default function Image({ boxnumber }) {
             alt="avatar"
             style={{ width: "100%" }}
           />
-          <button
-            style={{ position: "absolute", right: "0px" }}
-            type="button"
-            className="btn btn-danger"
+          <ButtonRemove
+            className="p-3 pt-2"
             onClick={() => onRemove()}
           >
             <CloseOutlined />
-          </button>
+          </ButtonRemove>
         </div>
       ) : (
         ""

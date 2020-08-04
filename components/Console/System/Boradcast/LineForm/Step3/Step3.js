@@ -15,9 +15,9 @@ export default function Step3({ systemname }) {
     scrollToTop();
   }, []);
   return (
-    <div className="pb-5 pt-3">
+    <div>
       <span className="font-large">Preview</span>
-      <div className="d-flex justify-content-center pt-3 pb-5 border-bottom">
+      <div className="d-flex justify-content-center pb-5 pt-3 border-bottom">
         <MobileScreen systemname={systemname} messages={messages} />
       </div>
       <div className="d-flex justify-content-between pt-3">
