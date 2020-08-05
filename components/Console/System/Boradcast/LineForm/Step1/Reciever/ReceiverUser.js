@@ -65,62 +65,60 @@ export default function UserSelector() {
       <Checkbox checked={checkusers} onChange={() => checkUsers(checkusers)}>
         User name / User ID
       </Checkbox>
-      <div className="px-4 mt-2">
-        <div className="col-12">
-          <div className="row">
-            <div className="col">
-              <Input
-                className="input-text-height"
-                placeholder="User name / User ID"
-                value={search}
-                onChange={(e) => onSearch(e.target.value)}
-              />
-              <div
-                className="border"
-                style={{ minHeight: "300px", overflow: "auto" }}
-              >
-                {usersNotSelect.map((user, key) => {
-                  return (
-                    <div className="d-flex justify-content-between px-3 border-bottom py-2">
-                      <span className="font-small">
-                        {user.name}
-                        <br />
-                        {user.userid}
-                      </span>
-                      <ButtonAddUser
-                        checked={checkusers}
-                        onClick={() => {
-                          checkusers ? onAddUser(user.userid) : "";
-                        }}
-                      />
-                    </div>
-                  );
-                })}
-              </div>
+      <div className="px-4">
+        <div className="row">
+          <div className="col mt-2">
+            <Input
+              className="input-text-height"
+              placeholder="User name / User ID"
+              value={search}
+              onChange={(e) => onSearch(e.target.value)}
+            />
+            <div
+              className="border"
+              style={{ minHeight: "300px", overflow: "auto" }}
+            >
+              {usersNotSelect.map((user, key) => {
+                return (
+                  <div className="d-flex justify-content-between px-3 border-bottom py-2">
+                    <span className="font-small">
+                      {user.name}
+                      <br />
+                      {user.userid}
+                    </span>
+                    <ButtonAddUser
+                      checked={checkusers}
+                      onClick={() => {
+                        checkusers ? onAddUser(user.userid) : "";
+                      }}
+                    />
+                  </div>
+                );
+              })}
             </div>
-            <div className="col">
-              <p className="text-center border mb-0" style={{ height: "30px" }}>
-                Selected
-              </p>
-              <div className="border" style={{ minHeight: "300px" }}>
-                {usersSelect.map((user, key) => {
-                  return (
-                    <div className="d-flex justify-content-between px-3 border-bottom py-2">
-                      <span className="font-small">
-                        {user.name}
-                        <br />
-                        {user.userid}
-                      </span>
-                      <ButtonRemoveUser
-                        checked={checkusers}
-                        onClick={() => {
-                          checkusers ? onRemoveUser(user.userid) : "";
-                        }}
-                      />
-                    </div>
-                  );
-                })}
-              </div>
+          </div>
+          <div className="col mt-2">
+            <div className="border text-center pt-1" style={{ height: "30px" }}>
+              <span>Selected</span>
+            </div>
+            <div className="border" style={{ minHeight: "300px" }}>
+              {usersSelect.map((user, key) => {
+                return (
+                  <div className="d-flex justify-content-between px-3 border-bottom py-2">
+                    <span className="font-small">
+                      {user.name}
+                      <br />
+                      {user.userid}
+                    </span>
+                    <ButtonRemoveUser
+                      checked={checkusers}
+                      onClick={() => {
+                        checkusers ? onRemoveUser(user.userid) : "";
+                      }}
+                    />
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

@@ -96,7 +96,7 @@ export default function Step2() {
   return (
     <div>
       <span className="font-large">Message</span>
-      <div className="container p-5 pt-3 border-bottom">
+      <div className="pt-3 border-bottom">
         {messages.map((message, key) => {
           return (
             <div key={key} className="mb-3">
@@ -104,7 +104,7 @@ export default function Step2() {
               <div className="pt-3 text-right">
                 <ButtonManageMessage
                   add={false}
-                  className={`col-3 py-2 font-small ${
+                  className={`px-4 px-sm-5 py-2 font-small ${
                     messages.length === 5 ? "d-none" : ""
                   }`}
                   onClick={() => onRemoveMessage(key)}

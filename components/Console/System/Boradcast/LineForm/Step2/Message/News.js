@@ -41,10 +41,10 @@ export default function News({ boxnumber }) {
     <div>
       <div className="p-3 border-bottom">
         <div className="row">
-          <div className="col-2">
+          <div className="col-12 col-sm-2">
             <ImageCover src={message.data.cover} />
           </div>
-          <div className="col-10">
+          <div className="col-12 col-sm-10">
             <b>
               <span>{message.data.title}</span>
             </b>
@@ -55,11 +55,10 @@ export default function News({ boxnumber }) {
           </div>
         </div>
       </div>
-      <div className="col-12">
-        <div className="row p-3">
+      <div className="pb-3 pr-3 pt-0" style={{overflow: "auto", whiteSpace:"nowrap"}}>
           {news.map((news, key) => {
             return (
-              <div key={key} className="col-4">
+              <div key={key} className="pt-3 col-12 col-sm-3 d-inline-block pl-3">
                 <Card
                   onClick={() => onSelectNews(key)}
                   selected={news.id === message.data.id}
@@ -68,7 +67,6 @@ export default function News({ boxnumber }) {
               </div>
             );
           })}
-        </div>
       </div>
     </div>
   );

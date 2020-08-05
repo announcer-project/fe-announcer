@@ -8,7 +8,7 @@ import UserSelector from "./Reciever/ReceiverUser";
 import Swal from "sweetalert2";
 import { ButtonBack, ButtonNext } from "../../Components";
 
-import "./Checkbox.module.css"
+import "./Checkbox.module.css";
 
 export default function Step1({ systemname, systemid }) {
   const {
@@ -63,28 +63,26 @@ export default function Step1({ systemname, systemid }) {
 
   return (
     <div>
-      <div className="px-3">
-        <div className="pb-5 border-bottom">
-          <span className="font-large">Receiver</span>
-          <div className="container px-5 pt-3">
-            <div id="CheckboxBroadcast">
-              <div className="pb-3">
-                <Checkbox
-                  checked={everyone}
-                  onChange={() => selectEveryone(everyone)}
-                >
-                  Everyone
-                </Checkbox>
-              </div>
-              <div className="pb-3">
-                <NewsTypeSelector />
-              </div>
-              <div className="pb-3">
-                <TargetGroupSelector />
-              </div>
-              <div>
-                <UserSelector />
-              </div>
+      <div className="pb-5 border-bottom">
+        <span className="font-large">Receiver</span>
+        <div className="px-0 px-sm-3 pt-3">
+          <div id="CheckboxBroadcast">
+            <div className="pb-3">
+              <Checkbox
+                checked={everyone}
+                onChange={() => selectEveryone(everyone)}
+              >
+                Everyone
+              </Checkbox>
+            </div>
+            <div className="pb-3">
+              <NewsTypeSelector />
+            </div>
+            <div className="pb-3">
+              <TargetGroupSelector />
+            </div>
+            <div>
+              <UserSelector />
             </div>
           </div>
         </div>

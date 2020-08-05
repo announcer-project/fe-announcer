@@ -49,7 +49,7 @@ export default function Navbar() {
   console.log(user);
   return (
     <>
-      <Bar className="navbar navbar-light">
+      <Bar className="navbar navbar-light shadow-sm">
         <div className="container">
           <Link href="/">
             <div style={{ cursor: "pointer" }}>

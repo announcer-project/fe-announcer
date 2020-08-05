@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { TextMessage, ImageMessage, NewsMessage } from "./Message";
 
 const Screen = styled.div`
-  width: 375px;
   height: 667px;
 `;
 const Bar = styled.div`
@@ -27,10 +26,11 @@ export default React.memo(function MobileScreen({ messages, systemname }) {
     <div>
       <Screen>
         <Bar className="text-center pt-3">{systemname}</Bar>
-        <ChatRoom className="pl-2 pt-2">
+        <ChatRoom className="pl-2 py-2">
           <Profile className="rounded-circle d-inline-block align-top" />
-          <div className="d-inline-block pl-2">
-            <span>{systemname}</span>
+          <span className="pl-2 d-sm-none">{systemname}</span>
+          <div className="d-inline-block pl-5 pl-sm-2">
+            <span className="d-none d-sm-block">{systemname}</span>
             {messages.map((message, key) => {
               switch (message.type) {
                 case "text":

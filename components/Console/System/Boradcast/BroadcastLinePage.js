@@ -48,18 +48,18 @@ export default function BroadcastLinePage(props) {
   return (
     <div>
       <Layout {...props}>
-        <div className="p-5">
-          <div className="container shadow-lg border-radius-small p-5">
+        <div className="container py-3 py-sm-5">
+          <div className="shadow-lg border-radius-small p-3 p-sm-5">
             <p className="font-title mb-0">Line Broadcast</p>
-            <div className="container pt-4">
-              <div id="StepBroadcast" className="col-8 mx-auto">
+            <div className="pt-4">
+              <div id="StepBroadcast" className="col-12 col-sm-8 mx-auto">
                 <Steps size="small" current={step - 1}>
                   <Step title="Receiver" />
                   <Step title="Message" />
                   <Step title="Preview" />
                 </Steps>
               </div>
-              <div className="p-4">{StepForm(props)}</div>
+              <div className="mt-2 mt-sm-4 px-0 px-sm-3">{StepForm(props)}</div>
             </div>
           </div>
         </div>

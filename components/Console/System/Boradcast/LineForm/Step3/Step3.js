@@ -17,8 +17,10 @@ export default function Step3({ systemname }) {
   return (
     <div>
       <span className="font-large">Preview</span>
-      <div className="d-flex justify-content-center pb-5 pt-3 border-bottom">
-        <MobileScreen systemname={systemname} messages={messages} />
+      <div className=" border-bottom d-flex justify-content-center">
+        <div className="pb-5 pt-3 col-12 col-lg-4">
+          <MobileScreen systemname={systemname} messages={messages} />
+        </div>
       </div>
       <div className="d-flex justify-content-between pt-3">
         <ButtonBack onClick={() => changeStep(2)}>Back</ButtonBack>

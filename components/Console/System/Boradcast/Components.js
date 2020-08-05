@@ -9,8 +9,8 @@ const Button = styled.button`
 `;
 
 export function ButtonBack(props) {
-  return <Button {...props} bg={"#CE0000"} className="px-5 py-2 font-small" >Back</Button>;
+  return <Button {...props} bg={"#CE0000"} className="px-4 px-sm-5 py-2 font-small" >Back</Button>;
 }
 export function ButtonNext(props) {
-  return <Button {...props} bg={"#050042"} className="px-5 py-2 font-small" >Next</Button>;
+  return <Button {...props} bg={"#050042"} className="px-4 px-sm-5 py-2 font-small" >Next</Button>;
 }
