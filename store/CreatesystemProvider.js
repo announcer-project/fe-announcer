@@ -16,7 +16,7 @@ const CreatesystemReducer = (state, action) => {
         case "NEXT_STEP":
             return {
                 ...state,
-                step: state.step + action.payload,
+                step: action.payload,
             };
         case "CHANGE_SYSTEMNAME":
             return {
