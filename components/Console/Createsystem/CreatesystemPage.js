@@ -1,55 +1,61 @@
-import { Steps } from 'antd';
-import React, { useContext } from 'react';
-import { CreatesystemContext } from '../../../store/CreatesystemProvider';
+import { Steps } from "antd";
+import React, { useContext } from "react";
+import { CreatesystemContext } from "../../../store/CreatesystemProvider";
 import styled from "styled-components";
-import Step1 from "./Step1"
+import Step1 from "./Step1";
+import Layout from "../Layout/Layout";
 
+import "./Step.module.css";
+import "./Form.module.css";
 
 const Box = styled.div`
-    border: 2px solid white;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.25);
-`
+  border: 2px solid white;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.25);
+`;
+
 const { Step } = Steps;
 
 function CreatesystemPage(props) {
-    const { step } = useContext(CreatesystemContext);
-    const StepCreatesystem = () => {
-        switch (step) {
-            case 1:
-                return <Step1 {...props} />;
-            // case 2:
-            //     return <Step2 {...props} />;
-            // case 3:
-            //     return <Step3 {...props} />;
-            // case 4:
-            //     return <Step4 {...props} />;
-        }
-    };
-    console.log(step)
+  const { step } = useContext(CreatesystemContext);
 
-    return (
-        <div className="container">
-            <div className="col-12">
-                <Box className="col-8 px-5 mt-5 mx-auto p-4">
-                    <h1 className="text-center">Create System</h1>
-                    <div className="col-11 mx-auto mt-5">
-                        <Steps current={step - 1}>
-                            <Step title="Verify your e-mail" />
-                            <Step title="In Progress" />
-                            <Step title="Waiting" />
-                            <Step title="Waiting" />
-                        </Steps>,
-                        </div>
-                    <div className="col-6 mx-auto">
-                        {StepCreatesystem()}
-                    </div>
-                </Box>
+  const StepCreatesystem = () => {
+    switch (step) {
+      case 1:
+        return <Step1 {...props} />;
+      // case 2:
+      //     return <Step2 {...props} />;
+      // case 3:
+      //     return <Step3 {...props} />;
+      // case 4:
+      //     return <Step4 {...props} />;
+    }
+  };
+  console.log(step);
+
+  return (
+    <Layout {...props}>
+      <div className="container">
+        <Box className="col-12 col-lg-9 px-3 px-sm-5 py-3 py-sm-5 my-3 my-sm-5 mx-sm-auto">
+          <div className="px-sm-5">
+            <div className="text-center">
+              <span className="font-title">Create System</span>
             </div>
-
-        </div>
-    )
+            <div id="StepCreateSystem" className="mt-4 ">
+              <Steps size="small" current={step - 1}>
+                <Step title="System detail" />
+                <Step title="Line Official Account" />
+                <Step title="Facebook Page" />
+                <Step title="Confirm" />
+              </Steps>
+            </div>
+            <div className="col-12 mt-3 mt-sm-5">{StepCreatesystem()}</div>
+          </div>
+        </Box>
+      </div>
+    </Layout>
+  );
 }
 
 export default CreatesystemPage;
