@@ -1,0 +1,14 @@
+[
+    {
+        "id" : 1,
+        "targetgroupname" : "IT22"
+    },
+    {
+        "id" : 2,
+        "targetgroupname" : "IT23"
+    },
+    {
+        "id" : 3,
+        "targetgroupname" : "IT24"
+    }
+]

@@ -33,19 +33,21 @@ export default function Navbar() {
 
   return (
     <>
-      <Bar className="navbar navbar-light px-5 shadow-sm">
-        <div />
-        <div>
-          <span>Hi' {user.fname}</span>
-          <Dropdown overlay={menu()} trigger={["click"]}>
-            <img
-              src="/img/user-profile.png"
-              alt={user.fname + "" + user.lname}
-              className="ml-3"
-              width="34px"
-              height="34px"
-            />
-          </Dropdown>
+      <Bar className="navbar navbar-light shadow-sm">
+        <div className="container">
+          <div />
+          <div>
+            <span className="d-none d-sm-inline-block">Hi' {user.fname}</span>
+            <Dropdown overlay={menu()} trigger={["click"]}>
+              <img
+                src="/img/user-profile.png"
+                alt={user.fname + "" + user.lname}
+                className="ml-3"
+                width="34px"
+                height="34px"
+              />
+            </Dropdown>
+          </div>
         </div>
       </Bar>
     </>

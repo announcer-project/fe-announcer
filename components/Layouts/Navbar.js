@@ -7,27 +7,31 @@ const Bar = styled.nav`
   background-color: white;
 `;
 
+const Button = styled.button`
+  border: none;
+  background-color: #050042;
+  color: white;
+  border-radius: 20px;
+`;
 function Navbar() {
-    return (
-        <Bar className="navbar navbar-light px-5">
-            <Link href="/">
-                <div>
-                    <img
-                        src="/img/logo.png"
-                        alt="News Management System"
-                        width="35px"
-                        height="35px"
-                    />
-                    <span className="ml-2" style={{ fontSize: "20px" }}>
-                        News Management System
-            </span>
-                </div>
-            </Link>
-            <div>
-               console
-            </div>
-        </Bar>
-    )
+  return (
+    <Bar className="navbar navbar-light px-5 shadow-sm">
+      <div className="container">
+        <Link href="/">
+          <div>
+            <img
+              src="/img/logo.png"
+              alt="News Management System"
+              width="35px"
+              height="35px"
+            />
+            <span className="ml-2">News Management System</span>
+          </div>
+        </Link>
+        <Button className="px-3 py-1">console</Button>
+      </div>
+    </Bar>
+  );
 }
 
-export default Navbar
+export default Navbar;

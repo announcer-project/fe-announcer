@@ -7,6 +7,7 @@ import { Input, Checkbox, DatePicker, Upload, Modal } from "antd";
 import { PlusOutlined, EyeOutlined } from "@ant-design/icons";
 import { CreateNewsContext } from "../../../../../../store/CreateNewsProvider";
 
+import "./CKEditor.module.css"
 const CKEditor = dynamic(() => import("./CKEditor"), {
   ssr: false,
 });

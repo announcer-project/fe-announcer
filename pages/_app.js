@@ -5,11 +5,31 @@ import { createGlobalStyle } from "styled-components";
 
 import "nprogress/nprogress.css";
 import "antd/dist/antd.css";
-import "../CKEditor.css"
 
 const GlobalStyle = createGlobalStyle`
-body {
-}
+  .global {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    color: black;
+  }
+  .font-small {
+    font-size: 12px;
+  }
+  .font-large {
+    font-size: 16px;
+  }
+  .font-title {
+    font-size: 20px;
+  }
+  .color-drop {
+    color: #A6A6A6;
+  }
+  .border-radius-small {
+    border-radius: 10px;
+  }
+  .input-text-height {
+    height: 30px;
+  }
 `;
 
 const TopProgressBar = dynamic(
@@ -26,8 +46,10 @@ function MyApp({ Component, pageProps }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <GlobalStyle />
-      <TopProgressBar />
-      <Component {...pageProps} />
+      {/* <TopProgressBar /> */}
+      <div className="global">
+        <Component {...pageProps} />
+      </div>
     </>
   );
 }

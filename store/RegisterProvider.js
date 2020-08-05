@@ -7,7 +7,9 @@ const initialState = {
   email: "",
   firstname: "",
   lastname: "",
-  step: 1
+  image: "",
+  step: 1,
+  user: {}
 };
 
 const registerReducer = (state, action) => {
@@ -15,12 +17,17 @@ const registerReducer = (state, action) => {
     case "NEXT_STEP":
         return {
           ...state,
-          step: state.step + action.payload,
+          step: action.payload,
       };
     case "CHANGE_EMAIL":
         return {
           ...state,
           email: action.payload,
+      };
+    case "CHANGE_IMAGE":
+        return {
+          ...state,
+          image: action.payload,
       };
     case "CHANGE_FNAME":
         return {
@@ -32,6 +39,11 @@ const registerReducer = (state, action) => {
           ...state,
           lastname: action.payload,
       };
+    case "SET_USER":
+        return {
+          ...state,
+          user: action.payload,
+      };
   }
 };
 
@@ -41,19 +53,23 @@ export const RegisterProvider = ({ children }) => {
     initialState
   );
 
-  const {email, firstname, lastname, step} = registerState;
+  const {email, image, firstname, lastname, step, user} = registerState;
 
   const nextStep = (payload) =>
     registerDispatch({ type: "NEXT_STEP", payload});
   const changeEmail = (payload) =>
     registerDispatch({ type: "CHANGE_EMAIL", payload});
+  const changeImage = (payload) =>
+    registerDispatch({ type: "CHANGE_IMAGE", payload});
   const changeFirstname = (payload) =>
     registerDispatch({ type: "CHANGE_FNAME", payload});
   const changeLastname = (payload) =>
     registerDispatch({ type: "CHANGE_LNAME", payload});
+  const setUser = (payload) =>
+    registerDispatch({ type: "SET_USER", payload});
 
   return (
-    <RegisterContext.Provider value={{ email, firstname, lastname, step, nextStep, changeEmail, changeFirstname, changeLastname }}>
+    <RegisterContext.Provider value={{ email, image, firstname, lastname, step,user, nextStep, changeEmail, changeImage, changeFirstname, changeLastname, setUser }}>
       {children}
     </RegisterContext.Provider>
   );
