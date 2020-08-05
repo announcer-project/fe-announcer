@@ -37,7 +37,7 @@ export default function Step2() {
   };
 
   const onRemoveMessage = (key) => {
-    if (key !== 0) {
+    if (messages.length !== 0) {
       let newMessages = messages;
       newMessages.splice(key, 1);
       changeMessages(newMessages);
@@ -96,7 +96,7 @@ export default function Step2() {
   return (
     <div>
       <span className="font-large">Message</span>
-      <div className="pt-3 border-bottom">
+      <div className="pt-3 pb-5 border-bottom">
         {messages.map((message, key) => {
           return (
             <div key={key} className="mb-3">
