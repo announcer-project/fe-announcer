@@ -1,0 +1,61 @@
+#StepCreateSystem .ant-steps-item-process .ant-steps-item-icon {
+  background: #050042;
+}
+
+#StepCreateSystem .ant-steps-item-process .ant-steps-item-icon {
+  border-color: #050042;
+}
+
+#StepCreateSystem .ant-steps-item-finish .ant-steps-item-icon {
+  border-color: #050042;
+}
+
+#StepCreateSystem .ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
+  color: #050042;
+}
+
+#StepCreateSystem
+  .ant-steps-item-finish
+  > .ant-steps-item-container
+  > .ant-steps-item-content
+  > .ant-steps-item-title::after {
+  background-color: #050042;
+}
+
+#StepCreateSystem .ant-steps-small .ant-steps-item-title {
+  font-size: 12px;
+}
+
+#StepCreateSystem .ant-steps-item-process .ant-steps-item-icon {
+  background: #050042;
+}
+
+#StepCreateSystem .ant-steps-item-finish .ant-steps-item-icon {
+  background-color: #fff;
+  border-color: #050042;
+}
+#StepCreateSystem .ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
+  color: #050042;
+}
+#StepCreateSystem
+  .ant-steps-item-finish
+  .ant-steps-item-icon
+  > .ant-steps-icon
+  .ant-steps-icon-dot {
+  background: #050042;
+}
+
+#StepCreateSystem
+  .ant-steps-item-finish
+  > .ant-steps-item-container
+  > .ant-steps-item-content
+  > .ant-steps-item-title::after {
+  background-color: #050042;
+}
+
+#StepCreateSystem
+  .ant-steps-item-finish
+  > .ant-steps-item-container
+  > .ant-steps-item-tail::after {
+  background-color: #050042;
+}
