@@ -99,7 +99,7 @@ function Step1() {
               value={email}
               onChange={(e) => changeEmail(e.target.value)}
               placeholder="example@example.com"
-              style={{ borderRadius: "10px", height: "30px" }}
+              style={{ borderRadius: "10px", height: "25px" }}
             />
           </div>
         </Form.Item>
@@ -134,7 +134,7 @@ function Step1() {
                 onChange={(e) => validOTP(e.target.value)}
                 maxLength="6"
                 minLength="6"
-                style={{ borderRadius: "10px", height: "30px" }}
+                style={{ borderRadius: "10px", height: "25px" }}
               />
             </div>
           </Form.Item>

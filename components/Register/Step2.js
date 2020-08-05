@@ -129,7 +129,7 @@ function Step2() {
               type="text"
               value={firstname}
               onChange={(e) => changeFirstname(e.target.value)}
-              style={{ borderRadius: "8px", height: "28px" }}
+              style={{ borderRadius: "10px", height: "25px" }}
             />
           </div>
         </Form.Item>
@@ -144,7 +144,7 @@ function Step2() {
               type="text"
               value={lastname}
               onChange={(e) => changeLastname(e.target.value)}
-              style={{ borderRadius: "8px", height: "28px" }}
+              style={{ borderRadius: "10px", height: "25px" }}
             />
           </div>
         </Form.Item>
