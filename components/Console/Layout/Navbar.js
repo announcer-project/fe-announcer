@@ -8,8 +8,6 @@ import jwtDecode from "jwt-decode";
 import { Menu, Dropdown } from "antd";
 
 const Bar = styled.nav`
-  position: fixed;
-  width: 100%;
   height: 50px;
   background-color: white;
 `;
@@ -46,7 +44,7 @@ export default function Navbar() {
       </Menu>
     );
   };
-  console.log(user);
+
   return (
     <>
       <Bar className="navbar navbar-light shadow-sm">

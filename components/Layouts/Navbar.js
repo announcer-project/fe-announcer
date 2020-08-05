@@ -15,20 +15,22 @@ const Button = styled.button`
 `;
 function Navbar() {
   return (
-    <Bar className="navbar navbar-light px-5 shadow-sm">
+    <Bar className="navbar navbar-light shadow-sm">
       <div className="container">
         <Link href="/">
           <div>
             <img
               src="/img/logo.png"
-              alt="News Management System"
+              alt="Announcer"
               width="35px"
               height="35px"
             />
-            <span className="ml-2">News Management System</span>
+            <span className="ml-2">Announcer</span>
           </div>
         </Link>
-        <Button className="px-3 py-1">console</Button>
+        <Link href="/console/systems">
+          <Button className="px-3 py-1">console</Button>
+        </Link>
       </div>
     </Bar>
   );

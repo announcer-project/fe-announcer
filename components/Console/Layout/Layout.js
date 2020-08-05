@@ -7,10 +7,10 @@ const { Content } = Layout;
 export default function LayoutPage(props) {
   return (
     <>
-      <Layout className="layout">
+      <div>
         <Navbar />
-        <Content>{props.children}</Content>
-      </Layout>
+        <div>{props.children}</div>
+      </div>
     </>
   );
 }

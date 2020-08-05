@@ -14,10 +14,9 @@ const SystemBox = styled.div`
 `;
 
 const Background = styled.div`
-  min-height: 100vh;
   background-image: url("/img/bg-systems.jpg");
   background-repeat: repeat-x;
-  background-size: auto 300px;
+  background-size: auto 250px;
   background-position: center top;
   background-color: white;
 `;
@@ -33,19 +32,21 @@ function SystemsPage(props) {
     <>
       <Layout>
         <Background>
-          <div className="container" style={{ paddingTop: "50px" }}>
+          <div className="container">
             <div className="pt-3 pt-sm-5">
               <p className="font-title" style={{ color: "white" }}>
                 <b>All system</b>
               </p>
               <div className="row">
                 <div className="col-12 col-sm-4">
-                  <SystemBox className="shadow-sm text-center">
-                    <span className="font-large">
-                      +<br />
-                      Add system
-                    </span>
-                  </SystemBox>
+                  <Link href="/console/createsystem">
+                    <SystemBox className="shadow-sm text-center">
+                      <span className="font-large">
+                        +<br />
+                        Add system
+                      </span>
+                    </SystemBox>
+                  </Link>
                 </div>
                 {systems.map((system, key) => {
                   return (
@@ -53,7 +54,9 @@ function SystemsPage(props) {
                       <SystemBox className="shadow-sm text-center">
                         <span className="font-large">{system.systemname}</span>
                         <br />
-                        <span className="font-small color-drop">{system.systemid}</span>
+                        <span className="font-small color-drop">
+                          {system.systemid}
+                        </span>
                       </SystemBox>
                     </div>
                   );
