@@ -11,7 +11,7 @@ function SystemsPage(props) {
     return (
         <>
             <Head>
-                <title>NMS - Systems</title>
+                <title>Announcer - Create system</title>
             </Head>
             <CreatesystemProvider>
                 <Page {...props} />
