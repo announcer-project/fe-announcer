@@ -3,23 +3,14 @@ import styled from "styled-components";
 
 const StyleBox = styled.div`
   border-radius: 50px;
-  background-color: white;
-  color: #050042;
+  background-color: ${(props) => (props.background ? "#050042" : "white")};
+  color: ${(props) => (props.color ? "white" : "#050042")};
 `;
 
 export function NewsTypeBox(props) {
   return (
     <div {...props}>
-      <StyleBox className="shadow-sm border px-3 py-1">
-        <span>{props.children}</span>
-      </StyleBox>
-    </div>
-  );
-}
-export function TargetGroupBox(props) {
-  return (
-    <div {...props}>
-      <StyleBox className="shadow-sm border px-3 py-1">
+      <StyleBox background={props.background} color={props.color} className="shadow-sm border px-3 py-1">
         <span>{props.children}</span>
       </StyleBox>
     </div>
@@ -38,7 +29,7 @@ export function Cancel(props) {
 const Button = styled.button`
   border-radius: 20px;
   border: none;
-  background-color: #050042;
+  background-color: ${(props) => (props.back ? "#CE0000" : "#050042")};
   color: white;
   &:hover {
     opacity: 0.8;
@@ -47,4 +38,11 @@ const Button = styled.button`
 
 export function NextButton(props) {
   return <Button {...props}>{props.children}</Button>;
+}
+export function BackButton(props) {
+  return (
+    <Button back={true} {...props}>
+      {props.children}
+    </Button>
+  );
 }
