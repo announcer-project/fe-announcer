@@ -2,8 +2,10 @@ import { Steps } from "antd";
 import React, { useContext } from "react";
 import { CreatesystemContext } from "../../../store/CreatesystemProvider";
 import styled from "styled-components";
-import Step1 from "./Step1";
 import Layout from "../Layout/Layout";
+import Step1 from "./Step1";
+import Step2 from  "./Step2";
+import Step4 from  "./Step4";
 
 import "./Step.module.css";
 import "./Form.module.css";
@@ -24,12 +26,12 @@ function CreatesystemPage(props) {
     switch (step) {
       case 1:
         return <Step1 {...props} />;
-      // case 2:
-      //     return <Step2 {...props} />;
+      case 2:
+          return <Step2 {...props} />;
       // case 3:
       //     return <Step3 {...props} />;
-      // case 4:
-      //     return <Step4 {...props} />;
+      case 3:
+          return <Step4 {...props} />;
     }
   };
   console.log(step);
@@ -46,7 +48,7 @@ function CreatesystemPage(props) {
               <Steps size="small" current={step - 1}>
                 <Step title="System detail" />
                 <Step title="Line Official Account" />
-                <Step title="Facebook Page" />
+                {/* <Step title="Facebook Page" /> */}
                 <Step title="Confirm" />
               </Steps>
             </div>
