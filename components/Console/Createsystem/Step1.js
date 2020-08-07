@@ -25,6 +25,7 @@ function Step1() {
     changeSystemname,
     newstype,
     changeNewstype,
+    changeRoleUser,
     nextStep,
   } = useContext(CreatesystemContext);
   const [formLayout] = useState("vertical");
@@ -33,6 +34,10 @@ function Step1() {
     form.setFieldsValue({
       systemname: systemname,
     });
+    if(systemname === "") {
+      changeNewstype([])
+      changeRoleUser([])
+    }
   }, []);
 
   const addNewstype = () => {
@@ -70,12 +75,9 @@ function Step1() {
     }
   };
 
-  const formItemLayout = null;
-  const buttonItemLayout = null;
   return (
     <div id="FormCreateSystem">
       <Form
-        {...formItemLayout}
         layout={formLayout}
         form={form}
         initialValues={{
@@ -113,7 +115,7 @@ function Step1() {
             return (
               <div className="d-inline-block mt-2 mr-2 font-small">
                 <NewsTypeBox>
-                  {newstype}{" "}
+                  {newstype}
                   <Cancel
                     className="pr-0"
                     onClick={() => deleteNewstype(newstype)}
