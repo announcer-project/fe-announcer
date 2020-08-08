@@ -21,22 +21,22 @@ const fetchSystems = async (ctx) => {
   let header = {
     Authorization: "Bearer " + cookie.getJWT(ctx),
   };
-  let systems = [];
+  let admins = [];
   await axios
-    .get(`${process.env.REACT_APP_BE_PATH}/system/allsystem`, {
+    .get(`${process.env.REACT_APP_BE_PATH}/system/all`, {
       headers: header,
     })
     .then((res) => {
-      systems = res.data;
+      admins = res.data;
     });
-  return systems;
+  return admins;
 };
 
 export async function getServerSideProps(ctx) {
   await withAuth(ctx);
-  const systems = await fetchSystems(ctx);
+  const admins = await fetchSystems(ctx);
   return {
-    props: { systems },
+    props: { admins },
   };
 }
 

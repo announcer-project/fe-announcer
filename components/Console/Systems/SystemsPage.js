@@ -3,14 +3,19 @@ import Link from "next/link";
 import styled from "styled-components";
 
 import Layout from "../Layout/Layout";
+import System from "./SystemBox";
 
 const SystemBox = styled.div`
-  height: 200px;
+  height: 250px;
   background-color: white;
   cursor: pointer;
   color: black;
   border-radius: 10px;
   padding-top: 80px;
+  box-shadow: 10px 10px 32px -8px rgba(0, 0, 0, 0.2);
+  &:hover {
+    box-shadow: 10px 10px 32px -8px rgba(0, 0, 0, 0.8);
+  }
 `;
 
 const Background = styled.div`
@@ -22,10 +27,11 @@ const Background = styled.div`
 `;
 
 function SystemsPage(props) {
-  const [systems, setSystems] = useState([]);
+  const [admins, setAdmins] = useState([]);
 
   useEffect(() => {
-    setSystems(props.systems);
+    console.log("admins", props.admins);
+    setAdmins(props.admins);
   }, []);
 
   return (
@@ -33,14 +39,14 @@ function SystemsPage(props) {
       <Layout>
         <Background>
           <div className="container">
-            <div className="pt-3 pt-sm-5">
-              <p className="font-title" style={{ color: "white" }}>
+            <div className="py-3 py-sm-5">
+              <div className="font-title" style={{ color: "white" }}>
                 <b>All system</b>
-              </p>
+              </div>
               <div className="row">
-                <div className="col-12 col-sm-4">
+                <div className="col-12 col-sm-4 mt-3">
                   <Link href="/console/createsystem">
-                    <SystemBox className="shadow-sm text-center">
+                    <SystemBox className="text-center">
                       <span className="font-large">
                         +<br />
                         Add system
@@ -48,17 +54,16 @@ function SystemsPage(props) {
                     </SystemBox>
                   </Link>
                 </div>
-                {systems.map((system, key) => {
+                {admins.map((admin, key) => {
+                  let system = admin.system;
                   return (
-                    <div className="col-12 col-sm-4">
-                      <SystemBox className="shadow-sm text-center">
-                        <span className="font-large">{system.systemname}</span>
-                        <br />
-                        <span className="font-small color-drop">
-                          {system.systemid}
-                        </span>
-                      </SystemBox>
-                    </div>
+                    <Link
+                      href={`/console/${system.system_name}/${system.ID}/home`}
+                    >
+                      <div key={key} className="col-12 col-sm-4 mt-3">
+                        <System admin={admin} />
+                      </div>
+                    </Link>
                   );
                 })}
               </div>
