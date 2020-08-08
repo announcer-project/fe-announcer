@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Form, Input } from "antd";
+import { Form, Input, Switch } from "antd";
+import {DeleteOutlined} from "@ant-design/icons"
 import styled from "styled-components";
 import Swal from "sweetalert2";
 import { CreatesystemContext } from "../../../store/CreatesystemProvider";
@@ -41,7 +42,10 @@ function Step2() {
 
   const addRoleUser = () => {
     let newRoleuser = roleuser;
-    newRoleuser.push(roleUserInput);
+    newRoleuser.push({
+      rolename: roleUserInput,
+      require: false,
+    });
     changeRoleUser(newRoleuser);
     setRoleUserInput("");
   };
@@ -49,8 +53,14 @@ function Step2() {
   const deleteRoleUser = (rolename) => {
     let newRoleuser = roleuser;
     newRoleuser = newRoleuser.filter((role) => {
-      return role !== rolename;
+      return role.rolename !== rolename;
     });
+    changeRoleUser(newRoleuser);
+  };
+
+  const onRequire = (key) => {
+    let newRoleuser = roleuser;
+    newRoleuser[key].require = !newRoleuser[key].require
     changeRoleUser(newRoleuser);
   };
 
@@ -70,7 +80,11 @@ function Step2() {
   };
 
   const onNextStep = () => {
-    if (channelid !== "" && channelaccesstoken !== "" && roleuser.length !== 0) {
+    if (
+      channelid !== "" &&
+      channelaccesstoken !== "" &&
+      roleuser.length !== 0
+    ) {
       nextStep(3);
     } else {
       if (channelid === "") {
@@ -137,18 +151,25 @@ function Step2() {
             </div>
           </div>
           <div>
-            {roleuser.map((role) => {
+            {roleuser.map((role, key) => {
               return (
-                <div className="d-inline-block mt-2 mr-2 font-small">
-                  <NewsTypeBox>
-                    {role}
-                    <Cancel
-                      className="pr-0"
-                      onClick={() => deleteRoleUser(role)}
-                    >
-                      x
-                    </Cancel>
-                  </NewsTypeBox>
+                <div key={key} className="mt-2 d-flex justify-content-between border p-3" >
+                  <div>
+                    <span>{role.rolename}</span>
+                  </div>
+                  <div>
+                    <span className="mr-3">
+                      Must approve ?{" "}
+                      <Switch
+                        onChange={() => onRequire(key)}
+                        size="small"
+                        {...(role.require ? "defaultChecked" : "")}
+                      />
+                    </span>
+                    <span>
+                      <button onClick={() => deleteRoleUser(role.rolename)}><DeleteOutlined/></button>
+                    </span>
+                  </div>
                 </div>
               );
             })}

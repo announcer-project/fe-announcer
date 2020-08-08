@@ -3,7 +3,7 @@ import React, { createContext, useReducer } from "react";
 export const CreatesystemContext = createContext({});
 
 const initialState = {
-  counter: 0,
+  image: "",
   systemname: "",
   newstype: [],
   channelID: "",
@@ -18,6 +18,11 @@ const CreatesystemReducer = (state, action) => {
       return {
         ...state,
         step: action.payload,
+      };
+    case "CHANGE_IMAGE":
+      return {
+        ...state,
+        image: action.payload,
       };
     case "CHANGE_SYSTEMNAME":
       return {
@@ -54,6 +59,7 @@ export const CreatesystemProvider = ({ children }) => {
   );
 
   const {
+    image,
     systemname,
     newstype,
     channelID,
@@ -64,6 +70,8 @@ export const CreatesystemProvider = ({ children }) => {
 
   const nextStep = (payload) =>
     createsystemDispatch({ type: "NEXT_STEP", payload });
+  const changeImage = (payload) =>
+    createsystemDispatch({ type: "CHANGE_IMAGE", payload });
   const changeSystemname = (payload) =>
     createsystemDispatch({ type: "CHANGE_SYSTEMNAME", payload });
   const changeNewstype = (payload) =>
@@ -78,6 +86,7 @@ export const CreatesystemProvider = ({ children }) => {
   return (
     <CreatesystemContext.Provider
       value={{
+        image,
         systemname,
         newstype,
         channelID,
@@ -85,6 +94,7 @@ export const CreatesystemProvider = ({ children }) => {
         roleuser,
         step,
         nextStep,
+        changeImage,
         changeSystemname,
         changeNewstype,
         changeChannelID,

@@ -78,7 +78,6 @@ function Step1() {
     }
   };
 
-  console.log("user", user);
   return (
     <div>
       <Form

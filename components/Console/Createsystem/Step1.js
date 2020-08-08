@@ -1,9 +1,12 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Form, Input } from "antd";
+import { Form, Input, Upload } from "antd";
+import { LoadingOutlined, PlusOutlined, EditOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import Swal from "sweetalert2";
 import { CreatesystemContext } from "../../../store/CreatesystemProvider";
 import { NewsTypeBox, Cancel, NextButton } from "./Components";
+
+import "./Upload.module.css"
 
 const ButtonAddNewsType = styled.div`
   background-color: #050042;
@@ -13,14 +16,25 @@ const ButtonAddNewsType = styled.div`
   text-align: center;
   text-decoration: none;
   cursor: pointer;
-  margin-top: 17px;
+  margin-top: 10px;
   height: 25px;
+`;
+
+const Profile = styled.img`
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 150px;
+  border: 1px solid #050042;
 `;
 
 function Step1() {
   const [form] = Form.useForm();
   const [newstypeInput, setNewstypeInput] = useState("");
+  const [loading, setLoading] = useState(false);
   const {
+    image,
+    changeImage,
     systemname,
     changeSystemname,
     newstype,
@@ -34,9 +48,9 @@ function Step1() {
     form.setFieldsValue({
       systemname: systemname,
     });
-    if(systemname === "") {
-      changeNewstype([])
-      changeRoleUser([])
+    if (systemname === "") {
+      changeNewstype([]);
+      changeRoleUser([]);
     }
   }, []);
 
@@ -75,9 +89,87 @@ function Step1() {
     }
   };
 
+  const getBase64 = (img, callback) => {
+    const reader = new FileReader();
+    reader.addEventListener("load", () => callback(reader.result));
+    reader.readAsDataURL(img);
+  };
+
+  const beforeUpload = (file) => {
+    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+    if (!isJpgOrPng) {
+      message.error("You can only upload JPG/PNG file!");
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error("Image must smaller than 2MB!");
+    }
+    return isJpgOrPng && isLt2M;
+  };
+
+  const handleChange = (info) => {
+    if (info.file.status === "uploading") {
+      setLoading(true);
+      return;
+    }
+    if (info.file.status === "done") {
+      // Get this url from response in real world.
+      getBase64(
+        info.file.originFileObj,
+        (imageUrl) => changeImage(imageUrl),
+        setLoading(true)
+      );
+    }
+  };
+
+  const uploadButton = (
+    <div>
+      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      <div className="ant-upload-text">Upload</div>
+    </div>
+  );
+  const uploadButtonAfter = (
+    <div style={{ color: "white", padding: "0px 6px 5px 6px" }}>
+      <EditOutlined />
+    </div>
+  );
+
   return (
     <div id="FormCreateSystem">
+      <div className="text-center">
+        {image ? (
+          <div
+            id="AfterUploadProfile"
+            style={{ position: "relative", display: "inline-block" }}
+          >
+            <Profile src={image} />
+            <Upload
+              name="avatar"
+              listType="picture-card"
+              className="avatar-uploader"
+              showUploadList={false}
+              onChange={handleChange}
+            >
+              {uploadButtonAfter}
+            </Upload>
+          </div>
+        ) : (
+          <div id="BeforeUploadProfile" className="text-center">
+            <Upload
+              name="avatar"
+              listType="picture-card"
+              className="avatar-uploader"
+              showUploadList={false}
+              beforeUpload={beforeUpload}
+              onChange={handleChange}
+            >
+              {uploadButton}
+            </Upload>
+          </div>
+        )}
+      </div>
       <Form
+      className="mt-2"
         layout={formLayout}
         form={form}
         initialValues={{

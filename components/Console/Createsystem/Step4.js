@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { CreatesystemContext } from "../../../store/CreatesystemProvider";
+import { Switch } from "antd";
 import { NewsTypeBox, NextButton, BackButton } from "./Components";
 import axios from "axios";
 import cookie from "../../../tools/cookie";
@@ -24,12 +25,22 @@ const ShowLineOADetail = (props) => {
         <div className="pt-1">
           <b>Role User</b>
           <div>
-            {props.roleUsers.map((role) => {
+            {props.roleUsers.map((role, key) => {
               return (
-                <div className="d-inline-block mr-2">
-                  <NewsTypeBox background={true} color={true}>
-                    {role}
-                  </NewsTypeBox>
+                <div
+                  key={key}
+                  className="mt-2 d-flex justify-content-between border p-3"
+                >
+                  <div>
+                    <span>{role.rolename}</span>
+                  </div>
+                  <div>
+                    <span className="mr-3">
+                      {role.require
+                        ? "Must approve"
+                        : "No approval is required"}
+                    </span>
+                  </div>
                 </div>
               );
             })}
@@ -39,13 +50,17 @@ const ShowLineOADetail = (props) => {
     );
   }
   return (
-    <div className="text-center py-3" style={{border:"1px solid #CE0000", color:"#CE0000"}}>
+    <div
+      className="text-center py-3"
+      style={{ border: "1px solid #CE0000", color: "#CE0000" }}
+    >
       Not connect line official account
     </div>
   );
 };
 export default function ConfirmStep() {
   const {
+    image,
     systemname,
     newstype,
     channelID,
@@ -57,6 +72,7 @@ export default function ConfirmStep() {
 
   const onCreateSystem = () => {
     let data = {
+      systemprofile: image,
       systemname: systemname,
       newstypes: newstype,
       lineoa: {
