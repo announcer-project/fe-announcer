@@ -1,21 +1,17 @@
-import React from "react"
-import dynamic from "next/dynamic"
+import React, { useEffect } from "react";
+import dynamic from "next/dynamic";
 
-const liff = dynamic(
+const LineLiff = dynamic(
   () => {
-    return import("../../components/Line/LineLiffInitial");
+    return import("../../components/Line/LineLiff");
   },
   { ssr: false }
 );
 
 export default function LiffPage() {
-    return (
-        <div>
-            Welcome starter liff
-        </div>
-    )
+  return <LineLiff/>;
 }
 
 export function getServerSideProps() {
-    return {props:{}}
+  return { props: {} };
 }
