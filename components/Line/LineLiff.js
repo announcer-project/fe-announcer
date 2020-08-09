@@ -9,12 +9,13 @@ export default function LiffInit() {
   const [accessToken, setAccessToken] = useState("");
   const [client, setClient] = useState("");
   useEffect(() => {
-    liff.init({ liffId });
-    setOS(liff.getOS());
-    setLanguage(liff.getLanguage());
-    setVersion(liff.getVersion());
-    setAccessToken(liff.getAccessToken());
-    setClient(liff.isInClient());
+    liff.init({ liffId }).then(() => {
+      setOS(liff.getOS());
+      setLanguage(liff.getLanguage());
+      setVersion(liff.getVersion());
+      setAccessToken(liff.getAccessToken());
+      setClient(liff.isInClient());
+    });
   }, []);
   return (
     <div>
