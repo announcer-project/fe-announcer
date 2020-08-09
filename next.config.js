@@ -6,5 +6,7 @@ module.exports = withCSS({
     REACT_APP_FE_PATH: process.env.REACT_APP_FE_PATH,
     REACT_APP_BE_PATH: process.env.REACT_APP_BE_PATH,
     REACT_APP_STORAGE: process.env.REACT_APP_STORAGE,
+    REACT_APP_LIFF_ID: process.env.REACT_APP_LIFF_ID,
+    REACT_APP_LIFF_URL: process.env.REACT_APP_LIFF_URL,
   },
 });
