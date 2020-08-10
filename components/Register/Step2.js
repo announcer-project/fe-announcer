@@ -12,7 +12,7 @@ const Profile = styled.img`
   border-radius: 150px;
 `;
 
-function Step2() {
+function Step2({query}) {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const {
@@ -21,12 +21,18 @@ function Step2() {
     lastname,
     step,
     nextStep,
+    changeImageUrl,
     changeImage,
     changeFirstname,
     changeLastname,
   } = useContext(RegisterContext);
 
   useEffect(() => {
+    if(query.pictureurl !== undefined) {
+      changeImage(query.pictureurl)
+    }else{
+      changeImageUrl(false)
+    }
     form.setFieldsValue({
       firstname: firstname,
       lastname: lastname,
@@ -61,6 +67,7 @@ function Step2() {
       getBase64(
         info.file.originFileObj,
         (imageUrl) => changeImage(imageUrl),
+        changeImageUrl(false),
         setLoading(true)
       );
     }

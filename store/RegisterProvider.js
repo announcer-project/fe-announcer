@@ -7,6 +7,7 @@ const initialState = {
   email: "",
   firstname: "",
   lastname: "",
+  imageUrl: true,
   image: "",
   step: 1,
   user: {}
@@ -23,6 +24,11 @@ const registerReducer = (state, action) => {
         return {
           ...state,
           email: action.payload,
+      };
+    case "CHANGE_IMAGE_URL":
+        return {
+          ...state,
+          imageUrl: action.payload,
       };
     case "CHANGE_IMAGE":
         return {
@@ -53,12 +59,14 @@ export const RegisterProvider = ({ children }) => {
     initialState
   );
 
-  const {email, image, firstname, lastname, step, user} = registerState;
+  const {email, imageUrl, image, firstname, lastname, step, user} = registerState;
 
   const nextStep = (payload) =>
     registerDispatch({ type: "NEXT_STEP", payload});
   const changeEmail = (payload) =>
     registerDispatch({ type: "CHANGE_EMAIL", payload});
+  const changeImageUrl = (payload) =>
+    registerDispatch({ type: "CHANGE_IMAGE_URL", payload});
   const changeImage = (payload) =>
     registerDispatch({ type: "CHANGE_IMAGE", payload});
   const changeFirstname = (payload) =>
@@ -69,7 +77,7 @@ export const RegisterProvider = ({ children }) => {
     registerDispatch({ type: "SET_USER", payload});
 
   return (
-    <RegisterContext.Provider value={{ email, image, firstname, lastname, step,user, nextStep, changeEmail, changeImage, changeFirstname, changeLastname, setUser }}>
+    <RegisterContext.Provider value={{ email, imageUrl, image, firstname, lastname, step,user, nextStep, changeImageUrl, changeEmail, changeImage, changeFirstname, changeLastname, setUser }}>
       {children}
     </RegisterContext.Provider>
   );

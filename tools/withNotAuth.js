@@ -14,9 +14,9 @@ export const withNotAuth = (ctx) => {
 
 export const withNotAuthRegister = (ctx) => {
   const jwt = cookie.getJWT(ctx);
-  const { state, code } = ctx.query;
+  const { social, socialid } = ctx.query;
   if (ctx.req && !jwt) {
-    if (state && code) {
+    if (social && socialid) {
       return;
     } else {
       const { res } = ctx;

@@ -13,8 +13,8 @@ const Profile = styled.img`
   border-radius: 150px;
 `;
 
-function Step3(props) {
-  const { email, image, step, firstname, lastname, nextStep } = useContext(
+function Step3({query}) {
+  const { email, imageUrl, image, step, firstname, lastname, nextStep } = useContext(
     RegisterContext
   );
 
@@ -23,8 +23,10 @@ function Step3(props) {
     data.append("email", email);
     data.append("fname", firstname);
     data.append("lname", lastname);
+    data.append("imagesocial", imageUrl)
+    data.append("imageUrl", query.pictureurl)
     data.append("imageprofile", image);
-    data.append(props.query.state, props.query.code);
+    data.append(query.social, query.socialid);
     await axios.post(`${process.env.REACT_APP_BE_PATH}/register`, data).then((res) => {
         cookie.setJWT(null, res.data, 7)
         Router.push("/console/systems")

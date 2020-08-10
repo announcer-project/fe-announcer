@@ -4,7 +4,7 @@ import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import RegisterButton from "./RegisterButton";
 
-function Step1() {
+function Step1({ query }) {
   const [form] = Form.useForm();
   const [checkEmail, setCheckEmail] = useState(false);
   const [inputotp, setinputotp] = useState("");
@@ -14,10 +14,14 @@ function Step1() {
   );
 
   useEffect(() => {
-    form.setFieldsValue({
-      email: email,
-    });
-  }, []);
+    if (email === "") {
+      changeEmail(query.email)
+    } else {
+      form.setFieldsValue({
+        email: email,
+      });
+    }
+  }, [email]);
 
   const validOTP = (valueOTP) => {
     if (valueOTP.length < inputotp.length) {

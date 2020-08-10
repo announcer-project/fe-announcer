@@ -18,8 +18,8 @@ function StepConnectSocial(props) {
 
   const onConnectSocial = async () => {
     let data = new FormData();
-    data.append("social", props.query.state);
-    data.append("socialid", props.query.code);
+    data.append("social", props.query.social);
+    data.append("socialid", props.query.socialid);
     data.append("userid", user.ID);
     await axios
       .post(`${process.env.REACT_APP_BE_PATH}/register/connectsocial`, data)
@@ -55,7 +55,7 @@ console.log("storage", `${process.env.REACT_APP_STORAGE}/profile/${user.ID}.jpg`
         </RegisterButton>
         <RegisterButton
           onClick={() => onConnectSocial()}
-          className="px-4 py-2"
+          className="px-3 px-lg-4 py-2"
           type="submit"
         >
           Connect account
