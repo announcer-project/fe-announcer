@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import Router from "next/router";
+import liff from "@line/liff";
 
 import ButtonLogin from "./LoginButton";
 
@@ -30,10 +31,47 @@ const ImageContent = styled.img`
   }
 `;
 
-function LoginPage() {
+function LoginPage({ social }) {
   const responseFacebook = (response) => {
-    Router.push(`/login?code=${response.userID}&state=facebooklogin`)
+    Router.push(
+      `/login?socialid=${response.userID}&social=facebook&email=${response.email}`
+    );
   };
+
+  const [lineProfile, setLineProfile] = useState({});
+  const [lineEmail, setLineEmail] = useState("");
+
+  useEffect(() => {
+    if (lineProfile.userId !== undefined) {
+      Router.push(
+        `/login?socialid=${lineProfile.userId}&social=line&email=${lineEmail}&pictureurl=${lineProfile.pictureUrl}`
+      );
+    } else {
+      if (social === "line") {
+        let liffId = process.env.REACT_APP_LIFF_ID;
+        liff.init({ liffId }).then(async () => {
+          if (liff.isLoggedIn()) {
+            setLineProfile(await liff.getProfile());
+            setLineEmail(liff.getDecodedIDToken().email);
+          }
+        });
+      }
+    }
+  }, [lineEmail]);
+
+  const LineLogin = async () => {
+    let liffId = process.env.REACT_APP_LIFF_ID;
+    liff.init({ liffId }).then(async () => {
+      if (liff.isLoggedIn()) {
+        console.log(await liff.getProfile());
+      } else {
+        liff.login({
+          redirectUri: `${process.env.REACT_APP_FE_PATH}/login?social=line`,
+        });
+      }
+    });
+  };
+
   return (
     <>
       <div className="col-12">
@@ -51,29 +89,25 @@ function LoginPage() {
               </p>
               <div className="col-10 p-0 mx-auto">
                 <div className="mb-3">
-                  <a
-                    href={`https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${
-                      process.env.REACT_APP_CHANNEL_ID_LOGIN
-                    }&redirect_uri=${
-                      process.env.REACT_APP_FE_PATH
-                    }/login&state=${"linelogin"}&scope=profile%20openid&nonce=09876xyz`}
-                  >
-                    <ButtonLogin>Line</ButtonLogin>
-                  </a>
+                  <ButtonLogin onClick={() => LineLogin()}>Line</ButtonLogin>
                 </div>
                 <div className="mb-3">
-                  <FacebookLogin
-                    redirectUri={`${process.env.REACT_APP_FE_PATH}/login`}
-                    appId="696178021130957"
-                    autoLoad={false}
-                    fields="name,email,picture"
-                    callback={responseFacebook}
-                    render={(renderProps) => (
-                      <ButtonLogin onClick={renderProps.onClick}>
-                        Facebook
-                      </ButtonLogin>
-                    )}
-                  />
+                  {social !== "line" ? (
+                    <FacebookLogin
+                      redirectUri={`${process.env.REACT_APP_FE_PATH}/login`}
+                      appId="696178021130957"
+                      autoLoad={false}
+                      fields="name,email,picture"
+                      callback={responseFacebook}
+                      render={(renderProps) => (
+                        <ButtonLogin onClick={renderProps.onClick}>
+                          Facebook
+                        </ButtonLogin>
+                      )}
+                    />
+                  ) : (
+                    <ButtonLogin>Facebook</ButtonLogin>
+                  )}
                 </div>
                 <div>
                   <ButtonLogin>Google</ButtonLogin>

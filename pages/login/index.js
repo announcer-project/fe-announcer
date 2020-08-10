@@ -1,35 +1,36 @@
 import Head from "next/head";
+import dynamic from "next/dynamic";
 import axios from "axios";
 import cookie from "../../tools/cookie";
 import { withNotAuth } from "../../tools/withNotAuth";
 
-import Page from "../../components/Login/LoginPage";
+const Page = dynamic(
+  () => {
+    return import("../../components/Login/LoginPage");
+  },
+  { ssr: false }
+);
 
-function LoginPage() {
+function LoginPage(props) {
   return (
     <>
       <Head>
         <title>NMS - Login</title>
       </Head>
-      <Page />
+      <Page social={props.social} />
     </>
   );
 }
 
 const fetchJWT = async (ctx) => {
-  const query = ctx.query;
-  let social = "";
-  if (query.state === "linelogin") {
-    social = "line";
-  } else if (query.state === "facebooklogin") {
-    social = "facebook";
-  }
+  const { socialid, social, email, pictureurl } = ctx.query;
   await axios
     .get(`${process.env.REACT_APP_BE_PATH}/login`, {
       headers: {
-        Code: query.code,
         Social: social,
-        UserID: query.code,
+        SocialID: socialid,
+        Email: email,
+        PictureUrl: pictureurl
       },
     })
     .then(async (res) => {
@@ -37,14 +38,10 @@ const fetchJWT = async (ctx) => {
     })
     .catch(async (err) => {
       const { res } = ctx;
-      let state = "";
-      let socialid = err.response.data;
-      if (query.state === "linelogin") {
-        state = "line";
-      } else if (query.state === "facebooklogin") {
-        state = "facebook";
+      let path = `/register?social=${social}&socialid=${socialid}&email=${email}&pictureurl=${pictureurl}`;
+      if(social === "facebook") {
+        path = `/register?social=${social}&socialid=${socialid}&email=${email}`;
       }
-      let path = `/register?state=${state}&code=${socialid}`;
       res.setHeader("location", path);
       res.statusCode = 302;
       res.end();
@@ -53,9 +50,9 @@ const fetchJWT = async (ctx) => {
 
 export async function getServerSideProps(ctx) {
   await withNotAuth(ctx);
-  const { code, state } = ctx.query;
-  if (code !== undefined) {
-    if (state === "linelogin" || state === "facebooklogin") {
+  let { social, socialid, email, pictureurl } = ctx.query;
+  if (social !== undefined) {
+    if (socialid !== undefined) {
       await fetchJWT(ctx);
       const { res } = ctx;
       res.setHeader("location", "/console/systems");
@@ -63,8 +60,10 @@ export async function getServerSideProps(ctx) {
       res.end();
       return {props:{}};
     }
+  }else{
+    social = null
   }
-  return {props:{}};
+  return { props: { social } };
 }
 
 export default LoginPage;
