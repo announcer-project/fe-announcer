@@ -24,17 +24,10 @@ export default function LiffInit(props) {
   } = useContext(LineRegisterContext);
   const [loading, setLoading] = useState(true);
   const liffId = process.env.REACT_APP_LIFF_ID;
-  const [os, setOS] = useState("");
-  const [language, setLanguage] = useState("");
-  const [version, setVersion] = useState("");
-  const [accessToken, setAccessToken] = useState("");
-  const [client, setClient] = useState("");
-  const [profile, setProfile] = useState({});
 
   useEffect(() => {
     changeNewstypes(props.aboutsystem.newstypes);
     changeRoles(props.aboutsystem.roles);
-    const liffId = process.env.REACT_APP_LIFF_ID;
     if (liff.isInClient()) {
       liff.init({ liffId }).then(async () => {
         let profile = await liff.getProfile();
