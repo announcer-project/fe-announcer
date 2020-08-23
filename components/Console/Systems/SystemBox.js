@@ -35,7 +35,7 @@ export default function SystemBox({ admin }) {
       </div>
       <div className="mt-2">
         <ProfileImage
-          src={`${process.env.REACT_APP_STORAGE}/systems/${system.ID}.jpg`}
+          src={`${process.env.REACT_APP_STORAGE}/systems/${system.ID}.png`}
         />
         <div className="mt-2">
           <span className="font-large">{system.system_name}</span>

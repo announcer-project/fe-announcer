@@ -15,7 +15,7 @@ function LoginPage(props) {
   return (
     <>
       <Head>
-        <title>NMS - Login</title>
+        <title>Announcer - Login</title>
       </Head>
       <Page social={props.social} />
     </>
@@ -30,7 +30,7 @@ const fetchJWT = async (ctx) => {
         Social: social,
         SocialID: socialid,
         Email: email,
-        PictureUrl: pictureurl
+        PictureUrl: pictureurl,
       },
     })
     .then(async (res) => {
@@ -39,7 +39,7 @@ const fetchJWT = async (ctx) => {
     .catch(async (err) => {
       const { res } = ctx;
       let path = `/register?social=${social}&socialid=${socialid}&email=${email}&pictureurl=${pictureurl}`;
-      if(social === "facebook") {
+      if (social === "facebook") {
         path = `/register?social=${social}&socialid=${socialid}&email=${email}`;
       }
       res.setHeader("location", path);
@@ -50,18 +50,18 @@ const fetchJWT = async (ctx) => {
 
 export async function getServerSideProps(ctx) {
   await withNotAuth(ctx);
-  let { social, socialid, email, pictureurl } = ctx.query;
-  if (social !== undefined) {
-    if (socialid !== undefined) {
+  let { social, socialid } = ctx.query;
+  if (social !== undefined && social !== "undefined") {
+    if (socialid !== undefined && socialid !== "undefined") {
       await fetchJWT(ctx);
       const { res } = ctx;
       res.setHeader("location", "/console/systems");
       res.statusCode = 302;
       res.end();
-      return {props:{}};
+      return { props: {} };
     }
-  }else{
-    social = null
+  } else {
+    social = null;
   }
   return { props: { social } };
 }
