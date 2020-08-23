@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { LineRegisterContext } from "../../../store/LineRegisterProvider";
 import styled from "styled-components";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const NewstypeBox = styled.div`
   border-radius: 20px;
@@ -46,7 +47,7 @@ export default function Step3(props) {
       });
     } else {
       //   nextStep(3);
-
+      
       let data = {
         isuser: haveuser,
         fname: firstname,
@@ -58,6 +59,9 @@ export default function Step3(props) {
         line: lineid,
       };
       console.log(data);
+      await axios.post(`${process.env.REACR_APP_BE_PATH}/line/register`, data).then((res) => {
+        
+      })
     }
   };
 
