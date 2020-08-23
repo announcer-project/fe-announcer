@@ -63,8 +63,10 @@ function LoginPage({ social }) {
     let liffId = process.env.REACT_APP_LIFF_ID;
     liff.init({ liffId }).then(async () => {
       if (liff.isLoggedIn()) {
+        let profile = await liff.getProfile()
+        let email = liff.getDecodedIDToken().email
         Router.push(
-          `/login?socialid=${lineProfile.userId}&social=line&email=${lineEmail}&pictureurl=${lineProfile.pictureUrl}`
+          `/login?socialid=${profile.userId}&social=line&email=${email}&pictureurl=${profile.pictureUrl}`
         );
       } else {
         liff.login({
