@@ -37,7 +37,7 @@ export default function Step3(props) {
     changeNewstypes(newNewstypes);
   };
 
-  const onNextStep = () => {
+  const onNextStep = async () => {
     let newstypesSelected = newstypes.filter((newstype) => newstype.selected);
     if (newstypesSelected.length === 0) {
       Swal.fire({
@@ -46,8 +46,6 @@ export default function Step3(props) {
         text: "Please select news type at least 1",
       });
     } else {
-      //   nextStep(3);
-      
       let data = {
         isuser: haveuser,
         fname: firstname,
@@ -59,9 +57,15 @@ export default function Step3(props) {
         line: lineid,
       };
       console.log(data);
-      await axios.post(`${process.env.REACR_APP_BE_PATH}/line/register`, data).then((res) => {
-        
-      })
+      await axios
+        .post(`${process.env.REACR_APP_BE_PATH}/line/register`, data)
+        .then((res) => {
+          Swal.fire({
+            icon: "success",
+            title: "Register success",
+            text: "You can edit profile in profile menu",
+          });
+        });
     }
   };
 
