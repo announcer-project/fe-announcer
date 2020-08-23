@@ -17,6 +17,8 @@ export default function LiffInit(props) {
     newstypes,
     changeNewstypes,
     changeRoles,
+    changeLineID,
+    changeEmail,
     nextStep,
     changeHaveUser,
   } = useContext(LineRegisterContext);
@@ -33,19 +35,21 @@ export default function LiffInit(props) {
     changeNewstypes(props.aboutsystem.newstypes);
     changeRoles(props.aboutsystem.roles);
     const liffId = process.env.REACT_APP_LIFF_ID;
-    // if (liff.isInClient()) {
-    liff.init({ liffId }).then(async () => {
-      // setProfile(await liff.getProfile());
-      let haveuser = await CheckUser("Ufc12c85816992da6381aa3405b9e8083");
-      if (haveuser) {
-        changeHaveUser(true);
-        nextStep(2);
-      }
-      setLoading(false);
-    });
-    // } else {
-    //   Router.push("/");
-    // }
+    if (liff.isInClient()) {
+      liff.init({ liffId }).then(async () => {
+        let profile = await liff.getProfile();
+        changeLineID(profile.userId);
+        changeEmail(liff.getDecodedIDToken().email);
+        let haveuser = await CheckUser(profile.userId);
+        if (haveuser) {
+          changeHaveUser(true);
+          nextStep(2);
+        }
+        setLoading(false);
+      });
+    } else {
+      Router.push("/");
+    }
   }, []);
 
   const CheckUser = async (lineid) => {
