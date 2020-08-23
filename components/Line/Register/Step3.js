@@ -52,7 +52,7 @@ export default function Step3(props) {
         lname: lastname,
         email: email,
         roleid: roleSelected,
-        newstypes: newstypesSelected,
+        newsinterested: newstypesSelected,
         systemid: props.query.systemid,
         line: lineid,
       };
