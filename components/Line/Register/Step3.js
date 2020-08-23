@@ -46,26 +46,30 @@ export default function Step3(props) {
         text: "Please select news type at least 1",
       });
     } else {
-      // let data = {
-      //   isuser: haveuser,
-      //   fname: firstname,
-      //   lname: lastname,
-      //   email: email,
-      //   roleid: roleSelected,
-      //   newstypes: newstypesSelected,
-      //   systemid: props.query.systemid,
-      //   line: lineid,
-      // };
-      // console.log(data);
-      // await axios
-      //   .post(`${process.env.REACR_APP_BE_PATH}/line/register`, data)
-      //   .then((res) => {
+      let data = {
+        isuser: haveuser,
+        fname: firstname,
+        lname: lastname,
+        email: email,
+        roleid: roleSelected,
+        newstypes: newstypesSelected,
+        systemid: props.query.systemid,
+        line: lineid,
+      };
+      axios
+        .post(`${process.env.REACT_APP_BE_PATH}/line/register`, data)
+        .then((res) => {
           Swal.fire({
             icon: "success",
             title: "Register success",
             text: "You can edit profile in profile menu",
           });
-        // });
+        });
+      // console.log(data);
+      // await axios
+      //   .post(`${process.env.REACR_APP_BE_PATH}/line/register`, data)
+      //   .then((res) => {
+      // });
     }
   };
 
