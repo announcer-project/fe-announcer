@@ -28,21 +28,17 @@ export default function LiffInit(props) {
   useEffect(() => {
     changeNewstypes(props.aboutsystem.newstypes);
     changeRoles(props.aboutsystem.roles);
-    if (liff.isInClient()) {
-      liff.init({ liffId }).then(async () => {
-        let profile = await liff.getProfile();
-        changeLineID(profile.userId);
-        changeEmail(liff.getDecodedIDToken().email);
-        let haveuser = await CheckUser(profile.userId);
-        if (haveuser) {
-          changeHaveUser(true);
-          nextStep(2);
-        }
-        setLoading(false);
-      });
-    } else {
-      Router.push("/");
-    }
+    liff.init({ liffId }).then(async () => {
+      let profile = await liff.getProfile();
+      changeLineID(profile.userId);
+      changeEmail(liff.getDecodedIDToken().email);
+      let haveuser = await CheckUser(profile.userId);
+      if (haveuser) {
+        changeHaveUser(true);
+        nextStep(2);
+      }
+      setLoading(false);
+    });
   }, []);
 
   const CheckUser = async (lineid) => {

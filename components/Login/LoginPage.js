@@ -63,7 +63,9 @@ function LoginPage({ social }) {
     let liffId = process.env.REACT_APP_LIFF_ID;
     liff.init({ liffId }).then(async () => {
       if (liff.isLoggedIn()) {
-        console.log(await liff.getProfile());
+        Router.push(
+          `/login?socialid=${lineProfile.userId}&social=line&email=${lineEmail}&pictureurl=${lineProfile.pictureUrl}`
+        );
       } else {
         liff.login({
           redirectUri: `${process.env.REACT_APP_FE_PATH}/login?social=line`,
