@@ -7,7 +7,7 @@ const initialState = {
   email: "",
   firstname: "",
   lastname: "",
-  imageUrl: true,
+  imageUrl: "",
   step: 1,
   newstypes: [],
   roleSelected: -1,

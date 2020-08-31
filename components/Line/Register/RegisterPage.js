@@ -13,12 +13,11 @@ import Step3 from "./Step3";
 export default function LiffInit(props) {
   const {
     step,
-    roles,
-    newstypes,
     changeNewstypes,
     changeRoles,
     changeLineID,
     changeEmail,
+    changeImageUrl,
     nextStep,
     changeHaveUser,
   } = useContext(LineRegisterContext);
@@ -31,6 +30,7 @@ export default function LiffInit(props) {
     liff.init({ liffId }).then(async () => {
       let profile = await liff.getProfile();
       changeLineID(profile.userId);
+      changeImageUrl(profile.pictureUrl)
       changeEmail(liff.getDecodedIDToken().email);
       let haveuser = await CheckUser(profile.userId);
       if (haveuser) {
@@ -69,7 +69,7 @@ export default function LiffInit(props) {
         break;
     }
   };
-  console.log(step);
+
   if (loading) {
     return <div>Loading ...</div>;
   } else {

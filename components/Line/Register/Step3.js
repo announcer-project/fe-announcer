@@ -25,6 +25,7 @@ export default function Step3(props) {
     changeNewstypes,
     nextStep,
     lineid,
+    imageUrl,
     firstname,
     lastname,
     email,
@@ -51,6 +52,7 @@ export default function Step3(props) {
         fname: firstname,
         lname: lastname,
         email: email,
+        imageUrl: imageUrl,
         roleid: roleSelected,
         newsinterested: newstypesSelected,
         systemid: props.query.systemid,
@@ -65,11 +67,6 @@ export default function Step3(props) {
             text: "You can edit profile in profile menu",
           });
         });
-      // console.log(data);
-      // await axios
-      //   .post(`${process.env.REACR_APP_BE_PATH}/line/register`, data)
-      //   .then((res) => {
-      // });
     }
   };
 
