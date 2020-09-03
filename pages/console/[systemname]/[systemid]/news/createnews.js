@@ -17,13 +17,14 @@ export default function CreateNewsPage(props) {
     </>
   );
 }
+
 const setNewsType = (data) => {
   let newstypes = [];
   for (let index = 0; index < data.length; index++) {
     let newstype1 = data[index];
     let newstype2 = {
       id: newstype1.ID,
-      newstype: newstype1.NewsTypeName,
+      newstype: newstype1.newstype_name,
       selected: false,
     };
     newstypes.push(newstype2);
@@ -46,6 +47,7 @@ const fetchNewsTypes = async (ctx) => {
     .then(async (res) => {
       if (res.data) {
         newstypes = await setNewsType(res.data);
+        console.log("newstype ", res.data)
       }
     });
   return newstypes;

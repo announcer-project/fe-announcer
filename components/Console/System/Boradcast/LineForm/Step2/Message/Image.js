@@ -68,7 +68,7 @@ export default function Image({ boxnumber }) {
     </div>
   );
   return (
-    <div>
+    <div id="UploadImageBroadcast">
       {message.data !== "" ? (
         ""
       ) : (

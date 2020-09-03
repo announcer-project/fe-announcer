@@ -179,10 +179,12 @@ export default function PreviewNews(props) {
 
   return (
     <div>
-      <h3>Preview</h3>
-      <div className="px-5 pt-5 border rounded">
+      <div className="px-5 pt-3 border rounded">
+        <div className="text-center">
+          <span>Preview</span>
+        </div>
         <div>
-          <Title className="text-center mb-4 py-3 ">
+          <Title className="text-center mt-3 mb-4 py-3 ">
             <div className="container">
               <h5>{title}</h5>
             </div>
