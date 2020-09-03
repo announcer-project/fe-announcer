@@ -1,6 +1,6 @@
 import cookie from "./cookie";
 
-export const withAuth = (ctx) => {
+export const withAuth = async (ctx) => {
   const jwt = cookie.getJWT(ctx)
   if (ctx.req && !jwt) {
     const { res } = ctx;
