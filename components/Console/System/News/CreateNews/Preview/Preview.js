@@ -12,8 +12,8 @@ import { CreateNewsContext } from "../../../../../../store/CreateNewsProvider";
 
 const NewsType = styled.div`
     border-radius: 20px;
-    background-color: "white"};
-    color: "rgb(0,0,0,0.65)"};
+    background-color: "white";
+    color: "rgb(0,0,0,0.65)";
 `;
 
 const ImageBox = styled.div`
