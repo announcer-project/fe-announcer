@@ -19,17 +19,19 @@ export default function LiffInit() {
       liff.login({ redirectUri: "http://localhost:3000/line" });
     }
   };
-
+  
   useEffect(() => {
     liff.init({ liffId }).then(() => {
       setOS(liff.getOS());
       setLanguage(liff.getLanguage());
       setVersion(liff.getVersion());
       setAccessToken(liff.getAccessToken());
+      console.log(liff.getAccessToken())
       setClient(liff.isInClient());
       getProfile();
     });
   }, []);
+  
   return (
     <div>
       <p>os: {os}</p>
