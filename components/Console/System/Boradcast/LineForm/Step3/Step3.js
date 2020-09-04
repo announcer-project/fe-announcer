@@ -3,9 +3,10 @@ import MobileScreen from "./MobileScreen";
 import { CreateLineBroadcastContext } from "../../../../../../store/CreateLineBroadcastProvider";
 import { ButtonBack, ButtonNext } from "../../Components";
 import axios from "axios";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
+import Swal from "sweetalert2";
 
-export default function Step3({ systemname }) {
+export default function Step3() {
   const {
     messages,
     changeStep,
@@ -17,8 +18,8 @@ export default function Step3({ systemname }) {
     checkusers,
     usersSelect,
   } = useContext(CreateLineBroadcastContext);
-  const router = useRouter()
-  const systemid = router.query.systemid
+  const router = useRouter();
+  const {systemid, systemname} = router.query;
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -30,7 +31,7 @@ export default function Step3({ systemname }) {
   useEffect(() => {
     scrollToTop();
   }, []);
-  
+
   const onBroadcast = () => {
     let datamessages = [];
     messages.forEach((msg) => {
@@ -49,7 +50,7 @@ export default function Step3({ systemname }) {
           typemessage.data = msg.data;
           break;
       }
-      datamessages.push(typemessage)
+      datamessages.push(typemessage);
     });
 
     let data = {
@@ -68,6 +69,14 @@ export default function Step3({ systemname }) {
       .post(`${process.env.REACT_APP_BE_PATH}/broadcast/line`, data)
       .then((res) => {
         console.log(res.data);
+        Swal.fire({
+          icon: "success",
+          title: "Broadcast success",
+          showConfirmButton: true,
+          timer: 3000,
+        }).then((result) => {
+          Router.push(`/console/${systemname}/${systemid}/home`);
+        });
       });
   };
   return (

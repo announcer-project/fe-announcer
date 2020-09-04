@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { Steps } from "antd";
+import styled from "styled-components";
 import { CreateLineBroadcastContext } from "../../../../store/CreateLineBroadcastProvider";
 import Layout from "../Layout/Layout";
 import Receiver from "./LineForm/Step1/Step1";
@@ -9,6 +10,12 @@ import Preview from "./LineForm/Step3/Step3";
 import "./Step.module.css";
 
 const { Step } = Steps;
+
+const StepBar = styled(Steps)`
+  .anticon {
+    vertical-align: 0em;
+  }
+`;
 
 export default function BroadcastLinePage(props) {
   const {
@@ -53,11 +60,11 @@ export default function BroadcastLinePage(props) {
             <p className="font-title mb-0">Line Broadcast</p>
             <div className="pt-4">
               <div id="StepBroadcast" className="col-12 col-sm-8 mx-auto">
-                <Steps size="small" current={step - 1}>
+                <StepBar size="small" current={step - 1}>
                   <Step title="Receiver" />
                   <Step title="Message" />
                   <Step title="Preview" />
-                </Steps>
+                </StepBar>
               </div>
               <div className="mt-2 mt-sm-4 px-0 px-sm-3">{StepForm(props)}</div>
             </div>

@@ -1,23 +1,43 @@
 import React, { useState } from "react";
 import Link from "next/link";
+import styled from "styled-components";
+import { useRouter } from "next/router";
 
 import Navbar from "./Navbar";
 import { Layout, Menu } from "antd";
 import {
-  DesktopOutlined,
-  PieChartOutlined,
-  FileOutlined,
+  HomeOutlined,
+  AreaChartOutlined,
+  SendOutlined,
   TeamOutlined,
-  UserOutlined,
+  UsergroupAddOutlined,
+  GlobalOutlined,
+  FileOutlined,
+  FileAddOutlined,
+  PlusOutlined,
 } from "@ant-design/icons";
 
 const { Content, Sider } = Layout;
 const { SubMenu } = Menu;
 
+const Sidebar = styled(Sider)`
+  .anticon {
+    vertical-align: 0em;
+  }
+`;
+
 export default function LayoutPage(props) {
   const [collapsed, setCollapsed] = useState(false);
-  const page = props.page;
-  const path = `/console/${props.query.systemname}/${props.query.systemid}`;
+  const router = useRouter();
+  let pagename = router.pathname.split("/")[4];
+  let pagetype = router.pathname.split("/")[5];
+  if (pagetype !== undefined) {
+    let name = pagename;
+    pagename = pagetype;
+    pagetype = name;
+  }
+  const { systemid, systemname } = router.query;
+  const path = `/console/${systemname}/${systemid}`;
 
   const onCollapse = (collapsed) => {
     setCollapsed(collapsed);
@@ -25,40 +45,53 @@ export default function LayoutPage(props) {
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
+      <Sidebar collapsible collapsed={collapsed} onCollapse={onCollapse}>
         <Link href="/console/systems">
-          <div className="logo">{props.query.systemname}</div>
+          <a>
+            <div className="logo pt-3 pb-2" style={{ cursor: "pointer" }}>
+              <img
+                src="/img/announcer-logo.png"
+                alt="Announcer"
+                width="35px"
+                height="35px"
+                style={{ marginLeft: "24px" }}
+              />
+              <span className={`text-light pl-2 ${collapsed ? "d-none" : ""}`}>
+                {props.query.systemname}
+              </span>
+            </div>
+          </a>
         </Link>
         <Menu
           theme="dark"
-          defaultSelectedKeys={[page.name]}
-          defaultOpenKeys={[page.type]}
+          defaultSelectedKeys={[pagename]}
+          defaultOpenKeys={[pagetype]}
           mode="inline"
         >
-          <Menu.Item key="home" icon={<PieChartOutlined />}>
+          <Menu.Item key="home" icon={<HomeOutlined />}>
             <Link href={path + "/home"}>
               <a>Home</a>
             </Link>
           </Menu.Item>
-          <Menu.Item key="broadcast" icon={<PieChartOutlined />}>
+          <Menu.Item key="broadcast" icon={<SendOutlined />}>
             <Link href={path + "/broadcast"}>
               <a>Broadcast</a>
             </Link>
           </Menu.Item>
-          <SubMenu key="news" icon={<UserOutlined />} title="News">
+          <SubMenu key="news" icon={<FileOutlined />} title="News">
             <Menu.Item key="allnews">
               <Link href={path + "/news/allnews"}>
-                <a>All news</a>
+                <a><GlobalOutlined /> All news</a>
               </Link>
             </Menu.Item>
             <Menu.Item key="createnews">
               <Link href={path + "/news/createnews"}>
-                <a>Create news</a>
+                <a><FileAddOutlined /> Create news</a>
               </Link>
             </Menu.Item>
             <Menu.Item key="createnewstype">
               <Link href={path + "/news/createnewstype"}>
-                <a>Create news type</a>
+                <a><PlusOutlined /> Create news type</a>
               </Link>
             </Menu.Item>
           </SubMenu>
@@ -69,20 +102,20 @@ export default function LayoutPage(props) {
           >
             <Menu.Item key="alltargetgroup">
               <Link href={path + "/targetgroup/alltargetgroup"}>
-                <a>All target group</a>
+                <a><TeamOutlined /> All target group</a>
               </Link>
             </Menu.Item>
             <Menu.Item key="createtargetgroup">
               <Link href={path + "/targetgroup/createtargetgroup"}>
-                <a>Create target group</a>
+                <a><UsergroupAddOutlined /> Create target group</a>
               </Link>
             </Menu.Item>
           </SubMenu>
-          <Menu.Item key="dashboard" icon={<PieChartOutlined />}>
+          <Menu.Item key="dashboard" icon={<AreaChartOutlined />}>
             Dashboard
           </Menu.Item>
         </Menu>
-      </Sider>
+      </Sidebar>
       <Layout className="site-layout">
         <Navbar {...props} />
         <Content style={{ background: "white" }}>{props.children}</Content>
