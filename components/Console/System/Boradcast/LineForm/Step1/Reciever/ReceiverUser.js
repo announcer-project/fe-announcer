@@ -20,10 +20,10 @@ export default function UserSelector() {
     setUsersNotSelect(users);
     if (search !== "") {
       let newusers = users.filter((user) => {
-        let name = user.name.toUpperCase();
+        let name = user.fname.toUpperCase() + " " + user.lname.toUpperCase();
         return (
           name.search(search.toUpperCase()) > -1 ||
-          name.search(search.toUpperCase()) > -1
+          user.ID.search(search.toUpperCase()) > -1
         );
       });
       setUsersNotSelect(newusers);
@@ -31,8 +31,8 @@ export default function UserSelector() {
   }, [users, usersSelect]);
 
   const onAddUser = (id) => {
-    let user = users.filter((user) => user.userid === id);
-    let newusers = users.filter((user) => user.userid !== id);
+    let user = users.filter((user) => user.ID === id);
+    let newusers = users.filter((user) => user.ID !== id);
     let newsusersselect = usersSelect;
     newsusersselect.push(user[0]);
     selectUsers(newusers);
@@ -40,8 +40,8 @@ export default function UserSelector() {
   };
 
   const onRemoveUser = (id) => {
-    let user = usersSelect.filter((user) => user.userid === id);
-    let newusersSelect = usersSelect.filter((user) => user.userid !== id);
+    let user = usersSelect.filter((user) => user.ID === id);
+    let newusersSelect = usersSelect.filter((user) => user.ID !== id);
     let newusers = users;
     newusers.push(user[0]);
     changeUsersSelect(newusersSelect);
@@ -51,10 +51,10 @@ export default function UserSelector() {
   const onSearch = (value) => {
     setSearch(value);
     let newusers = users.filter((user) => {
-      let name = user.name.toUpperCase();
+      let name = user.fname.toUpperCase() + " " + user.lname.toUpperCase();
       return (
         name.search(value.toUpperCase()) > -1 ||
-        name.search(value.toUpperCase()) > -1
+        user.ID.search(value.toUpperCase()) > -1
       );
     });
     setUsersNotSelect(newusers);
@@ -82,14 +82,14 @@ export default function UserSelector() {
                 return (
                   <div className="d-flex justify-content-between px-3 border-bottom py-2">
                     <span className="font-small">
-                      {user.name}
+                      {user.fname} {user.lname}
                       <br />
-                      {user.userid}
+                      {user.ID}
                     </span>
                     <ButtonAddUser
                       checked={checkusers}
                       onClick={() => {
-                        checkusers ? onAddUser(user.userid) : "";
+                        checkusers ? onAddUser(user.ID) : "";
                       }}
                     />
                   </div>
@@ -106,14 +106,14 @@ export default function UserSelector() {
                 return (
                   <div className="d-flex justify-content-between px-3 border-bottom py-2">
                     <span className="font-small">
-                      {user.name}
+                      {user.fname} {user.lname}
                       <br />
-                      {user.userid}
+                      {user.ID}
                     </span>
                     <ButtonRemoveUser
                       checked={checkusers}
                       onClick={() => {
-                        checkusers ? onRemoveUser(user.userid) : "";
+                        checkusers ? onRemoveUser(user.ID) : "";
                       }}
                     />
                   </div>

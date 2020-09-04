@@ -35,7 +35,7 @@ export default function NewsTypeSelector() {
                   checknewstypes ? onSelectNewsType(key) : "";
                 }}
               >
-                {newstype.newstypename}
+                {newstype.newstype_name}
               </NewsTypeBox>
             </div>
           );

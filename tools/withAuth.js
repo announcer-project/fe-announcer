@@ -7,7 +7,7 @@ export const withAuth = async (ctx) => {
     res.setHeader("location", "/login");
     res.statusCode = 302;
     res.end();
-    return;
+    return false;
   }
-  return;
+  return true;
 };

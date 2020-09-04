@@ -7,6 +7,10 @@ import jwtDecode from "jwt-decode";
 
 import { Menu, Dropdown } from "antd";
 
+const DropMenu = styled(Menu)`
+  min-width: 100px;
+`
+
 const Bar = styled.nav`
   height: 50px;
   background-color: white;
@@ -37,11 +41,14 @@ export default function Navbar() {
 
   const menu = () => {
     return (
-      <Menu className="mt-1" style={{ width: "100px" }}>
+      <DropMenu className="mt-1">
+        <div className="d-lg-none">
+          <span style={{paddingLeft:"12px",paddingRight:"12px"}}>Hi' {user.fname}</span>
+        </div>
         <Menu.Item onClick={Logout} key="0">
           <span>Logout</span>
         </Menu.Item>
-      </Menu>
+      </DropMenu>
     );
   };
 
@@ -52,7 +59,7 @@ export default function Navbar() {
           <Link href="/">
             <div style={{ cursor: "pointer" }}>
               <img
-                src="/img/logo.png"
+                src="/img/announcer-logo.png"
                 alt="News Management System"
                 width="35px"
                 height="35px"
@@ -61,7 +68,7 @@ export default function Navbar() {
             </div>
           </Link>
           <div>
-            <span className="d-none d-sm-inline-block">Hi' {user.fname}</span>
+            <span className="d-none d-lg-inline-block">Hi' {user.fname}</span>
             <Dropdown overlay={menu()} trigger={["click"]}>
               <Profile
                 src={`${process.env.REACT_APP_STORAGE}/profile/${user.user_id}.jpg`}

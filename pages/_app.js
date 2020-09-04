@@ -2,7 +2,6 @@ import Head from "next/head";
 import dynamic from "next/dynamic";
 import { createGlobalStyle } from "styled-components";
 
-import "nprogress/nprogress.css";
 import "antd/dist/antd.css";
 
 const GlobalStyle = createGlobalStyle`
@@ -31,9 +30,9 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const TopProgressBar = dynamic(
+const Loading = dynamic(
   () => {
-    return import("../components/TopProgressBar");
+    return import("../components/Loading");
   },
   { ssr: false }
 );
@@ -45,7 +44,7 @@ function MyApp({ Component, pageProps }) {
         <link rel="icon" href="/announcer-logo.ico" />
       </Head>
       <GlobalStyle />
-      {/* <TopProgressBar /> */}
+      <Loading />
       <div className="global">
         <Component {...pageProps} />
       </div>

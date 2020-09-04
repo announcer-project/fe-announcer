@@ -5,9 +5,9 @@ import targetgroups from "../../../../../targetgroup.json";
 import users from "../../../../../User.json";
 import news from "../../../../../news.json";
 import { CreateLineBroadcastProvider } from "../../../../../store/CreateLineBroadcastProvider";
-// import axios from "axios";
-// import cookie from "../../../../tools/cookie";
-// import { withAuth } from "../../../../tools/withAuth";
+import axios from "axios";
+import cookie from "../../../../../tools/cookie";
+import { withAuth } from "../../../../../tools/withAuth";
 
 import Page from "../../../../../components/Console/System/Boradcast/BroadcastLinePage";
 
@@ -38,37 +38,39 @@ const setSelected = (data) => {
 };
 
 const fetchAboutLineBroadcast = async (ctx) => {
-  const data = {
-    newstypes: setSelected(newstypes),
-    targetgroups: setSelected(targetgroups),
-    users: setSelected(users),
-    news: news,
-  };
-  // const query = ctx.query
-  // let aboutSystem = [];
-  // await axios
-  //   .get(
-  //     `${process.env.REACT_APP_BE_PATH}/aboutsystem?systemid=${query.systemid}&systemname=${query.systemname}`,
-  //     {
-  //       headers: {
-  //         Authorization: "Bearer " + cookie.getJWT(ctx),
-  //       },
-  //     }
-  //   )
-  //   .then((res) => {
-  //     aboutSystem = res.data;
-  //   });
-
+  let data = {};
+  const query = ctx.query;
+  await axios
+    .get(
+      `${process.env.REACT_APP_BE_PATH}/broadcast/line/aboutsystem?systemid=${query.systemid}`,
+      {
+        headers: {
+          Authorization: "Bearer " + cookie.getJWT(ctx),
+        },
+      }
+    )
+    .then((res) => {
+      data = {
+        newstypes: setSelected(res.data.newstypes),
+        targetgroups: setSelected(res.data.targetgroups),
+        users: setSelected(res.data.users),
+        news: res.data.news,
+      };
+    });
 
   return data;
 };
 
 export async function getServerSideProps(ctx) {
-  //   await withAuth(ctx);
-  const page = {
-    name: "broadcast",
-  };
-  const aboutLineBroadcast = await fetchAboutLineBroadcast(ctx);
+  const auth = await withAuth(ctx);
+  let page = {};
+  let aboutLineBroadcast = [];
+  if (auth) {
+    page = {
+      name: "broadcast",
+    };
+    aboutLineBroadcast = await fetchAboutLineBroadcast(ctx);
+  }
   return {
     props: { query: ctx.query, page, aboutLineBroadcast },
   };

@@ -12,7 +12,7 @@ export default function AllNewsPage(props) {
   return (
     <Layout {...props}>
       <div className="container pt-2">
-        <h3>{props.query.systemname} - All news</h3>
+        <h1 className="font-title">{props.query.systemname} - All news</h1>
         <AllNewsBox type="Draft" news={newsdraft} path={path} />
         <AllNewsBox type="Publish" news={newspublish} path={path} />
       </div>

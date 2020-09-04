@@ -33,10 +33,15 @@ const fetchSystems = async (ctx) => {
 };
 
 export async function getServerSideProps(ctx) {
-  await withAuth(ctx);
-  const admins = await fetchSystems(ctx);
+  const auth = await withAuth(ctx);
+  let admins = []
+  if(auth) {
+    admins = await fetchSystems(ctx);
+  }
   return {
-    props: { admins },
+    props: { 
+      admins
+     },
   };
 }
 
