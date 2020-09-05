@@ -17,9 +17,9 @@ export default function AllNewsPage(props) {
   };
   return (
     <Layout {...props}>
-      <div className="py-5">
-        <div className="container font-title">Create News Page</div>
-        <div className="container mt-3">{Step()}</div>
+      <div className="container mt-3 mb-5">
+        <div className="font-title">Create News Page</div>
+        <div className="mt-3">{Step()}</div>
       </div>
     </Layout>
   );

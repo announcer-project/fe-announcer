@@ -3,6 +3,7 @@ import React, { createContext, useReducer } from "react";
 export const CreateNewsContext = createContext({});
 
 const initialState = {
+  cover: "",
   title: "",
   body: "",
   expiredateStatus: false,
@@ -15,6 +16,11 @@ const initialState = {
 
 const createNewsReducer = (state, action) => {
   switch (action.type) {
+    case "CHANGE_COVER":
+      return {
+        ...state, // copy state
+        cover: action.payload, // set state counter
+      };
     case "CHANGE_TITLE":
       return {
         ...state, // copy state
@@ -28,7 +34,7 @@ const createNewsReducer = (state, action) => {
     case "CHANGE_STATUS_EXPIREDATE":
       return {
         ...state, // copy state
-        expiredateStatus: !action.payload, // set state counter
+        expiredateStatus: action.payload, // set state counter
       };
     case "CHANGE_EXPIREDATE":
       return {
@@ -65,6 +71,7 @@ export const CreateNewsProvider = ({ children }) => {
   );
 
   const {
+    cover,
     title,
     body,
     expiredateStatus,
@@ -75,6 +82,8 @@ export const CreateNewsProvider = ({ children }) => {
     step,
   } = createNewsState;
 
+  const changeCover = (payload) =>
+    createNewsDispatch({ type: "CHANGE_COVER", payload }); // ส่ง type ADD_COUNTER และ payload เพื่อให้ conterReducer ไปใช้งานต่อ
   const changeTitle = (payload) =>
     createNewsDispatch({ type: "CHANGE_TITLE", payload }); // ส่ง type ADD_COUNTER และ payload เพื่อให้ conterReducer ไปใช้งานต่อ
   const changeBody = (payload) =>
@@ -95,6 +104,7 @@ export const CreateNewsProvider = ({ children }) => {
   return (
     <CreateNewsContext.Provider
       value={{
+        cover,
         title,
         body,
         expiredateStatus,
@@ -103,6 +113,7 @@ export const CreateNewsProvider = ({ children }) => {
         newsTypes,
         step,
         postdate,
+        changeCover,
         changeTitle,
         changeBody,
         changeStatusExpiredate,

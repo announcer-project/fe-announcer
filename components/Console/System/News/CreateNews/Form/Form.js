@@ -1,13 +1,17 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useMemo } from "react";
 import dynamic from "next/dynamic";
 import moment from "moment";
 import Swal from "sweetalert2";
 import styled from "styled-components";
-import { Input, Checkbox, DatePicker, Upload, Modal } from "antd";
-import { PlusOutlined, EyeOutlined } from "@ant-design/icons";
+import { Input, Checkbox, DatePicker } from "antd";
+import { EyeOutlined } from "@ant-design/icons";
 import { CreateNewsContext } from "../../../../../../store/CreateNewsProvider";
 
-import "./CKEditor.module.css"
+//component
+import UploadImageCover from "./UploadCover";
+import UploadImages from "./UploadImages";
+
+import "./CKEditor.module.css";
 const CKEditor = dynamic(() => import("./CKEditor"), {
   ssr: false,
 });
@@ -20,6 +24,7 @@ const NewsType = styled.div`
 `;
 
 const Button = styled.button`
+  border-radius: 50px;
   background-color: #050042;
   color: white;
   &:hover {
@@ -28,20 +33,33 @@ const Button = styled.button`
 `;
 
 export default function FromCreateNews(props) {
-  const { title, changeTitle } = useContext(CreateNewsContext);
-  const { body, changeBody } = useContext(CreateNewsContext);
-  const { expiredateStatus, changeStatusExpiredate } = useContext(
-    CreateNewsContext
-  );
-  const { expiredate, changeExpiredate } = useContext(CreateNewsContext);
-  const { fileImage, changeFileImage } = useContext(CreateNewsContext);
-  const { newsTypes, selectNewsType } = useContext(CreateNewsContext);
-  const { changeStep } = useContext(CreateNewsContext);
-  const { setPostdate } = useContext(CreateNewsContext);
+  const {
+    title,
+    body,
+    cover,
+    expiredateStatus,
+    expiredate,
+    fileImage,
+    newsTypes,
+  } = useContext(CreateNewsContext);
 
-  const [previewVisible, setPreviewVisible] = useState(false);
-  const [previewImage, setPreviewImage] = useState("");
-  const [previewTitle, setPreviewTitle] = useState("");
+  const {
+    changeTitle,
+    changeBody,
+    changeCover,
+    changeStatusExpiredate,
+    changeExpiredate,
+    changeFileImage,
+    selectNewsType,
+    setPostdate,
+    changeStep,
+  } = useContext(CreateNewsContext);
+  const [coverState, setCover] = useState(cover);
+  const [titleState, setTitle] = useState(title);
+  const [bodyState, setBody] = useState(body);
+  const [checkExpiredateState, setCheckExpiredate] = useState(expiredateStatus);
+  const [expiredateState, setExpiredate] = useState(expiredate);
+  const [fileImageState, setFileImage] = useState(fileImage);
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -58,40 +76,8 @@ export default function FromCreateNews(props) {
     scrollToTop();
   }, []);
 
-  const getBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
-  };
-
-  const handleCancel = () => setPreviewVisible(false);
-
-  const handlePreview = async (file) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj);
-    }
-    setPreviewImage(file.url || file.preview);
-    setPreviewVisible(true);
-    setPreviewTitle(
-      file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
-    );
-  };
-
-  const handleChange = ({ fileList }) => {
-    changeFileImage(fileList);
-  };
-
-  const onSelectNewsType = async (key) => {
-    let newNewsTypes = newsTypes;
-    newNewsTypes[key].selected = !newNewsTypes[key].selected;
-    selectNewsType(newNewsTypes);
-  };
-
   const onPreview = async (files) => {
-    if (title === "" || body === "") {
+    if (titleState === "" || bodyState === "") {
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -108,118 +94,54 @@ export default function FromCreateNews(props) {
           text: "Please select news type",
         });
       } else {
-        if (expiredateStatus && expiredate === null) {
+        if (checkExpiredateState && expiredateState === null) {
           Swal.fire({
             icon: "error",
             title: "Oops...",
             text: "Please select expiredate",
           });
         } else {
+          changeCover(coverState);
+          changeTitle(titleState);
+          changeBody(bodyState);
+          changeStatusExpiredate(checkExpiredateState);
+          changeExpiredate(expiredateState);
+          changeFileImage(fileImageState);
           changeStep(2);
         }
       }
     }
   };
 
-  const dummyRequest = ({ file, onSuccess }) => {
-    setTimeout(() => {
-      onSuccess("ok");
-    }, 0);
-  };
-
   return (
     <div>
-      <Input
-        name="title"
-        value={title}
-        onChange={(e) => changeTitle(e.target.value)}
-        placeholder="Title"
-      />
-      <div className="pt-3">
-        <CKEditor
-          data={body}
-          config={{
-            toolbar: [
-              "heading",
-              "|",
-              "bold",
-              "italic",
-              "blockQuote",
-              "link",
-              "numberedList",
-              "bulletedList",
-              "|",
-              "undo",
-              "redo",
-            ],
-          }}
-          onChange={(event, editor) => {
-            const data = editor.getData();
-            changeBody(data);
-          }}
+      <div>
+        <UploadImageCover cover={coverState} onChangeCover={setCover} />
+      </div>
+      <div className="mt-3">
+        <InputTitle title={titleState} onChangeTitle={setTitle} />
+      </div>
+      <div className="mt-3">
+        <InputBody body={bodyState} onChangeBody={setBody} />
+      </div>
+      <div className="mt-3">
+        <SelectExpiredate
+          checkExpiredate={checkExpiredateState}
+          setCheckExpiredate={setCheckExpiredate}
+          expiredate={expiredateState}
+          setExpiredate={setExpiredate}
         />
       </div>
-      <div className="pt-3">
-        <Checkbox
-          onChange={() => changeStatusExpiredate(expiredateStatus)}
-          checked={expiredateStatus}
-        >
-          Expiredate
-        </Checkbox>
-        <DatePicker
-          disabled={!expiredateStatus}
-          defaultValue={
-            expiredate === null ? "" : moment(expiredate, "DD-MM-YYYY")
-          }
-          onChange={(date, dateString) => {
-            const dateNow = new Date();
-            changeExpiredate(date);
-          }}
+      <div className="mt-3">
+        <UploadImages
+          fileImage={fileImageState}
+          changeFileImage={setFileImage}
         />
       </div>
-      <div className="pt-3">
-        <div className="clearfix">
-          <Upload
-            customRequest={dummyRequest}
-            listType="picture-card"
-            fileList={fileImage}
-            multiple
-            onPreview={handlePreview}
-            onChange={handleChange}
-          >
-            <div>
-              <PlusOutlined />
-              <div className="ant-upload-text">Upload</div>
-            </div>
-          </Upload>
-          <Modal
-            visible={previewVisible}
-            title={previewTitle}
-            footer={null}
-            onCancel={handleCancel}
-          >
-            <img alt="example" style={{ width: "100%" }} src={previewImage} />
-          </Modal>
-        </div>
+      <div className="mt-3">
+        <SelectNewsTypes newstypes={newsTypes} setNewstypes={selectNewsType} />
       </div>
-      <div className="pt-1">
-        Select news type
-        <div className="pt-2">
-          {newsTypes.map((newstype, key) => {
-            return (
-              <NewsType
-                key={key}
-                onClick={() => onSelectNewsType(key)}
-                selected={newstype.selected}
-                className="border shadow-sm d-inline-block py-2 px-4 mr-2"
-              >
-                {newstype.newstype}
-              </NewsType>
-            );
-          })}
-        </div>
-      </div>
-      <div className="text-right pt-3">
+      <div className="text-right mt-3">
         <Button
           onClick={() => onPreview(fileImage)}
           className="btn px-4 d-flex ml-auto"
@@ -234,3 +156,103 @@ export default function FromCreateNews(props) {
     </div>
   );
 }
+
+const InputTitle = React.memo(({ title, onChangeTitle }) => {
+  console.log("update title");
+
+  return (
+    <Input
+      name="title"
+      value={title}
+      onChange={(e) => onChangeTitle(e.target.value)}
+      placeholder="Title"
+    />
+  );
+});
+
+const InputBody = React.memo(({ body, onChangeBody }) => {
+  console.log("update body");
+
+  return (
+    <div>
+      <CKEditor
+        data={body}
+        config={{
+          toolbar: [
+            "heading",
+            "|",
+            "bold",
+            "italic",
+            "blockQuote",
+            "link",
+            "numberedList",
+            "bulletedList",
+            "|",
+            "undo",
+            "redo",
+          ],
+        }}
+        onChange={(event, editor) => {
+          const data = editor.getData();
+          onChangeBody(data);
+        }}
+      />
+    </div>
+  );
+});
+
+const SelectExpiredate = React.memo(
+  ({ checkExpiredate, setCheckExpiredate, expiredate, setExpiredate }) => {
+    console.log("update expiredate");
+
+    return (
+      <div className="pt-3">
+        <Checkbox
+          onChange={() => setCheckExpiredate(!checkExpiredate)}
+          checked={checkExpiredate}
+        >
+          Expiredate
+        </Checkbox>
+        <DatePicker
+          disabled={!checkExpiredate}
+          defaultValue={
+            expiredate === null ? "" : moment(expiredate, "DD-MM-YYYY")
+          }
+          onChange={(date, dateString) => {
+            setExpiredate(date);
+          }}
+        />
+      </div>
+    );
+  }
+);
+
+const SelectNewsTypes = React.memo(({ newstypes, setNewstypes }) => {
+  console.log("update newstypes", newstypes);
+
+  const onSelectNewsType = async (key) => {
+    let newNewsTypes = newstypes;
+    newNewsTypes[key].selected = !newNewsTypes[key].selected;
+    setNewstypes(newNewsTypes);
+  };
+
+  return (
+    <div>
+      Select news type
+      <div>
+        {newstypes.map((newstype, key) => {
+          return (
+            <NewsType
+              key={key}
+              onClick={() => onSelectNewsType(key)}
+              selected={newstype.selected}
+              className="border shadow-sm d-inline-block py-2 px-4 mr-2 mt-2"
+            >
+              {newstype.newstype}
+            </NewsType>
+          );
+        })}
+      </div>
+    </div>
+  );
+});

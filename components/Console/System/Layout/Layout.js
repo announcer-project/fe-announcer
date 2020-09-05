@@ -57,7 +57,7 @@ export default function LayoutPage(props) {
                 style={{ marginLeft: "24px" }}
               />
               <span className={`text-light pl-2 ${collapsed ? "d-none" : ""}`}>
-                {props.query.systemname}
+                <b>Announcer</b>
               </span>
             </div>
           </a>

@@ -11,9 +11,9 @@ import cookie from "../../../../../../tools/cookie";
 import { CreateNewsContext } from "../../../../../../store/CreateNewsProvider";
 
 const NewsType = styled.div`
-    border-radius: 20px;
-    background-color: "white";
-    color: "rgb(0,0,0,0.65)";
+  border-radius: 20px;
+  background-color: "white";
+  color: "rgb(0,0,0,0.65)";
 `;
 
 const ImageBox = styled.div`
@@ -30,7 +30,8 @@ const Title = styled.div`
 `;
 
 const Button = styled.button`
-  background-color: #050042;
+  border-radius: 50px;
+  background-color: ${(props) => (props.back ? "#CE0000" : "#050042")};
   color: white;
   &:hover {
     color: white;
@@ -40,6 +41,7 @@ const Button = styled.button`
 export default function PreviewNews(props) {
   const { changeStep } = useContext(CreateNewsContext);
   const {
+    cover,
     title,
     body,
     fileImage,
@@ -58,6 +60,8 @@ export default function PreviewNews(props) {
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
+
+  console.log(title, body, expiredateStatus, expiredate);
 
   useEffect(() => {
     scrollToTop();
@@ -114,6 +118,7 @@ export default function PreviewNews(props) {
   };
   const onCreateNews = async (status, images) => {
     let data = {
+      cover: cover,
       title: title,
       body: body,
       checkexpiredate: expiredateStatus,
@@ -183,11 +188,12 @@ export default function PreviewNews(props) {
         <div className="text-center">
           <span>Preview</span>
         </div>
-        <div>
-          <Title className="text-center mt-3 mb-4 py-3 ">
-            <div className="container">
-              <h5>{title}</h5>
-            </div>
+        <div className="pt-3">
+          <div>
+            <img src={`${cover === "" ? "/img/news-cover.png" : cover}`} style={{ width: "100%", height: "250px", objectFit: "cover" }}/>
+          </div>
+          <Title className="text-center mt-2 mb-4 py-4">
+            <span className="font-large">{title}</span>
           </Title>
           <div className="container">
             <div
@@ -247,14 +253,18 @@ export default function PreviewNews(props) {
       </div>
       <div className="d-flex justify-content-between pt-3">
         <div className="d-inine-block">
-          <button onClick={() => changeStep(1)} className="btn btn-danger">
+          <Button
+            back={true}
+            onClick={() => changeStep(1)}
+            className="btn px-4"
+          >
             Back
-          </button>
+          </Button>
         </div>
         <div className="d-inine-block">
           <div className="d-flex">
             <div className="d-inine-block">
-              <Button onClick={onDraft} className="btn ml-2 d-flex">
+              <Button onClick={onDraft} className="btn px-4 ml-2 d-flex">
                 <FileAddFilled
                   className="mr-2 "
                   style={{ fontSize: "20px", paddingTop: "3px" }}
@@ -263,7 +273,7 @@ export default function PreviewNews(props) {
               </Button>
             </div>
             <div className="d-inine-block">
-              <Button onClick={onPublish} className="btn ml-2 d-flex">
+              <Button onClick={onPublish} className="btn px-4 ml-2 d-flex">
                 <NotificationFilled
                   className="mr-2 "
                   style={{ fontSize: "20px", paddingTop: "3px" }}

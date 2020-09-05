@@ -20,13 +20,19 @@ const Body = styled.div`
   -webkit-box-orient: vertical;
   overflow: hidden;
 `;
-const Footer = styled.div`
-
-`
+const Footer = styled.div``;
 export default function NewsPublishCard(props) {
   const createMarkup = (body) => {
     return { __html: body };
   };
+  let postdate = new Date(props.news.CreatedAt);
+  let postdateFormat = new Intl.DateTimeFormat("en-GB", {
+    year: "numeric",
+    month: "long",
+    day: "2-digit",
+  }).format(postdate)
+  console.log("news", postdateFormat);
+  console.log("news", props.news);
   return (
     <div {...props}>
       <Card className="shadow-sm">
@@ -38,13 +44,8 @@ export default function NewsPublishCard(props) {
           <Body className="mt-1">
             <div dangerouslySetInnerHTML={createMarkup(props.news.body)}></div>
           </Body>
-          <Footer className="d-flex justify-content-between font-small color-drop mt-1">
-            <div>
-              Post {props.news.postdate}
-            </div>
-            <div>
-              Send {props.news.send} View {props.news.view}
-            </div>
+          <Footer className="font-small color-drop mt-1">
+            <div>Post {postdateFormat}</div>
           </Footer>
         </div>
       </Card>

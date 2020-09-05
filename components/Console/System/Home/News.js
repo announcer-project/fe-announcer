@@ -1,14 +1,15 @@
 import React from "react";
-import Link from "next/link"
-import styled from "styled-components"
+import Link from "next/link";
+import styled from "styled-components";
+import NewsCard from "../NewsPublishCard";
 
 const SeeMore = styled.span`
-    cursor: pointer;
-    &:hover {
-        color: #050042;
-        text-decoration: underline;
-    }
-`
+  cursor: pointer;
+  &:hover {
+    color: #050042;
+    text-decoration: underline;
+  }
+`;
 
 export default function News({ news, query }) {
   return (
@@ -18,7 +19,9 @@ export default function News({ news, query }) {
         <Link
           href={`/console/${query.systemname}/${query.systemid}/news/allnews`}
         >
-          <SeeMore className="font-small align-text-bottom mt-1">See more</SeeMore>
+          <SeeMore className="font-small align-text-bottom mt-1">
+            See more
+          </SeeMore>
         </Link>
       </div>
       {news.length === 0 ? (
@@ -29,16 +32,7 @@ export default function News({ news, query }) {
         <div className="col-12 mt-2">
           <div className="row">
             {news.map((news) => {
-              return (
-                <div className="col-4 p-2">
-                  {/* <BoxNews className="shadow-sm pt-3 px-3">
-                        <p>{news.title}</p>
-                        <p clas>{news.body}</p>
-                        <p>{news.author}</p>
-                        <p>{news.postdate}</p>
-                    </BoxNews> */}
-                </div>
-              );
+              return <NewsCard className="col-12 col-lg-4" news={news} />;
             })}
           </div>
         </div>
