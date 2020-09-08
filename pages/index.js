@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>NMS - News Management System</title>
+        <title>Announcer</title>
       </Head>
       <Page />
     </>

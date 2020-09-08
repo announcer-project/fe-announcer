@@ -23,10 +23,9 @@ export default function Loading() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const handleStart = (url) => url !== router.pathname && setLoading(true);
+    const handleStart = (url) => setLoading(true);
     // handleComplete event was not firing
-    const handleComplete = (url) =>
-      url === router.pathname && setLoading(false);
+    const handleComplete = (url) => setLoading(false);
 
     router.events.on("routeChangeStart", handleStart);
     router.events.on("routeChangeComplete", handleComplete);
@@ -38,9 +37,8 @@ export default function Loading() {
       router.events.off("routeChangeError", handleComplete);
     };
   });
-
-  return (
-    loading && (
+  if (loading) {
+    return (
       <Box>
         <div
           style={{
@@ -57,6 +55,8 @@ export default function Loading() {
           <h3 className="pt-3">Loading...</h3>
         </div>
       </Box>
-    )
-  );
+    );
+  } else {
+    return <div />;
+  }
 }

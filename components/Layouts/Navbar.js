@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import Link from "next/link";
+import cookie from "../../tools/cookie";
+import Router from "next/router"
 
 const Logo = styled.div`
   cursor: pointer;
@@ -19,6 +21,13 @@ const Button = styled.button`
 `;
 
 function Navbar() {
+  const onLink = () => {
+    if(cookie.getJWT() === undefined) {
+      Router.push("/login")
+    }else{
+      Router.push("/console/systems")
+    }
+  };
   return (
     <Bar className="navbar navbar-light shadow-sm">
       <div className="container">
@@ -33,9 +42,9 @@ function Navbar() {
             <span className="ml-2">Announcer</span>
           </Logo>
         </Link>
-        <Link href="/console/systems">
-          <Button className="px-3 py-1">console</Button>
-        </Link>
+        {/* <Link href="/console/systems"> */}
+          <Button className="px-3 py-1" onClick={onLink}>console</Button>
+        {/* </Link> */}
       </div>
     </Bar>
   );
