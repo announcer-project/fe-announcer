@@ -3,8 +3,8 @@ import { ThemeProvider } from "styled-components";
 
 const theme = {
   color: {
-    base: "#050042",
-    base_hover: "#0C009B",
+    base: "#36689A",
+    base_hover: "#90B5DA",
     danger: "#CE0000",
     danger_hover: "#FF0200",
   },
