@@ -5,6 +5,7 @@ import { Input } from "antd";
 import Swal from "sweetalert2";
 import cookie from "../../../../../tools/cookie";
 import Layout from "../../Layout/Layout";
+import Button from "../../../../common/Button";
 
 const Box = styled.div`
   height: 145px;
@@ -12,7 +13,7 @@ const Box = styled.div`
   border-radius: 10px;
   cursor: pointer;
   text-align: center;
-  padding-top: 60px;
+  padding-top: 40px;
 `;
 const BoxAddNewsType = styled.div`
   height: 145px;
@@ -106,9 +107,13 @@ export default function CreateNewsTypePage(props) {
               </BoxAddNewsType>
             </div>
             {newstypes.map((newstype) => {
+              console.log(newstype)
               return (
                 <div className="col-3 p-2">
-                  <Box className="shadow-sm">{newstype.NewsTypeName}</Box>
+                  <Box className="shadow-sm">{newstype.newstype_name}
+                    <br />
+                    <Button className="mt-3" danger={true} onClick={() => console.log(newstype.newstype_name)}>Delete</Button>
+                  </Box>
                 </div>
               );
             })}
