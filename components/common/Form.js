@@ -70,6 +70,10 @@ const StyleForm = styled.div`
   }
 `;
 
+export const useForm = () => {
+  return FormAnt.useForm()
+}
+
 export const Form = ({
   formItemLayout,
   layout,

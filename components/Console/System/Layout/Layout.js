@@ -117,7 +117,7 @@ export default function LayoutPage(props) {
         </Menu>
       </Sidebar>
       <Layout className="site-layout">
-        <Navbar {...props} />
+        <Navbar/>
         <Content style={{ background: "white" }}>{props.children}</Content>
       </Layout>
     </Layout>

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { PlusOutlined } from "@ant-design/icons";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import Layout from "../../Layout/Layout";
 
@@ -14,21 +15,23 @@ const BoxCreateTargetGroup = styled.div`
 `;
 
 export default function AllTargetGroupPage(props) {
-  const path = `/console/${props.query.systemname}/${props.query.systemid}`;
+  const router = useRouter();
+  const { systemid, systemname } = router.query;
+  const path = `/console/${systemname}/${systemid}`;
   const targetgroups = props.targetGroups;
   return (
-    <Layout {...props}>
+    <Layout>
       <div className="container pt-4">
         <h1>All target group</h1>
         <div className="col-12">
           <div className="row">
             <div className="col-3 p-2">
-              <BoxCreateTargetGroup className="shadow-sm pt-5">
-                <Link href={`${path}/targetgroup/createtargetgroup`}>
+              <Link href={`${path}/targetgroup/createtargetgroup`}>
+                <BoxCreateTargetGroup className="shadow-sm pt-5">
                   <PlusOutlined />
-                </Link>
-                <p>Add target group</p>
-              </BoxCreateTargetGroup>
+                  <p>Add target group</p>
+                </BoxCreateTargetGroup>
+              </Link>
             </div>
             {targetgroups.map((targetgroup, key) => {
               return (
