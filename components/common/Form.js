@@ -9,6 +9,9 @@ import {
 import Button from "./Button";
 
 const StyleForm = styled.div`
+  .ant-form-item {
+    margin-bottom: 12px;
+  }
   .ant-checkbox-wrapper {
     color: black;
   }
@@ -92,10 +95,10 @@ export const Form = ({
   );
 };
 
-export const Input = React.memo(({ label, name, rules, value, setValue }) => {
+export const Input = React.memo((props) => {
   return (
-    <FormAnt.Item label={label} name={name} rules={rules}>
-      <InputAnt value={value} onChange={setValue} />
+    <FormAnt.Item {...props} label={props.label} name={props.name} rules={props.rules}>
+      <InputAnt />
     </FormAnt.Item>
   );
 });

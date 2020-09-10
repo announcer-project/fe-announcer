@@ -1,12 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import axios from "axios";
-import { Input } from "antd";
 import Swal from "sweetalert2";
 import cookie from "../../../../../tools/cookie";
 import Layout from "../../Layout/Layout";
 import Button from "../../../../common/Button";
+import { Form as FormAnt } from "antd";
+
+import {
+  Form,
+  Input,
+  InputPassword,
+  Checkbox,
+  ButtonSubmit,
+  TextEditor,
+} from "../../../../common/Form";
+
+const onFinishFailed = (errorInfo) => {
+  console.log("Failed:", errorInfo);
+};
 
 const Box = styled.div`
   height: 145px;
@@ -38,10 +51,14 @@ const ButtonAddNewsType = styled.div`
 `;
 
 export default function CreateNewsTypePage(props) {
-  const [newstype, setNewstype] = useState("");
   const [newstypes, setNewstypes] = useState(props.newsTypes);
   let router = useRouter();
-
+  const [form] = FormAnt.useForm();
+  useEffect(() => {
+    form.setFieldsValue({
+      newstype: "",
+    });
+  }, []);
   const GetNewsTypes = async () => {
     await axios
       .get(
@@ -57,12 +74,13 @@ export default function CreateNewsTypePage(props) {
       });
   };
 
-  const addNewsType = async () => {
-    if (newstype !== "") {
-      if (newstype.charAt(0) !== " ") {
+  const addNewsType = async (values) => {
+    if (values.newstype !== "") {
+      if (values.newstype.charAt(0) !== " ") {
         let data = new FormData();
-        data.append("systemid", props.query.systemid);
-        data.append("newstypename", newstype);
+        let { systemid } = router.query;
+        data.append("systemid", systemid);
+        data.append("newstypename", values.newstype);
         await axios
           .post(`${process.env.REACT_APP_BE_PATH}/news/newstype/create`, data, {
             headers: {
@@ -71,7 +89,9 @@ export default function CreateNewsTypePage(props) {
           })
           .then((res) => {
             GetNewsTypes();
-            setNewstype("");
+            form.setFieldsValue({
+              newstype: "",
+            });
           });
       } else {
         Swal.fire({
@@ -106,28 +126,29 @@ export default function CreateNewsTypePage(props) {
       });
     console.log(systemid);
   };
+
   return (
     <Layout {...props}>
       <div className="container pt-4">
-        <h3>Create news type</h3>
+        <h1>Create news type</h1>
         <div className="col-12">
           <div className="row">
             <div className="col-3 p-2">
               <BoxAddNewsType className="shadow-sm pt-3 px-3">
-                <p>Add news type</p>
-                <Input
-                  onChange={(e) => setNewstype(e.target.value)}
-                  value={newstype}
-                  placeholder="Enter type name"
-                />
-                <br />
-                <ButtonAddNewsType onClick={addNewsType} type="button">
-                  Add
-                </ButtonAddNewsType>
+                <Form
+                  form={form}
+                  layout={"vertical"}
+                  name="basic"
+                  onFinish={addNewsType}
+                  onFinishFailed={onFinishFailed}
+                >
+                  <span>Add news type</span>
+                  <Input className="mt-2" name="newstype" />
+                  <ButtonSubmit>Create</ButtonSubmit>
+                </Form>
               </BoxAddNewsType>
             </div>
             {newstypes.map((newstype) => {
-              console.log(newstype);
               return (
                 <div className="col-3 p-2">
                   <Box className="shadow-sm">
