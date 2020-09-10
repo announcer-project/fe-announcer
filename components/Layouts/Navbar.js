@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import Link from "next/link";
 import cookie from "../../tools/cookie";
-import Router from "next/router"
+import Router from "next/router";
+import Button from "../common/Button";
 
 const Logo = styled.div`
   cursor: pointer;
@@ -13,19 +14,19 @@ const Bar = styled.nav`
   background-color: white;
 `;
 
-const Button = styled.button`
-  border: none;
-  background-color: #050042;
-  color: white;
-  border-radius: 20px;
-`;
+// const Button = styled.button`
+//   border: none;
+//   background-color: #050042;
+//   color: white;
+//   border-radius: 20px;
+// `;
 
 function Navbar() {
   const onLink = () => {
-    if(cookie.getJWT() === undefined) {
-      Router.push("/login")
-    }else{
-      Router.push("/console/systems")
+    if (cookie.getJWT() === undefined) {
+      Router.push("/login");
+    } else {
+      Router.push("/console/systems");
     }
   };
   return (
@@ -42,9 +43,9 @@ function Navbar() {
             <span className="ml-2">Announcer</span>
           </Logo>
         </Link>
-        {/* <Link href="/console/systems"> */}
-          <Button className="px-3 py-1" onClick={onLink}>console</Button>
-        {/* </Link> */}
+        <Button onClick={onLink}>
+          console
+        </Button>
       </div>
     </Bar>
   );
