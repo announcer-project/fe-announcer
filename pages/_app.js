@@ -11,14 +11,17 @@ const GlobalStyle = createGlobalStyle`
     font-size: 14px;
     color: black;
   }
-  .font-small {
-    font-size: 12px;
-  }
-  .font-large {
-    font-size: 16px;
-  }
-  .font-title {
+  h1 {
     font-size: 20px;
+    padding: 0;
+  }
+  h2 {
+    font-size: 16px;
+    padding: 0;
+  }
+  h6 {
+    font-size: 12px;
+    padding: 0;
   }
   .color-drop {
     color: #A6A6A6;
