@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 import styled from "styled-components";
 import axios from "axios";
 import { Input } from "antd";
@@ -39,6 +40,7 @@ const ButtonAddNewsType = styled.div`
 export default function CreateNewsTypePage(props) {
   const [newstype, setNewstype] = useState("");
   const [newstypes, setNewstypes] = useState(props.newsTypes);
+  let router = useRouter();
 
   const GetNewsTypes = async () => {
     await axios
@@ -86,6 +88,24 @@ export default function CreateNewsTypePage(props) {
       });
     }
   };
+
+  const Delete = (newstypeid) => {
+    let { systemid } = router.query;
+    let data = {
+      systemid: systemid,
+      newstypeid: newstypeid,
+    };
+    axios
+      .post(`${process.env.REACT_APP_BE_PATH}/news/newstype/delete`, data, {
+        headers: {
+          Authorization: "Bearer " + cookie.getJWT(),
+        },
+      })
+      .then((res) => {
+        GetNewsTypes();
+      });
+    console.log(systemid);
+  };
   return (
     <Layout {...props}>
       <div className="container pt-4">
@@ -107,12 +127,19 @@ export default function CreateNewsTypePage(props) {
               </BoxAddNewsType>
             </div>
             {newstypes.map((newstype) => {
-              console.log(newstype)
+              console.log(newstype);
               return (
                 <div className="col-3 p-2">
-                  <Box className="shadow-sm">{newstype.newstype_name}
+                  <Box className="shadow-sm">
+                    {newstype.newstype_name}
                     <br />
-                    <Button className="mt-3" danger={true} onClick={() => console.log(newstype.newstype_name)}>Delete</Button>
+                    <Button
+                      className="mt-3"
+                      danger={true}
+                      onClick={() => Delete(newstype.ID)}
+                    >
+                      Delete
+                    </Button>
                   </Box>
                 </div>
               );
