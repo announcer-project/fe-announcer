@@ -78,47 +78,47 @@ export const Form = ({
   children,
 }) => {
   return (
-    <StyleForm>
-      <FormAnt
-        form={form}
-        formItemLayout={formItemLayout}
-        layout={layout}
-        name={name}
-        initialValues={initialValues}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-      >
-        {children}
-      </FormAnt>
-    </StyleForm>
+    <FormAnt
+      form={form}
+      formItemLayout={formItemLayout}
+      layout={layout}
+      name={name}
+      initialValues={initialValues}
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
+    >
+      <StyleForm>{children}</StyleForm>
+    </FormAnt>
   );
 };
 
-export const Input = ({ label, name, rules }) => {
+export const Input = React.memo(({ label, name, rules, value, setValue }) => {
   return (
     <FormAnt.Item label={label} name={name} rules={rules}>
-      <InputAnt />
+      <InputAnt value={value} onChange={setValue} />
     </FormAnt.Item>
   );
-};
+});
 
-export const InputPassword = ({ label, name, rules }) => {
-  return (
-    <FormAnt.Item label={label} name={name} rules={rules}>
-      <InputAnt.Password />
-    </FormAnt.Item>
-  );
-};
+export const InputPassword = React.memo(
+  ({ label, name, rules, value, setPassword }) => {
+    return (
+      <FormAnt.Item label={label} name={name} rules={rules}>
+        <InputAnt.Password value={value} onChange={setPassword} />
+      </FormAnt.Item>
+    );
+  }
+);
 
-export const Checkbox = ({ name, valuePropName, children }) => {
+export const Checkbox = React.memo(({ name, valuePropName, children }) => {
   return (
     <FormAnt.Item name={name} valuePropName={valuePropName}>
       <CheckboxAnt>{children}</CheckboxAnt>
     </FormAnt.Item>
   );
-};
+});
 
-export const ButtonSubmit = (props) => {
+export const ButtonSubmit = React.memo((props) => {
   return (
     <FormAnt.Item>
       <Button {...props} htmlType="submit">
@@ -126,16 +126,13 @@ export const ButtonSubmit = (props) => {
       </Button>
     </FormAnt.Item>
   );
-};
+});
 
 const CKEditorDynamic = dynamic(() => import("./CKEditor"), {
   ssr: false,
 });
 
 const StyleCKEditor = styled.div`
-  input {
-    display: none;
-  }
   .ck-editor__editable {
     height: ${(props) => props.height};
   }
@@ -173,41 +170,45 @@ const StyleCKEditor = styled.div`
   }
 `;
 
-export const TextEditor = ({
-  label,
-  name,
-  body,
-  onChangeBody,
-  rules,
-  height,
-}) => {
-  return (
-    <FormAnt.Item label={label} name={name} rules={rules}>
-      <StyleCKEditor height={height}>
-        <CKEditorDynamic
-          data={body}
-          config={{
-            toolbar: [
-              "heading",
-              "|",
-              "bold",
-              "italic",
-              "blockQuote",
-              "link",
-              "numberedList",
-              "bulletedList",
-              "|",
-              "undo",
-              "redo",
-            ],
-          }}
-          onChange={(event, editor) => {
-            const data = editor.getData();
-            onChangeBody(data);
-          }}
-        />
-        <InputAnt value={body} />
-      </StyleCKEditor>
-    </FormAnt.Item>
-  );
-};
+const StyleCheckRequire = styled.div`
+  input {
+    display: none;
+  }
+`;
+
+export const TextEditor = React.memo(
+  ({ label, name, body, onChangeBody, rules, height }) => {
+    console.log("editor", body);
+    return (
+      <FormAnt.Item label={label} name={name} rules={rules}>
+        <StyleCKEditor height={height}>
+          <CKEditorDynamic
+            data={body}
+            config={{
+              toolbar: [
+                "heading",
+                "|",
+                "bold",
+                "italic",
+                "blockQuote",
+                "link",
+                "numberedList",
+                "bulletedList",
+                "|",
+                "undo",
+                "redo",
+              ],
+            }}
+            onChange={(event, editor) => {
+              const data = editor.getData();
+              onChangeBody(data);
+            }}
+          />
+        </StyleCKEditor>
+        <StyleCheckRequire>
+          <InputAnt value={body} onChange={onChangeBody} />
+        </StyleCheckRequire>
+      </FormAnt.Item>
+    );
+  }
+);
