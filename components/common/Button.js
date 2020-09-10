@@ -1,0 +1,21 @@
+import React from "react";
+import styled from "styled-components";
+
+const StyleButton = styled.button`
+  border: none;
+  border-radius: 50px;
+  padding: 8px 30px 8px 30px;
+  background-color: ${(props) =>
+    props.danger ? props.theme.color.danger : props.theme.color.base};
+  color: white;
+  &:hover {
+    background-color: ${(props) =>
+      props.danger
+        ? props.theme.color.danger_hover
+        : props.theme.color.base_hover};
+  }
+`;
+
+export default function Button(props) {
+  return <StyleButton {...props}>{props.children}</StyleButton>;
+}

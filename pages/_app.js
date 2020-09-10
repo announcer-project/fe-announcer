@@ -1,6 +1,7 @@
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import { createGlobalStyle } from "styled-components";
+import Theme from "../components/Theme";
 
 import "antd/dist/antd.css";
 
@@ -44,10 +45,12 @@ function MyApp({ Component, pageProps }) {
         <link rel="icon" href="/announcer-logo.ico" />
       </Head>
       <GlobalStyle />
-      <Loading />
-      <div className="global">
-        <Component {...pageProps} />
-      </div>
+      <Theme>
+        <Loading />
+        <div className="global">
+          <Component {...pageProps} />
+        </div>
+      </Theme>
     </>
   );
 }

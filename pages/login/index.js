@@ -42,8 +42,7 @@ const fetchJWT = async (ctx) => {
       if (social === "facebook") {
         path = `/register?social=${social}&socialid=${socialid}&email=${email}`;
       }
-      res.setHeader("location", path);
-      res.statusCode = 302;
+      res.writeHead(302, { Location: path });
       res.end();
     });
 };
@@ -55,8 +54,7 @@ export async function getServerSideProps(ctx) {
     if (socialid !== undefined && socialid !== "undefined") {
       await fetchJWT(ctx);
       const { res } = ctx;
-      res.setHeader("location", "/console/systems");
-      res.statusCode = 302;
+      res.writeHead(302, { Location: "/console/systems" });
       res.end();
       return { props: {} };
     }
