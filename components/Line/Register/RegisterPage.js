@@ -28,16 +28,23 @@ export default function LiffInit(props) {
     changeNewstypes(props.aboutsystem.newstypes);
     changeRoles(props.aboutsystem.roles);
     liff.init({ liffId }).then(async () => {
-      let profile = await liff.getProfile();
-      changeLineID(profile.userId);
-      changeImageUrl(profile.pictureUrl)
-      changeEmail(liff.getDecodedIDToken().email);
-      let haveuser = await CheckUser(profile.userId);
-      if (haveuser) {
-        changeHaveUser(true);
-        nextStep(2);
+      if (liff.isLoggedIn()) {
+        let profile = await liff.getProfile();
+        changeLineID(profile.userId);
+        changeImageUrl(profile.pictureUrl);
+        changeEmail(liff.getDecodedIDToken().email);
+        let haveuser = await CheckUser(profile.userId);
+        if (haveuser) {
+          changeHaveUser(true);
+          nextStep(2);
+        }
+        setLoading(false);
+      } else {
+        liff.login({
+          redirectUri:
+            "http://localhost:3000/line/announcer/AC-3R6O8UG513/register",
+        });
       }
-      setLoading(false);
     });
   }, []);
 
