@@ -6,20 +6,13 @@ import Swal from "sweetalert2";
 import cookie from "../../../../../tools/cookie";
 import Layout from "../../Layout/Layout";
 import Button from "../../../../common/Button";
-import { Form as FormAnt } from "antd";
 
 import {
+  useForm,
   Form,
   Input,
-  InputPassword,
-  Checkbox,
   ButtonSubmit,
-  TextEditor,
 } from "../../../../common/Form";
-
-const onFinishFailed = (errorInfo) => {
-  console.log("Failed:", errorInfo);
-};
 
 const Box = styled.div`
   height: 145px;
@@ -53,7 +46,7 @@ const ButtonAddNewsType = styled.div`
 export default function CreateNewsTypePage(props) {
   const [newstypes, setNewstypes] = useState(props.newsTypes);
   let router = useRouter();
-  const [form] = FormAnt.useForm();
+  const [form] = useForm();
   useEffect(() => {
     form.setFieldsValue({
       newstype: "",
@@ -140,7 +133,6 @@ export default function CreateNewsTypePage(props) {
                   layout={"vertical"}
                   name="basic"
                   onFinish={addNewsType}
-                  onFinishFailed={onFinishFailed}
                 >
                   <span>Add news type</span>
                   <Input className="mt-2" name="newstype" />

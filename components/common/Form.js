@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import dynamic from "next/dynamic";
 import styled from "styled-components";
 import {
@@ -184,8 +184,17 @@ const StyleCheckRequire = styled.div`
 `;
 
 export const TextEditor = React.memo(
-  ({ label, name, body, onChangeBody, rules, height }) => {
+  ({ form,label, name, defaultValue, rules, height }) => {
+    const [body, setBody] = useState("")
     console.log("editor", body);
+    useEffect(() => {
+      setBody(defaultValue)
+    }, [])
+    useEffect(() => {
+      form.setFieldsValue({
+        body: body,
+      });
+    }, [body])
     return (
       <FormAnt.Item label={label} name={name} rules={rules}>
         <StyleCKEditor height={height}>
@@ -208,12 +217,12 @@ export const TextEditor = React.memo(
             }}
             onChange={(event, editor) => {
               const data = editor.getData();
-              onChangeBody(data);
+              setBody(data);
             }}
           />
         </StyleCKEditor>
         <StyleCheckRequire>
-          <InputAnt value={body} onChange={onChangeBody} />
+          <InputAnt />
         </StyleCheckRequire>
       </FormAnt.Item>
     );

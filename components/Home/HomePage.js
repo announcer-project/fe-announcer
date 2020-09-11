@@ -25,24 +25,21 @@ export default function Home(props) {
   const SetCookie = () => {
     document.cookie = `test=sfafdsfsdf; path=/`;
   };
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [checked, check] = useState(false);
-  const [body, setBody] = useState("");
+  // const [body, setBody] = useState("");
   const [form] = FormAnt.useForm();
   useEffect(() => {
     form.setFieldsValue({
-      username: username,
-      password: password,
-      checked: checked,
-      body: body,
+      username: "",
+      password: "",
+      checked: false,
+      body: "test",
     });
   }, []);
-  useEffect(() => {
-    form.setFieldsValue({
-      body: body,
-    });
-  }, [body]);
+  // useEffect(() => {
+  //   form.setFieldsValue({
+  //     body: body,
+  //   });
+  // }, [body]);
   return (
     <Layout {...props}>
       <div>Hello, next.js</div>
@@ -63,33 +60,29 @@ export default function Home(props) {
           form={form}
           layout={"vertical"}
           name="basic"
-          initialValues={{ remember: true }}
+          initialValues={{ remember: false }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
         >
           <Input
             label="Username"
             name="username"
-            value={username}
-            setValue={setUsername}
             rules={[{ required: true, message: "Please input your username!" }]}
           />
           <InputPassword
             label="Password"
             name="password"
-            value={password}
-            setPassword={setPassword}
             rules={[{ required: true, message: "Please input your password!" }]}
           />
           <Checkbox name="remember" valuePropName="checked">
             Remember me
           </Checkbox>
           <TextEditor
+            form={form}
             height="300px"
             label="Body"
             name="body"
-            body={body}
-            onChangeBody={setBody}
+            defaultValue={"test"}
             rules={[{ required: true, message: "Please input your password!" }]}
           />
 
