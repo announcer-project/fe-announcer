@@ -2,15 +2,17 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Layout from "../Layouts/Layouts";
 import Button from "../common/Button";
-import { Form as FormAnt } from "antd";
 
 import {
+  useForm,
   Form,
   Input,
   InputPassword,
   Checkbox,
   ButtonSubmit,
   TextEditor,
+  UploadImage,
+  UploadImages,
 } from "../common/Form";
 
 const onFinish = (values) => {
@@ -25,21 +27,17 @@ export default function Home(props) {
   const SetCookie = () => {
     document.cookie = `test=sfafdsfsdf; path=/`;
   };
-  // const [body, setBody] = useState("");
-  const [form] = FormAnt.useForm();
+  const [form] = useForm();
   useEffect(() => {
     form.setFieldsValue({
       username: "",
       password: "",
       checked: false,
       body: "test",
+      image: "",
     });
   }, []);
-  // useEffect(() => {
-  //   form.setFieldsValue({
-  //     body: body,
-  //   });
-  // }, [body]);
+
   return (
     <Layout {...props}>
       <div>Hello, next.js</div>
@@ -85,6 +83,26 @@ export default function Home(props) {
             defaultValue={"test"}
             rules={[{ required: true, message: "Please input your password!" }]}
           />
+          <UploadImage
+            form={form}
+            height="300px"
+            label="Upload cover"
+            name="image"
+            defaultValue={""}
+            rules={[{ required: true, message: "Please input your password!" }]}
+          >
+            Upload cover
+          </UploadImage>
+          <UploadImages
+            form={form}
+            // height="300px"
+            label="Upload cover"
+            name="images"
+            defaultValue={[]}
+            rules={[{ required: true, message: "Please input your password!" }]}
+          >
+            Upload cover
+          </UploadImages>
 
           <ButtonSubmit danger={true}>Back</ButtonSubmit>
           <ButtonSubmit>test</ButtonSubmit>

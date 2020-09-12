@@ -1,11 +1,18 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import styled from "styled-components";
 import {
   Form as FormAnt,
   Input as InputAnt,
   Checkbox as CheckboxAnt,
+  Upload as UploadAnt,
+  Modal as ModalAnt,
 } from "antd";
+import {
+  PlusOutlined,
+  CloseOutlined,
+  LoadingOutlined,
+} from "@ant-design/icons";
 import Button from "./Button";
 
 const StyleForm = styled.div`
@@ -71,8 +78,8 @@ const StyleForm = styled.div`
 `;
 
 export const useForm = () => {
-  return FormAnt.useForm()
-}
+  return FormAnt.useForm();
+};
 
 export const Form = ({
   formItemLayout,
@@ -101,7 +108,12 @@ export const Form = ({
 
 export const Input = React.memo((props) => {
   return (
-    <FormAnt.Item {...props} label={props.label} name={props.name} rules={props.rules}>
+    <FormAnt.Item
+      {...props}
+      label={props.label}
+      name={props.name}
+      rules={props.rules}
+    >
       <InputAnt />
     </FormAnt.Item>
   );
@@ -184,17 +196,17 @@ const StyleCheckRequire = styled.div`
 `;
 
 export const TextEditor = React.memo(
-  ({ form,label, name, defaultValue, rules, height }) => {
-    const [body, setBody] = useState("")
+  ({ form, label, name, defaultValue, rules, height }) => {
+    const [body, setBody] = useState("");
     console.log("editor", body);
     useEffect(() => {
-      setBody(defaultValue)
-    }, [])
+      setBody(defaultValue);
+    }, []);
     useEffect(() => {
       form.setFieldsValue({
-        body: body,
+        [name]: body,
       });
-    }, [body])
+    }, [body]);
     return (
       <FormAnt.Item label={label} name={name} rules={rules}>
         <StyleCKEditor height={height}>
@@ -225,6 +237,238 @@ export const TextEditor = React.memo(
           <InputAnt />
         </StyleCheckRequire>
       </FormAnt.Item>
+    );
+  }
+);
+
+const StyleUpload = styled.div`
+  .ant-upload.ant-upload-select-picture-card {
+    margin-right: 0;
+    margin-bottom: 0;
+    border: 1px dashed ${(props) => props.theme.color.base};
+    border-radius: 20px;
+    width: 100%;
+    height: ${(props) => props.height};
+  }
+  .ant-upload.ant-upload-select-picture-card:hover {
+    border: 1px dashed ${(props) => props.theme.color.base_hover};
+  }
+`;
+
+const RemoveImageBtn = styled.button`
+  background-color: ${(props) => props.theme.color.danger};
+  border: none;
+  color: white;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  padding: 8px 13px;
+  border-radius: 20px;
+  &:hover {
+    background-color: ${(props) => props.theme.color.danger_hover};
+  }
+  .anticon {
+    vertical-align: 0em;
+  }
+`;
+
+export const UploadImage = React.memo(
+  ({ form, label, name, defaultValue, rules, height, children }) => {
+    const [loading, setLoading] = useState(false);
+    const [image, setImage] = useState("");
+
+    useEffect(() => {
+      setImage(defaultValue);
+    }, []);
+    useEffect(() => {
+      form.setFieldsValue({
+        [name]: image,
+      });
+    }, [image]);
+
+    const handleChangeCover = (info) => {
+      if (info.file.status === "uploading") {
+        setLoading(true);
+        return;
+      }
+      if (info.file.status === "done") {
+        getBase64Cover(info.file.originFileObj, (imageUrl) => {
+          setImage(imageUrl);
+          setLoading(false);
+        });
+      }
+    };
+
+    function getBase64Cover(img, callback) {
+      const reader = new FileReader();
+      reader.addEventListener("load", () => callback(reader.result));
+      reader.readAsDataURL(img);
+    }
+
+    function beforeUploadCover(file) {
+      const isJpgOrPng =
+        file.type === "image/jpeg" || file.type === "image/png";
+      if (!isJpgOrPng) {
+        message.error("You can only upload JPG/PNG file!");
+      }
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isLt2M) {
+        message.error("Image must smaller than 2MB!");
+      }
+      return isJpgOrPng && isLt2M;
+    }
+
+    function onRemoveCover() {
+      setImage("");
+    }
+
+    const uploadButton = (
+      <div>
+        {loading ? <LoadingOutlined /> : <PlusOutlined />}
+        <div className="ant-upload-text">{children}</div>
+      </div>
+    );
+    return (
+      <FormAnt.Item label={label} name={name} rules={rules}>
+        <div>
+          {image !== "" ? (
+            ""
+          ) : (
+            <StyleUpload height={height}>
+              <UploadAnt
+                name="avatar"
+                listType="picture-card"
+                className="avatar-uploader"
+                showUploadList={false}
+                beforeUpload={beforeUploadCover}
+                onChange={handleChangeCover}
+              >
+                {uploadButton}
+              </UploadAnt>
+            </StyleUpload>
+          )}
+          {image !== "" ? (
+            <div style={{ position: "relative" }}>
+              <img
+                className="imgUploaded border"
+                src={image}
+                alt="avatar"
+                style={{
+                  width: "100%",
+                  height: height,
+                  objectFit: "cover",
+                  borderRadius: "20px",
+                }}
+              />
+              <RemoveImageBtn
+                className="shadow"
+                onClick={() => onRemoveCover()}
+              >
+                <CloseOutlined />
+              </RemoveImageBtn>
+            </div>
+          ) : (
+            ""
+          )}
+        </div>
+        <StyleCheckRequire>
+          <InputAnt />
+        </StyleCheckRequire>
+      </FormAnt.Item>
+    );
+  }
+);
+
+const StyleFormUploadImages = styled.div`
+  .ant-row {
+    flex-flow: unset;
+  }
+  .ant-upload.ant-upload-select-picture-card {
+    margin-right: 0;
+    margin-bottom: 0;
+    border: 1px dashed ${(props) => props.theme.color.base};
+    border-radius: 20px;
+    /* width: 100%;
+    height: ${(props) => props.height}; */
+  }
+  .ant-upload.ant-upload-select-picture-card:hover {
+    border: 1px dashed ${(props) => props.theme.color.base_hover};
+  }
+`;
+
+export const UploadImages = React.memo(
+  ({ form, label, name, defaultValue, rules, height, children }) => {
+    const [previewVisible, setPreviewVisible] = useState(false);
+    const [previewImage, setPreviewImage] = useState("");
+    const [previewTitle, setPreviewTitle] = useState("");
+    const [images, setImages] = useState([]);
+
+    useEffect(() => {
+      setImages(defaultValue);
+    }, []);
+    useEffect(() => {
+      form.setFieldsValue({
+        [name]: images,
+      });
+    }, [images]);
+    const getBase64 = (file) => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = (error) => reject(error);
+      });
+    };
+
+    const handleCancel = () => setPreviewVisible(false);
+
+    const handlePreview = async (file) => {
+      if (!file.url && !file.preview) {
+        file.preview = await getBase64(file.originFileObj);
+      }
+      setPreviewImage(file.url || file.preview);
+      setPreviewVisible(true);
+      setPreviewTitle(
+        file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
+      );
+    };
+
+    const handleChange = ({ fileList }) => {
+      setImages(fileList);
+    };
+
+    const dummyRequest = ({ file, onSuccess }) => {
+      setTimeout(() => {
+        onSuccess("ok");
+      }, 0);
+    };
+
+    return (
+      <StyleFormUploadImages>
+        <FormAnt.Item label={label} name={name} rules={rules}>
+          <UploadAnt
+            customRequest={dummyRequest}
+            listType="picture-card"
+            fileList={images}
+            multiple
+            onPreview={handlePreview}
+            onChange={handleChange}
+          >
+            <div>
+              <PlusOutlined />
+              <div className="ant-upload-text">{children}</div>
+            </div>
+          </UploadAnt>
+          <ModalAnt
+            visible={previewVisible}
+            title={previewTitle}
+            footer={null}
+            onCancel={handleCancel}
+          >
+            <img alt="example" style={{ width: "100%" }} src={previewImage} />
+          </ModalAnt>
+        </FormAnt.Item>
+      </StyleFormUploadImages>
     );
   }
 );
