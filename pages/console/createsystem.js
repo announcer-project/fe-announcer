@@ -20,24 +20,8 @@ function SystemsPage(props) {
     );
 }
 
-const fetchSystems = async (ctx) => {
-    let header = {
-        Authorization: "Bearer " + cookie.getJWT(ctx),
-    };
-    let systems = [];
-    await axios
-        .get(`${process.env.REACT_APP_BE_PATH}/system/allsystem`, {
-            headers: header,
-        })
-        .then((res) => {
-            systems = res.data;
-        });
-    return systems;
-};
-
 export async function getServerSideProps(ctx) {
     //   await withAuth(ctx);
-    //   const systems = await fetchSystems(ctx);
     return {
         props: {},
     };
