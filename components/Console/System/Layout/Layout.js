@@ -81,17 +81,23 @@ export default function LayoutPage(props) {
           <SubMenu key="news" icon={<FileOutlined />} title="News">
             <Menu.Item key="allnews">
               <Link href={path + "/news/allnews"}>
-                <a><GlobalOutlined /> All news</a>
+                <a>
+                  <GlobalOutlined /> All news
+                </a>
               </Link>
             </Menu.Item>
             <Menu.Item key="createnews">
               <Link href={path + "/news/createnews"}>
-                <a><FileAddOutlined /> Create news</a>
+                <a>
+                  <FileAddOutlined /> Create news
+                </a>
               </Link>
             </Menu.Item>
             <Menu.Item key="createnewstype">
               <Link href={path + "/news/createnewstype"}>
-                <a><PlusOutlined /> Create news type</a>
+                <a>
+                  <PlusOutlined /> Create news type
+                </a>
               </Link>
             </Menu.Item>
           </SubMenu>
@@ -102,30 +108,41 @@ export default function LayoutPage(props) {
           >
             <Menu.Item key="alltargetgroup">
               <Link href={path + "/targetgroup/alltargetgroup"}>
-                <a><TeamOutlined /> All target group</a>
+                <a>
+                  <TeamOutlined /> All target group
+                </a>
               </Link>
             </Menu.Item>
             <Menu.Item key="createtargetgroup">
               <Link href={path + "/targetgroup/createtargetgroup"}>
-                <a><UsergroupAddOutlined /> Create target group</a>
+                <a>
+                  <UsergroupAddOutlined /> Create target group
+                </a>
               </Link>
             </Menu.Item>
           </SubMenu>
-          <SubMenu
-            key="role"
-            icon={<TeamOutlined />}
-            title="Role"
-          >
+          <SubMenu key="role" icon={<TeamOutlined />} title="Role">
             <Menu.Item key="allrole">
               <Link href={path + "/role/allrole"}>
-                <a><TeamOutlined /> All role</a>
+                <a>
+                  <TeamOutlined /> All role
+                </a>
               </Link>
             </Menu.Item>
-            {/* <Menu.Item key="createtargetgroup">
-              <Link href={path + "/targetgroup/createtargetgroup"}>
-                <a><UsergroupAddOutlined /> Create target group</a>
+            <Menu.Item key="createrole">
+              <Link href={path + "/role/createrole"}>
+                <a>
+                  <UsergroupAddOutlined /> Create role
+                </a>
               </Link>
-            </Menu.Item> */}
+            </Menu.Item>
+            <Menu.Item key="rolerequest">
+              <Link href={path + "/role/rolerequest"}>
+                <a>
+                  <UsergroupAddOutlined /> Role request
+                </a>
+              </Link>
+            </Menu.Item>
           </SubMenu>
           <Menu.Item key="dashboard" icon={<AreaChartOutlined />}>
             Dashboard
@@ -133,7 +150,7 @@ export default function LayoutPage(props) {
         </Menu>
       </Sidebar>
       <Layout className="site-layout">
-        <Navbar/>
+        <Navbar />
         <Content style={{ background: "white" }}>{props.children}</Content>
       </Layout>
     </Layout>

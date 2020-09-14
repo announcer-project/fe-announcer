@@ -1,10 +1,10 @@
 import axios from "axios";
 import cookie from "../../../../../tools/cookie";
 import { withAuth } from "../../../../../tools/withAuth";
-import Page from "../../../../../components/Console/System/Role/AllRole/AllRolePage";
+import Page from "../../../../../components/Console/System/Role/RoleRequest/RoleRequest";
 import Head from "next/head";
 
-export default function AllRolePage(props) {
+export default function RoleRequestPage(props) {
   return (
     <React.Fragment>
       <Head>
