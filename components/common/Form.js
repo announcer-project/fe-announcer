@@ -476,10 +476,10 @@ export const UploadImages = React.memo(
 const Item = styled.div`
   border-radius: 20px;
   cursor: pointer;
-  background-color: ${(props) => (props.selected ? props.theme.color.base : "white")};
+  background-color: ${(props) =>
+    props.selected ? props.theme.color.base : "white"};
   color: ${(props) => (props.selected ? "white" : "rgb(0,0,0,0.65)")};
 `;
-
 
 export const Selected = React.memo(
   ({ form, label, name, defaultValue, rules }) => {
@@ -490,34 +490,32 @@ export const Selected = React.memo(
     }, []);
 
     useEffect(() => {
-
       form.setFieldsValue({
-        [name]: items,
+        [name]: items.filter((item) => item.selected),
       });
     }, [items]);
 
     const onSelectItem = async (key) => {
-      let newItems = items;
-      newItems[key].selected = !newItems[key].selected;
-      setItems(newItems);
+      items[key].selected = !items[key].selected;
+      setItems([...items]);
     };
-    console.log(items)
+
     return (
       <FormAnt.Item label={label} name={name} rules={rules}>
         <div>
-        {items.map((item, key) => {
-          return (
-            <Item
-              key={key}
-              onClick={() => onSelectItem(key)}
-              selected={item.selected}
-              className="border shadow-sm d-inline-block py-2 px-4 mr-2 mt-2"
-            >
-              {item.name}
-            </Item>
-          );
-        })}
-      </div>
+          {items.map((item, key) => {
+            return (
+              <Item
+                key={key}
+                onClick={() => onSelectItem(key)}
+                selected={item.selected}
+                className="border shadow-sm d-inline-block py-2 px-4 mr-2 mt-2"
+              >
+                {item.name}
+              </Item>
+            );
+          })}
+        </div>
         <StyleCheckRequire>
           <InputAnt />
         </StyleCheckRequire>
