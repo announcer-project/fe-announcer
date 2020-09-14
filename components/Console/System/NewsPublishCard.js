@@ -25,14 +25,13 @@ export default function NewsPublishCard(props) {
   const createMarkup = (body) => {
     return { __html: body };
   };
-  let postdate = new Date(props.news.CreatedAt);
+  let postdate = new Date(props.news.create_date);
   let postdateFormat = new Intl.DateTimeFormat("en-GB", {
     year: "numeric",
     month: "long",
     day: "2-digit",
   }).format(postdate)
-  console.log("news", postdateFormat);
-  console.log("news", props.news);
+
   return (
     <div {...props}>
       <Card className="shadow-sm">

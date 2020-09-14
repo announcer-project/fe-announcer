@@ -101,7 +101,7 @@ function LoginPage() {
                   {social !== "line" ? (
                     <FacebookLogin
                       redirectUri={`${process.env.REACT_APP_FE_PATH}/login`}
-                      appId="696178021130957"
+                      appId="345537553165129"
                       autoLoad={false}
                       fields="name,email,picture"
                       callback={responseFacebook}

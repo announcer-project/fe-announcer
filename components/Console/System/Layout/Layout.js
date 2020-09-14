@@ -111,6 +111,22 @@ export default function LayoutPage(props) {
               </Link>
             </Menu.Item>
           </SubMenu>
+          <SubMenu
+            key="role"
+            icon={<TeamOutlined />}
+            title="Role"
+          >
+            <Menu.Item key="allrole">
+              <Link href={path + "/role/allrole"}>
+                <a><TeamOutlined /> All role</a>
+              </Link>
+            </Menu.Item>
+            {/* <Menu.Item key="createtargetgroup">
+              <Link href={path + "/targetgroup/createtargetgroup"}>
+                <a><UsergroupAddOutlined /> Create target group</a>
+              </Link>
+            </Menu.Item> */}
+          </SubMenu>
           <Menu.Item key="dashboard" icon={<AreaChartOutlined />}>
             Dashboard
           </Menu.Item>

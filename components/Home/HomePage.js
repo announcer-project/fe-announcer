@@ -13,6 +13,7 @@ import {
   TextEditor,
   UploadImage,
   UploadImages,
+  Selected,
 } from "../common/Form";
 
 const onFinish = (values) => {
@@ -103,6 +104,16 @@ export default function Home(props) {
           >
             Upload cover
           </UploadImages>
+          <Selected
+            form={form}
+            label="Upload cover"
+            name="newstypes"
+            defaultValue={[
+              { id: 0, name: "Update System", selected: false },
+              { id: 1, name: "New Release", selected: false },
+            ]}
+            rules={[{ required: true, message: "Please input your password!" }]}
+          />
 
           <ButtonSubmit danger={true}>Back</ButtonSubmit>
           <ButtonSubmit>test</ButtonSubmit>

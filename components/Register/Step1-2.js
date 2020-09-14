@@ -42,10 +42,10 @@ function StepConnectSocial() {
       />
       <div className="pt-3">
         <p>
-          <b>Name:</b> {user.FName} {user.LName}
+          <b>Name:</b> {user.fname} {user.lname}
         </p>
         <p>
-          <b>E-mail:</b> {user.Email}
+          <b>E-mail:</b> {user.email}
         </p>
       </div>
       <div className="pt-3 d-flex justify-content-between">

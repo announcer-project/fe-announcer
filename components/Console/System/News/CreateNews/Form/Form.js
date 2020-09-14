@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { Input, Checkbox, DatePicker } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 import { CreateNewsContext } from "../../../../../../store/CreateNewsProvider";
+import {} from "../../../../../common/Form"
 
 //component
 import UploadImageCover from "./UploadCover";
