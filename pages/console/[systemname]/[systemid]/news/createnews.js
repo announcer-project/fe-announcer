@@ -12,7 +12,7 @@ export default function CreateNewsPage(props) {
         <title>{props.query.systemname} - NMS</title>
       </Head>
       <CreateNewsProvider>
-          <Page {...props} />
+        <Page {...props} />
       </CreateNewsProvider>
     </>
   );
@@ -24,7 +24,7 @@ const setNewsType = (data) => {
     let newstype1 = data[index];
     let newstype2 = {
       id: newstype1.ID,
-      newstype: newstype1.newstype_name,
+      name: newstype1.newstype_name,
       selected: false,
     };
     newstypes.push(newstype2);
@@ -37,7 +37,7 @@ const fetchNewsTypes = async (ctx) => {
   let newstypes = [];
   await axios
     .get(
-      `${process.env.REACT_APP_BE_PATH}/news/newstype/all?systemid=${query.systemid}&systemname=${query.systemname}`,
+      `${process.env.REACT_APP_BE_PATH}/news/newstype/all?systemid=${query.systemid}`,
       {
         headers: {
           Authorization: "Bearer " + cookie.getJWT(ctx),
@@ -45,10 +45,7 @@ const fetchNewsTypes = async (ctx) => {
       }
     )
     .then(async (res) => {
-      if (res.data) {
-        newstypes = await setNewsType(res.data);
-        console.log("newstype ", res.data)
-      }
+      newstypes = await setNewsType(res.data);
     });
   return newstypes;
 };

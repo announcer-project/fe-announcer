@@ -7,18 +7,20 @@ import Preview from "./Preview/Preview";
 
 export default function AllNewsPage(props) {
   const { step } = useContext(CreateNewsContext);
+
   const Step = () => {
     switch (step) {
       case 1:
         return <Form {...props} />;
       case 2:
-        return <Preview {...props}/>;
+        return <Preview/>;
     }
   };
+
   return (
-    <Layout {...props}>
+    <Layout>
       <div className="container mt-3 mb-5">
-        <div className="font-title">Create News Page</div>
+        <h1>Create News Page</h1>
         <div className="mt-3">{Step()}</div>
       </div>
     </Layout>

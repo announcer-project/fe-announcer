@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import axios from "axios";
 import styled from "styled-components";
 import { NotificationFilled, FileAddFilled } from "@ant-design/icons";
@@ -38,7 +38,9 @@ const Button = styled.button`
   }
 `;
 
-export default function PreviewNews(props) {
+export default function PreviewNews() {
+  const router = useRouter();
+  const { systemid, systemname } = router.query;
   const { changeStep } = useContext(CreateNewsContext);
   const {
     cover,
@@ -53,15 +55,13 @@ export default function PreviewNews(props) {
 
   const postdateFormat = moment(postdate).format("DD-MM-YYYY");
   let expiredateFormat = "";
-  if (expiredateStatus) {
+  if (expiredate !== null) {
     expiredateFormat = moment(expiredate).format("DD-MM-YYYY");
   }
 
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
-
-  console.log(title, body, expiredateStatus, expiredate);
 
   useEffect(() => {
     scrollToTop();
@@ -103,7 +103,7 @@ export default function PreviewNews(props) {
   };
 
   const onDraft = async () => {
-    onCreateNews("draft", []);
+    onCreateNews("draft");
   };
   const onPublish = () => {
     onCreateNews("publish");
@@ -116,19 +116,23 @@ export default function PreviewNews(props) {
     }
     return images;
   };
-  const onCreateNews = async (status, images) => {
+  const onCreateNews = async (status) => {
+    let expiredate_status = true;
+    if (expiredate === null) {
+      expiredate_status = false;
+    }
     let data = {
       cover: cover,
       title: title,
       body: body,
-      checkexpiredate: expiredateStatus,
+      checkexpiredate: expiredate_status,
       expiredate: moment(expiredate).format("DD-MM-YYYY"),
       images: await imagesToBase64(),
       newstypes: newsTypes.filter(function (newstype) {
         return newstype.selected;
       }),
-      system: props.query.systemname,
-      systemid: props.query.systemid,
+      system: systemname,
+      systemid: systemid,
       status: status,
     };
     await axios
@@ -138,7 +142,7 @@ export default function PreviewNews(props) {
         },
       })
       .then((res) => {
-        let path = `/console/${props.query.systemname}/${props.query.systemid}`;
+        let path = `/console/${systemname}/${systemid}`;
         if (status === "draft") {
           Swal.fire({
             icon: "success",
@@ -190,7 +194,10 @@ export default function PreviewNews(props) {
         </div>
         <div className="pt-3">
           <div>
-            <img src={`${cover === "" ? "/img/news-cover.png" : cover}`} style={{ width: "100%", height: "250px", objectFit: "cover" }}/>
+            <img
+              src={`${cover === "" ? "/img/news-cover.png" : cover}`}
+              style={{ width: "100%", height: "250px", objectFit: "cover" }}
+            />
           </div>
           <Title className="text-center mt-2 mb-4 py-4">
             <span className="font-large">{title}</span>
@@ -228,7 +235,7 @@ export default function PreviewNews(props) {
               </div>
               <div className="pt-3 pb-5">
                 <p>Postdate : {postdateFormat}</p>
-                <p className={`${expiredateStatus ? "" : "d-none"}`}>
+                <p className={`${expiredate !== null ? "" : "d-none"}`}>
                   Expiredate : {expiredateFormat}
                 </p>
                 <p>
@@ -240,7 +247,7 @@ export default function PreviewNews(props) {
                           key={key}
                           className="border shadow-sm d-inline-block py-2 px-4 ml-2"
                         >
-                          {newstype.newstype}
+                          {newstype.name}
                         </NewsType>
                       );
                     }
