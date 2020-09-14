@@ -18,26 +18,26 @@ const Box = styled.div`
 
 const { Step } = Steps;
 
-export default function RegisterPage(props) {
+export default function RegisterPage() {
   const { step } = useContext(RegisterContext);
   const StepRegister = () => {
     switch (step) {
       case 1:
-        return <Step1 {...props} />;
+        return <Step1 />;
       case 1.2:
-        return <StepConnectSocial {...props} />;
+        return <StepConnectSocial />;
       case 2:
-        return <Step2 {...props} />;
+        return <Step2 />;
       case 3:
-        return <Step3 {...props} />;
+        return <Step3 />;
     }
   };
 
   return (
-    <Layouts {...props}>
+    <Layouts>
       <div className="container">
         <Box className="col-12 col-lg-9 my-5 mx-auto py-3 py-lg-5 px-3">
-          <p className="text-center font-title m-0" >Register</p>
+          <p className="text-center font-title m-0">Register</p>
           <div id="StepRegister" className="col-12 col-lg-10 mx-auto mt-4">
             <Steps size="small" current={step - 1}>
               <Step title="Verify your e-mail" />
@@ -45,7 +45,9 @@ export default function RegisterPage(props) {
               <Step title="Confirm" />
             </Steps>
           </div>
-          <div className="col-12 col-lg-6 mx-auto mt-3 pt-lg-4">{StepRegister()}</div>
+          <div className="col-12 col-lg-6 mx-auto mt-3 pt-lg-4">
+            {StepRegister()}
+          </div>
         </Box>
       </div>
     </Layouts>

@@ -4,7 +4,7 @@ import axios from "axios";
 import { RegisterContext } from "../../store/RegisterProvider";
 import RegisterButton from "./RegisterButton";
 import cookie from "../../tools/cookie";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 
 const Profile = styled.img`
   width: 150px;
@@ -13,14 +13,17 @@ const Profile = styled.img`
   border-radius: 150px;
 `;
 
-function StepConnectSocial(props) {
+function StepConnectSocial() {
+  const router = useRouter();
+  const { social, socialid } = router.query;
   const { user, nextStep } = useContext(RegisterContext);
 
   const onConnectSocial = async () => {
-    let data = new FormData();
-    data.append("social", props.query.social);
-    data.append("socialid", props.query.socialid);
-    data.append("userid", user.ID);
+    let data = {
+      social: social,
+      socialid: socialid,
+      userid: user.ID
+    }
     await axios
       .post(`${process.env.REACT_APP_BE_PATH}/register/connectsocial`, data)
       .then((res) => {
@@ -31,11 +34,12 @@ function StepConnectSocial(props) {
         console.log("error ", err.response);
       });
   };
-console.log("storage", `${process.env.REACT_APP_STORAGE}/profile/${user.ID}.jpg`)
 
   return (
     <div className="text-center">
-      <Profile src={`${process.env.REACT_APP_STORAGE}/profile/${user.ID}.jpg`} />
+      <Profile
+        src={`${process.env.REACT_APP_STORAGE}/profile/${user.ID}.jpg`}
+      />
       <div className="pt-3">
         <p>
           <b>Name:</b> {user.FName} {user.LName}

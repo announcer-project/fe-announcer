@@ -4,7 +4,8 @@ import axios from "axios";
 import { RegisterContext } from "../../store/RegisterProvider";
 import RegisterButton from "./RegisterButton";
 import cookie from "../../tools/cookie";
-import Router from "next/router"
+import Router from "next/router";
+import { useRouter } from "next/router";
 
 const Profile = styled.img`
   width: 150px;
@@ -13,26 +14,37 @@ const Profile = styled.img`
   border-radius: 150px;
 `;
 
-function Step3({query}) {
-  const { email, imageUrl, image, step, firstname, lastname, nextStep } = useContext(
-    RegisterContext
-  );
+function Step3() {
+  const router = useRouter();
+  const { pictureurl, social, socialid } = router.query;
+  const {
+    email,
+    imageUrl,
+    image,
+    firstname,
+    lastname,
+    nextStep,
+  } = useContext(RegisterContext);
 
   const onRegister = async () => {
-    let data = new FormData();
-    data.append("email", email);
-    data.append("fname", firstname);
-    data.append("lname", lastname);
-    data.append("imagesocial", imageUrl)
-    data.append("imageUrl", query.pictureurl)
-    data.append("imageprofile", image);
-    data.append(query.social, query.socialid);
-    await axios.post(`${process.env.REACT_APP_BE_PATH}/register`, data).then((res) => {
-        cookie.setJWT(null, res.data, 7)
-        Router.push("/console/systems")
-    }).catch((err) => {
-        console.log("error ", err.response)
-    })
+    let data = {
+      email: email,
+      fname: firstname,
+      lname: lastname,
+      imagesocial: imageUrl,
+      imageUrl: pictureurl,
+      imageprofile: image,
+      [social]: socialid,
+    };
+    await axios
+      .post(`${process.env.REACT_APP_BE_PATH}/register`, data)
+      .then((res) => {
+        cookie.setJWT(null, res.data.jwt, 7);
+        Router.push("/console/systems");
+      })
+      .catch((err) => {
+        console.log("error ", err.response);
+      });
   };
 
   return (

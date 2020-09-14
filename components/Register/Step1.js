@@ -3,8 +3,11 @@ import { RegisterContext } from "../../store/RegisterProvider";
 import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import RegisterButton from "./RegisterButton";
+import { useRouter } from "next/router";
 
-function Step1({ query }) {
+function Step1() {
+  const router = useRouter();
+  const emailParam = router.query.email;
   const [form] = Form.useForm();
   const [checkEmail, setCheckEmail] = useState(false);
   const [inputotp, setinputotp] = useState("");
@@ -15,7 +18,7 @@ function Step1({ query }) {
 
   useEffect(() => {
     if (email === "") {
-      changeEmail(query.email)
+      changeEmail(emailParam);
     } else {
       form.setFieldsValue({
         email: email,
@@ -49,10 +52,10 @@ function Step1({ query }) {
     setCheckEmail(true);
     let OTP = generateOTP();
     setgenOTP(OTP);
-    let data = new FormData();
-    data.append("email", email);
-    data.append("otp", OTP);
-    console.log(email);
+    let data = {
+      otp: OTP,
+      email: email,
+    };
     axios
       .post(`${process.env.REACT_APP_BE_PATH}/register/sendotp`, data)
       .then(function (response) {
@@ -65,8 +68,9 @@ function Step1({ query }) {
 
   const checkOTP = () => {
     if (inputotp === genOTP) {
-      let data = new FormData();
-      data.append("email", email);
+      let data = {
+        email: email
+      }
       axios
         .post(`${process.env.REACT_APP_BE_PATH}/register/checkuser`, data)
         .then((res) => {

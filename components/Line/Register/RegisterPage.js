@@ -49,13 +49,14 @@ export default function LiffInit(props) {
   }, []);
 
   const CheckUser = async (lineid) => {
-    let data = new FormData();
-    data.append("lineid", lineid);
+    let data = {
+      lineid: lineid
+    }
     let haveuser = false;
     await axios
       .post(`${process.env.REACT_APP_BE_PATH}/register/checkuserbylineid`, data)
       .then((res) => {
-        if (res.data) {
+        if (res.data.message === "have account.") {
           haveuser = true;
         } else {
           haveuser = false;

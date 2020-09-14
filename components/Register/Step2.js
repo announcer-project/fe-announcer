@@ -4,6 +4,7 @@ import { RegisterContext } from "../../store/RegisterProvider";
 import { Input, Button, Form, Upload, message } from "antd";
 import { LoadingOutlined, PlusOutlined, EditOutlined } from "@ant-design/icons";
 import RegisterButton from "./RegisterButton";
+import { useRouter } from "next/router";
 
 const Profile = styled.img`
   width: 150px;
@@ -12,7 +13,9 @@ const Profile = styled.img`
   border-radius: 150px;
 `;
 
-function Step2({query}) {
+function Step2() {
+  const router = useRouter();
+  const { pictureurl } = router.query;
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const {
@@ -28,10 +31,10 @@ function Step2({query}) {
   } = useContext(RegisterContext);
 
   useEffect(() => {
-    if(query.pictureurl !== undefined) {
-      changeImage(query.pictureurl)
-    }else{
-      changeImageUrl(false)
+    if (pictureurl !== undefined) {
+      changeImage(pictureurl);
+    } else {
+      changeImageUrl(false);
     }
     form.setFieldsValue({
       firstname: firstname,

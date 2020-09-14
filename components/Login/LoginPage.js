@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import liff from "@line/liff";
 
 import ButtonLogin from "./LoginButton";
@@ -31,7 +31,7 @@ const ImageContent = styled.img`
   }
 `;
 
-function LoginPage({ social }) {
+function LoginPage() {
   const responseFacebook = (response) => {
     Router.push(
       `/login?socialid=${response.userID}&social=facebook&email=${response.email}`
@@ -40,6 +40,8 @@ function LoginPage({ social }) {
 
   const [lineProfile, setLineProfile] = useState({});
   const [lineEmail, setLineEmail] = useState("");
+  const router = useRouter();
+  let { social } = router.query;
 
   useEffect(() => {
     if (lineProfile.userId !== undefined) {
@@ -63,8 +65,8 @@ function LoginPage({ social }) {
     let liffId = process.env.REACT_APP_LIFF_ID;
     liff.init({ liffId }).then(async () => {
       if (liff.isLoggedIn()) {
-        let profile = await liff.getProfile()
-        let email = liff.getDecodedIDToken().email
+        let profile = await liff.getProfile();
+        let email = liff.getDecodedIDToken().email;
         Router.push(
           `/login?socialid=${profile.userId}&social=line&email=${email}&pictureurl=${profile.pictureUrl}`
         );

@@ -11,30 +11,27 @@ const Page = dynamic(
   { ssr: false }
 );
 
-function LoginPage(props) {
+function LoginPage() {
   return (
     <>
       <Head>
         <title>Announcer - Login</title>
       </Head>
-      <Page social={props.social} />
+      <Page />
     </>
   );
 }
 
 const fetchJWT = async (ctx) => {
   const { socialid, social, email, pictureurl } = ctx.query;
+  let data = {
+    Social: social,
+    SocialID: socialid,
+  };
   await axios
-    .get(`${process.env.REACT_APP_BE_PATH}/login`, {
-      headers: {
-        Social: social,
-        SocialID: socialid,
-        Email: email,
-        PictureUrl: pictureurl,
-      },
-    })
+    .post(`${process.env.REACT_APP_BE_PATH}/login`, data)
     .then(async (res) => {
-      await cookie.setJWT(ctx, res.data, 30);
+      await cookie.setJWT(ctx, res.data.jwt, 30);
     })
     .catch(async (err) => {
       const { res } = ctx;
@@ -58,10 +55,8 @@ export async function getServerSideProps(ctx) {
       res.end();
       return { props: {} };
     }
-  } else {
-    social = null;
   }
-  return { props: { social } };
+  return { props: {} };
 }
 
 export default LoginPage;
