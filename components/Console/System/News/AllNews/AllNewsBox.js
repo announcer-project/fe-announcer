@@ -5,7 +5,7 @@ import NewsPublishCard from "../../NewsPublishCard";
 
 const BoxAllNews = styled.div`
   background-color: ${(props) =>
-    props.type === "Draft" ? "#050042" : "white"};
+    props.type === "Draft" ? props.theme.color.base : "white"};
 `;
 
 export default function AllNewsBox(props) {

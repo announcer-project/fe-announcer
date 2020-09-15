@@ -15,7 +15,7 @@ export default function AllNewsPage(props) {
   return (
     <Layout>
       <div className="container pt-2">
-        <h1 className="font-title">{systemname} - All news</h1>
+        <h1>{systemname} - All news</h1>
         <AllNewsBox type="Draft" news={newsdraft} path={path} />
         <AllNewsBox type="Publish" news={newspublish} path={path} />
       </div>
