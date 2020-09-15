@@ -5,17 +5,19 @@ const StyleButton = styled.button`
   .anticon {
     vertical-align: 0em;
   }
-  border: none;
+  border: 1px solid
+    ${(props) =>
+      props.danger ? props.theme.color.danger : props.theme.color.base};
   border-radius: 50px;
-  padding: 5px 20px 5px 20px;
+  padding: 6px 22px 6px 22px;
   background-color: ${(props) =>
     props.danger ? props.theme.color.danger : props.theme.color.base};
   color: white;
+  transition: 0.5s;
   &:hover {
-    background-color: ${(props) =>
-      props.danger
-        ? props.theme.color.danger_hover
-        : props.theme.color.base_hover};
+    color: ${(props) =>
+      props.danger ? props.theme.color.danger : props.theme.color.base};
+    background-color: white;
   }
 `;
 

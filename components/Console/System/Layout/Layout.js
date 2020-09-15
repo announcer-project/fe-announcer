@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useRouter } from "next/router";
 
 import Navbar from "./Navbar";
-import { Layout, Menu } from "antd";
+import { Layout as LayoutAnt, Menu } from "antd";
 import {
   HomeOutlined,
   AreaChartOutlined,
@@ -17,13 +17,39 @@ import {
   PlusOutlined,
 } from "@ant-design/icons";
 
-const { Content, Sider } = Layout;
+const { Content, Sider } = LayoutAnt;
 const { SubMenu } = Menu;
 
+const Layout = styled(LayoutAnt)`
+  .ant-layout-sider {
+    background: ${(props) => props.theme.color.background};
+  }
+  .ant-menu.ant-menu-dark,
+  .ant-menu-dark .ant-menu-sub,
+  .ant-menu.ant-menu-dark .ant-menu-sub {
+    background: ${(props) => props.theme.color.background};
+  }
+  .ant-layout-sider-trigger {
+    background: #011020;
+  }
+  .ant-menu-dark .ant-menu-inline.ant-menu-sub {
+    background: #011020;
+  }
+`;
+
 const Sidebar = styled(Sider)`
+  .ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal)
+    .ant-menu-item-selected {
+    background-color: ${(props) => props.theme.color.base};
+  }
   .anticon {
     vertical-align: 0em;
   }
+`;
+
+const Announcer = styled.span`
+  opacity: ${(props) => (props.collapsed ? 0 : 1)};
+  display: ${(props) => (props.collapsed ? "none" : "block")};
 `;
 
 export default function LayoutPage(props) {
@@ -45,20 +71,27 @@ export default function LayoutPage(props) {
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      <Sidebar collapsible collapsed={collapsed} onCollapse={onCollapse}>
+      <Sidebar
+        collapsible
+        collapsed={collapsed}
+        onCollapse={onCollapse}
+        width={250}
+      >
         <Link href="/console/systems">
           <a>
-            <div className="logo pt-3 pb-2" style={{ cursor: "pointer" }}>
+            <div
+              className="pt-3 pb-2 text-center"
+              style={{ cursor: "pointer" }}
+            >
               <img
                 src="/img/announcer-logo.png"
                 alt="Announcer"
                 width="35px"
                 height="35px"
-                style={{ marginLeft: "24px" }}
               />
-              <span className={`text-light pl-2 ${collapsed ? "d-none" : ""}`}>
+              <Announcer className={`text-light pl-2`} collapsed={collapsed}>
                 <b>Announcer</b>
-              </span>
+              </Announcer>
             </div>
           </a>
         </Link>
@@ -70,7 +103,7 @@ export default function LayoutPage(props) {
         >
           <Menu.Item key="home" icon={<HomeOutlined />}>
             <Link href={path + "/home"}>
-              <a>Home</a>
+              <a>{systemname}</a>
             </Link>
           </Menu.Item>
           <Menu.Item key="broadcast" icon={<SendOutlined />}>
@@ -144,25 +177,25 @@ export default function LayoutPage(props) {
               </Link>
             </Menu.Item>
           </SubMenu>
-          <SubMenu key="connect" icon={<TeamOutlined />} title="Role">
+          <SubMenu key="connect" icon={<TeamOutlined />} title="Connect social">
             <Menu.Item key="all">
               <Link href={path + "/connect/all"}>
                 <a>
-                  <TeamOutlined /> All
+                  <TeamOutlined /> All Connect
                 </a>
               </Link>
             </Menu.Item>
             <Menu.Item key="line">
               <Link href={path + "/connect/line"}>
                 <a>
-                  <UsergroupAddOutlined /> Line
+                  <UsergroupAddOutlined /> Line Connect
                 </a>
               </Link>
             </Menu.Item>
             <Menu.Item key="facebook">
               <Link href={path + "/connect/facebook"}>
                 <a>
-                  <UsergroupAddOutlined /> Facebook
+                  <UsergroupAddOutlined /> Facebook Connect
                 </a>
               </Link>
             </Menu.Item>
