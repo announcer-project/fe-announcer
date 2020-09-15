@@ -7,6 +7,7 @@ import {
   Checkbox as CheckboxAnt,
   Upload as UploadAnt,
   Modal as ModalAnt,
+  DatePicker as DatePickerAnt,
 } from "antd";
 import {
   PlusOutlined,
@@ -197,16 +198,14 @@ const StyleCheckRequire = styled.div`
 
 export const TextEditor = React.memo(
   ({ form, label, name, defaultValue, rules, height }) => {
-    const [body, setBody] = useState("");
-    console.log("editor", body);
-    useEffect(() => {
-      setBody(defaultValue);
-    }, []);
+    const [body, setBody] = useState(defaultValue);
+
     useEffect(() => {
       form.setFieldsValue({
         [name]: body,
       });
     }, [body]);
+
     return (
       <FormAnt.Item label={label} name={name} rules={rules}>
         <StyleCKEditor height={height}>
@@ -275,11 +274,8 @@ const RemoveImageBtn = styled.button`
 export const UploadImage = React.memo(
   ({ form, label, name, defaultValue, rules, height, children }) => {
     const [loading, setLoading] = useState(false);
-    const [image, setImage] = useState("");
+    const [image, setImage] = useState(defaultValue);
 
-    useEffect(() => {
-      setImage(defaultValue);
-    }, []);
     useEffect(() => {
       form.setFieldsValue({
         [name]: image,
@@ -401,16 +397,14 @@ export const UploadImages = React.memo(
     const [previewVisible, setPreviewVisible] = useState(false);
     const [previewImage, setPreviewImage] = useState("");
     const [previewTitle, setPreviewTitle] = useState("");
-    const [images, setImages] = useState([]);
+    const [images, setImages] = useState(defaultValue);
 
-    useEffect(() => {
-      setImages(defaultValue);
-    }, []);
     useEffect(() => {
       form.setFieldsValue({
         [name]: images,
       });
     }, [images]);
+
     const getBase64 = (file) => {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -476,10 +470,10 @@ export const UploadImages = React.memo(
 const Item = styled.div`
   border-radius: 20px;
   cursor: pointer;
-  background-color: ${(props) => (props.selected ? props.theme.color.base : "white")};
+  background-color: ${(props) =>
+    props.selected ? props.theme.color.base : "white"};
   color: ${(props) => (props.selected ? "white" : "rgb(0,0,0,0.65)")};
 `;
-
 
 export const Selected = React.memo(
   ({ form, label, name, defaultValue, rules }) => {
@@ -488,36 +482,33 @@ export const Selected = React.memo(
     useEffect(() => {
       setItems(defaultValue);
     }, []);
-
     useEffect(() => {
-
       form.setFieldsValue({
-        [name]: items,
+        [name]: items.filter((item) => item.selected),
       });
     }, [items]);
 
     const onSelectItem = async (key) => {
-      let newItems = items;
-      newItems[key].selected = !newItems[key].selected;
-      setItems(newItems);
+      items[key].selected = !items[key].selected;
+      setItems([...items]);
     };
-    console.log(items)
+
     return (
       <FormAnt.Item label={label} name={name} rules={rules}>
         <div>
-        {items.map((item, key) => {
-          return (
-            <Item
-              key={key}
-              onClick={() => onSelectItem(key)}
-              selected={item.selected}
-              className="border shadow-sm d-inline-block py-2 px-4 mr-2 mt-2"
-            >
-              {item.name}
-            </Item>
-          );
-        })}
-      </div>
+          {items.map((item, key) => {
+            return (
+              <Item
+                key={key}
+                onClick={() => onSelectItem(key)}
+                selected={item.selected}
+                className="border shadow-sm d-inline-block py-2 px-4 mr-2 mt-2"
+              >
+                {item.name}
+              </Item>
+            );
+          })}
+        </div>
         <StyleCheckRequire>
           <InputAnt />
         </StyleCheckRequire>
@@ -525,3 +516,16 @@ export const Selected = React.memo(
     );
   }
 );
+
+export const DatePicker = React.memo(({ form, label, name, defaultValue }) => {
+  useEffect(() => {
+    form.setFieldsValue({
+      [name]: defaultValue,
+    });
+  }, []);
+  return (
+    <FormAnt.Item name={name} label={label}>
+      <DatePickerAnt defaultValue={defaultValue} />
+    </FormAnt.Item>
+  );
+});

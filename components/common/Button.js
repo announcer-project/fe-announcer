@@ -2,6 +2,9 @@ import React from "react";
 import styled from "styled-components";
 
 const StyleButton = styled.button`
+  .anticon {
+    vertical-align: 0em;
+  }
   border: none;
   border-radius: 50px;
   padding: 5px 20px 5px 20px;

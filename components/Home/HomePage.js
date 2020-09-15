@@ -14,6 +14,7 @@ import {
   UploadImage,
   UploadImages,
   Selected,
+  DatePicker,
 } from "../common/Form";
 
 const onFinish = (values) => {
@@ -36,6 +37,7 @@ export default function Home(props) {
       checked: false,
       body: "test",
       image: "",
+      // datepick:
     });
   }, []);
 
@@ -90,7 +92,6 @@ export default function Home(props) {
             label="Upload cover"
             name="image"
             defaultValue={""}
-            rules={[{ required: true, message: "Please input your password!" }]}
           >
             Upload cover
           </UploadImage>
@@ -100,7 +101,6 @@ export default function Home(props) {
             label="Upload cover"
             name="images"
             defaultValue={[]}
-            rules={[{ required: true, message: "Please input your password!" }]}
           >
             Upload cover
           </UploadImages>
@@ -114,7 +114,11 @@ export default function Home(props) {
             ]}
             rules={[{ required: true, message: "Please input your password!" }]}
           />
-
+          <DatePicker
+          form={form}
+            label="Upload cover"
+            name="date-time"
+          />
           <ButtonSubmit danger={true}>Back</ButtonSubmit>
           <ButtonSubmit>test</ButtonSubmit>
         </Form>
