@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Checkbox } from "antd";
+import { Checkbox } from "../../../../../../common/Form";
 import { NewsTypeBox } from "./Components";
 import { CreateLineBroadcastContext } from "../../../../../../../store/CreateLineBroadcastProvider";
 
@@ -20,6 +20,7 @@ export default function NewsTypeSelector() {
       <Checkbox
         checked={checknewstypes}
         onChange={() => checkNewsTypes(checknewstypes)}
+        className="mb-0"
       >
         News type
       </Checkbox>

@@ -2,10 +2,11 @@ import React from "react";
 import styled from "styled-components";
 
 const StyleBox = styled.div`
-  border-radius: 50px;
-  background-color: ${(props) => (props.selected ? "#050042" : "")};
-  color: ${(props) => (props.selected ? "white" : "#050042")};
   cursor: ${(props) => (props.checked ? "pointer" : "not-allowed")};
+  border-radius: 20px;
+  background-color: ${(props) =>
+    props.selected ? props.theme.color.base : "white"};
+  color: ${(props) => (props.selected ? "white" : "rgb(0,0,0,0.65)")};
 `;
 export function NewsTypeBox(props) {
   return (
@@ -39,8 +40,8 @@ const ButtonAdd = styled.div`
   background-color: #050042;
   border-radius: 50px;
   color: white;
-  `;
-  const ButtonRemove = styled.div`
+`;
+const ButtonRemove = styled.div`
   cursor: ${(props) => (props.checked ? "pointer" : "not-allowed")};
   background-color: #ce0000;
   border-radius: 50px;

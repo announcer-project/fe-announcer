@@ -1,10 +1,11 @@
 import React, { useContext, useEffect } from "react";
 import MobileScreen from "./MobileScreen";
 import { CreateLineBroadcastContext } from "../../../../../../store/CreateLineBroadcastProvider";
-import { ButtonBack, ButtonNext } from "../../Components";
 import axios from "axios";
 import Router, { useRouter } from "next/router";
 import Swal from "sweetalert2";
+import Button from "../../../../../common/Button";
+import cookie from "../../../../../../tools/cookie";
 
 export default function Step3() {
   const {
@@ -19,7 +20,7 @@ export default function Step3() {
     usersSelect,
   } = useContext(CreateLineBroadcastContext);
   const router = useRouter();
-  const {systemid, systemname} = router.query;
+  const { systemid, systemname } = router.query;
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -64,9 +65,13 @@ export default function Step3() {
       users: usersSelect,
       messages: datamessages,
     };
-    console.log(data);
+    console.log(data)
     axios
-      .post(`${process.env.REACT_APP_BE_PATH}/broadcast/line`, data)
+      .post(`${process.env.REACT_APP_BE_PATH}/broadcast/line`, data, {
+        headers: {
+          Authorization: "Bearer " + cookie.getJWT(),
+        }
+      })
       .then((res) => {
         console.log(res.data);
         Swal.fire({
@@ -88,8 +93,12 @@ export default function Step3() {
         </div>
       </div>
       <div className="d-flex justify-content-between pt-3">
-        <ButtonBack onClick={() => changeStep(2)}>Back</ButtonBack>
-        <ButtonNext onClick={() => onBroadcast()}>Next</ButtonNext>
+        <Button danger={true} className="px-5" onClick={() => changeStep(2)}>
+          Back
+        </Button>
+        <Button className="px-5" onClick={() => onBroadcast()}>
+          Next
+        </Button>
       </div>
     </div>
   );

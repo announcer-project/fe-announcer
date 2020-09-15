@@ -115,7 +115,7 @@ export const Input = React.memo((props) => {
       name={props.name}
       rules={props.rules}
     >
-    <InputAnt {...props} />
+      <InputAnt {...props} />
     </FormAnt.Item>
   );
 });
@@ -130,10 +130,14 @@ export const InputPassword = React.memo(
   }
 );
 
-export const Checkbox = React.memo(({ name, valuePropName, children }) => {
+export const Checkbox = React.memo((props) => {
   return (
-    <FormAnt.Item name={name} valuePropName={valuePropName}>
-      <CheckboxAnt>{children}</CheckboxAnt>
+    <FormAnt.Item
+      name={props.name}
+      valuePropName={props.valuePropName}
+      {...props}
+    >
+      <CheckboxAnt {...props}>{props.children}</CheckboxAnt>
     </FormAnt.Item>
   );
 });
@@ -251,6 +255,9 @@ const StyleUpload = styled.div`
   }
   .ant-upload.ant-upload-select-picture-card:hover {
     border: 1px dashed ${(props) => props.theme.color.base_hover};
+  }
+  .ant-upload-picture-card-wrapper {
+    display: unset;
   }
 `;
 

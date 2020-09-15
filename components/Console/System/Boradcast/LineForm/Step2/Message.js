@@ -1,16 +1,29 @@
 import React, { useState, useContext } from "react";
+import styled from "styled-components";
 import { Menu } from "antd";
 import { CreateLineBroadcastContext } from "../../../../../../store/CreateLineBroadcastProvider";
-
-import "./Menu.module.css";
 
 import Text from "./Message/Text";
 import Image from "./Message/Image";
 import News from "./Message/News";
 
+const MenuStyle = styled.div`
+  .ant-menu-horizontal > .ant-menu-item:hover,
+  .ant-menu-horizontal > .ant-menu-submenu:hover,
+  .ant-menu-horizontal > .ant-menu-item-active,
+  .ant-menu-horizontal > .ant-menu-submenu-active,
+  .ant-menu-horizontal > .ant-menu-item-open,
+  .ant-menu-horizontal > .ant-menu-submenu-open,
+  .ant-menu-horizontal > .ant-menu-item-selected,
+  .ant-menu-horizontal > .ant-menu-submenu-selected {
+    color: ${(props) => props.theme.color.base};
+    border-bottom: 2px solid ${(props) => props.theme.color.base};
+  }
+`;
+
 const SocialBar = (props) => {
   return (
-    <div id="Message">
+    <MenuStyle>
       <Menu
         onClick={props.handleClick}
         selectedKeys={[props.type]}
@@ -38,7 +51,7 @@ const SocialBar = (props) => {
           <span className="font-small">News</span>
         </Menu.Item>
       </Menu>
-    </div>
+    </MenuStyle>
   );
 };
 

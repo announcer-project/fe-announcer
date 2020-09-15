@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import styled from "styled-components"
+import styled from "styled-components";
 import { Upload } from "antd";
 import {
   LoadingOutlined,
@@ -8,16 +8,40 @@ import {
 } from "@ant-design/icons";
 import { CreateLineBroadcastContext } from "../../../../../../../store/CreateLineBroadcastProvider";
 
-import "./Upload.module.css";
+const StyleUpload = styled.div`
+  .ant-upload.ant-upload-select-picture-card {
+    margin-right: 0;
+    margin-bottom: 0;
+    border: 1px dashed ${(props) => props.theme.color.base};
+    border-radius: 20px;
+    width: 100%;
+    height: ${(props) => props.height};
+  }
+  .ant-upload.ant-upload-select-picture-card:hover {
+    border: 1px dashed ${(props) => props.theme.color.base_hover};
+  }
+  .ant-upload-picture-card-wrapper {
+    display: unset;
+  }
+`;
 
-const ButtonRemove = styled.button`
-  cursor: pointer;
-  background-color: #CE0000;
+const RemoveImageBtn = styled.button`
+  background-color: ${(props) => props.theme.color.danger};
   border: none;
   color: white;
   position: absolute;
-  right: 0px;
-`
+  right: 5px;
+  top: 5px;
+  padding: 8px 13px;
+  border-radius: 20px;
+  &:hover {
+    background-color: ${(props) => props.theme.color.danger_hover};
+  }
+  .anticon {
+    vertical-align: 0em;
+  }
+`;
+
 export default function Image({ boxnumber }) {
   const { messages, changeMessages } = useContext(CreateLineBroadcastContext);
   const message = messages[boxnumber];
@@ -64,39 +88,43 @@ export default function Image({ boxnumber }) {
   const uploadButton = (
     <div>
       {loading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div className="ant-upload-text">Upload</div>
+      <div className="ant-upload-text">Upload image</div>
     </div>
   );
   return (
-    <div id="UploadImageBroadcast">
+    <div>
       {message.data !== "" ? (
         ""
       ) : (
-        <Upload
-          name="avatar"
-          listType="picture-card"
-          className="avatar-uploader"
-          showUploadList={false}
-          beforeUpload={beforeUpload}
-          onChange={handleChange}
-        >
-          {uploadButton}
-        </Upload>
+        <StyleUpload height={"200px"}>
+          <Upload
+            name="avatar"
+            listType="picture-card"
+            className="avatar-uploader"
+            showUploadList={false}
+            beforeUpload={beforeUpload}
+            onChange={handleChange}
+          >
+            {uploadButton}
+          </Upload>
+        </StyleUpload>
       )}
       {message.data !== "" ? (
         <div style={{ position: "relative" }}>
           <img
-            className="imgUploaded"
+            className="imgUploaded border"
             src={message.data}
             alt="avatar"
-            style={{ width: "100%" }}
+            style={{
+              width: "100%",
+              height: "200px",
+              objectFit: "cover",
+              borderRadius: "20px",
+            }}
           />
-          <ButtonRemove
-            className="p-3 pt-2"
-            onClick={() => onRemove()}
-          >
+          <RemoveImageBtn className="shadow" onClick={() => onRemove()}>
             <CloseOutlined />
-          </ButtonRemove>
+          </RemoveImageBtn>
         </div>
       ) : (
         ""

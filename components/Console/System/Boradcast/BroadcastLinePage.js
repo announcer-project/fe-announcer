@@ -7,11 +7,62 @@ import Receiver from "./LineForm/Step1/Step1";
 import Message from "./LineForm/Step2/Step2";
 import Preview from "./LineForm/Step3/Step3";
 
-import "./Step.module.css";
-
 const { Step } = Steps;
 
 const StepBar = styled(Steps)`
+  .ant-steps-item-process .ant-steps-item-icon {
+    border-color: ${(props) => props.theme.color.base};
+    background-color: ${(props) => props.theme.color.base};
+  }
+  .ant-steps-item-process .ant-steps-item-icon {
+    background-color: ${(props) => props.theme.color.base};
+  }
+  .ant-steps-item-process .ant-steps-item-icon {
+    background-color: ${(props) => props.theme.color.base};
+  }
+  .ant-steps-item-finish .ant-steps-item-icon {
+    background-color: ${(props) => props.theme.color.base};
+  }
+  .ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
+    color: ${(props) => props.theme.color.base};
+  }
+  .ant-steps-item-finish
+    > .ant-steps-item-container
+    > .ant-steps-item-content
+    > .ant-steps-item-title::after {
+    background-color: ${(props) => props.theme.color.base};
+  }
+  .ant-steps-small .ant-steps-item-title {
+    font-size: 12px;
+  }
+  .ant-steps-item-process .ant-steps-item-icon {
+    background-color: ${(props) => props.theme.color.base};
+  }
+  .ant-steps-item-finish .ant-steps-item-icon {
+    background-color: #fff;
+    border-color: ${(props) => props.theme.color.base};
+  }
+  .ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
+    color: ${(props) => props.theme.color.base};
+  }
+  .ant-steps-item-finish
+    .ant-steps-item-icon
+    > .ant-steps-icon
+    .ant-steps-icon-dot {
+    border-color: ${(props) => props.theme.color.base};
+  }
+  .ant-steps-item-finish
+    > .ant-steps-item-container
+    > .ant-steps-item-content
+    > .ant-steps-item-title::after {
+    border-color: ${(props) => props.theme.color.base};
+  }
+  .ant-steps-item-finish
+    > .ant-steps-item-container
+    > .ant-steps-item-tail::after {
+    border-color: ${(props) => props.theme.color.base};
+  }
+
   .anticon {
     vertical-align: 0em;
   }
@@ -40,12 +91,7 @@ export default function BroadcastLinePage(props) {
   const StepForm = (props) => {
     switch (step) {
       case 1:
-        return (
-          <Receiver
-            systemname={props.query.systemname}
-            systemid={props.query.systemid}
-          />
-        );
+        return <Receiver />;
       case 2:
         return <Message />;
       default:
@@ -55,9 +101,8 @@ export default function BroadcastLinePage(props) {
   return (
     <div>
       <Layout {...props}>
-        <div className="container py-3 py-sm-5">
-          <div className="shadow-lg border-radius-small p-3 p-sm-5">
-            <p className="font-title mb-0">Line Broadcast</p>
+        <div className="container py-4">
+            <h1>Line Broadcast</h1>
             <div className="pt-4">
               <div id="StepBroadcast" className="col-12 col-sm-8 mx-auto">
                 <StepBar size="small" current={step - 1}>
@@ -69,7 +114,6 @@ export default function BroadcastLinePage(props) {
               <div className="mt-2 mt-sm-4 px-0 px-sm-3">{StepForm(props)}</div>
             </div>
           </div>
-        </div>
       </Layout>
     </div>
   );

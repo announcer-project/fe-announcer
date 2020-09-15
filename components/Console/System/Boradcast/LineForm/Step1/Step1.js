@@ -1,16 +1,15 @@
 import React, { useContext, useEffect } from "react";
 import Link from "next/link";
-import { Checkbox } from "antd";
+import { useRouter } from "next/router";
+import { Form, Checkbox } from "../../../../../common/Form";
 import { CreateLineBroadcastContext } from "../../../../../../store/CreateLineBroadcastProvider";
 import NewsTypeSelector from "./Reciever/ReceiverNewstype";
 import TargetGroupSelector from "./Reciever/ReceiverTargetGroup";
 import UserSelector from "./Reciever/ReceiverUser";
 import Swal from "sweetalert2";
-import { ButtonBack, ButtonNext } from "../../Components";
+import Button from "../../../../../common/Button"
 
-import "./Checkbox.module.css";
-
-export default function Step1({ systemname, systemid }) {
+export default function Step1() {
   const {
     selectEveryone,
     everyone,
@@ -22,6 +21,9 @@ export default function Step1({ systemname, systemid }) {
     usersSelect,
     changeStep,
   } = useContext(CreateLineBroadcastContext);
+
+  const router = useRouter();
+  const { systemname, systemid } = router.query;
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -64,34 +66,32 @@ export default function Step1({ systemname, systemid }) {
   return (
     <div>
       <div className="pb-5 border-bottom">
-        <span className="font-large">Receiver</span>
-        <div className="px-0 px-sm-3 pt-3">
-          <div id="CheckboxBroadcast">
-            <div className="pb-3">
-              <Checkbox
-                checked={everyone}
-                onChange={() => selectEveryone(everyone)}
-              >
-                Everyone
-              </Checkbox>
-            </div>
-            <div className="pb-3">
-              <NewsTypeSelector />
-            </div>
-            <div className="pb-3">
-              <TargetGroupSelector />
-            </div>
-            <div>
-              <UserSelector />
-            </div>
+        <h2>Select reciever</h2>
+        <div className="px-0 px-sm-3 pt-2">
+          <Form>
+            <Checkbox
+              checked={everyone}
+              onChange={() => selectEveryone(everyone)}
+            >
+              Everyone
+            </Checkbox>
+          <div className="pb-3">
+            <NewsTypeSelector />
           </div>
+          <div className="pb-3">
+            <TargetGroupSelector />
+          </div>
+          <div>
+            <UserSelector />
+          </div>
+          </Form>
         </div>
       </div>
       <div className="d-flex justify-content-between pt-3">
         <Link href={`/console/${systemname}/${systemid}/broadcast`}>
-          <ButtonBack />
+          <Button className="px-5"  danger={true} >Back</Button>
         </Link>
-        <ButtonNext onClick={() => onNextStep()}>Next</ButtonNext>
+        <Button className="px-5" onClick={() => onNextStep()}>Next</Button>
       </div>
     </div>
   );
