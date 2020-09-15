@@ -115,7 +115,7 @@ export const Input = React.memo((props) => {
       name={props.name}
       rules={props.rules}
     >
-      <InputAnt />
+    <InputAnt {...props} />
     </FormAnt.Item>
   );
 });

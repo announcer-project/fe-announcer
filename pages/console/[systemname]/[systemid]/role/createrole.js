@@ -1,7 +1,7 @@
 import axios from "axios";
 import cookie from "../../../../../tools/cookie";
 import { withAuth } from "../../../../../tools/withAuth";
-import Page from "../../../../../components/Console/System/Role/CreateRole/CreateRolePAge";
+import Page from "../../../../../components/Console/System/Role/CreateRole/CreateRolePage";
 import Head from "next/head";
 
 export default function CreateRolePage(props) {
