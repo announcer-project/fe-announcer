@@ -14,7 +14,7 @@ const fetchNewsTypes = async (ctx) => {
   let newstypes = [];
   await axios
     .get(
-      `${process.env.REACT_APP_BE_PATH}/news/newstype/allnewstype?systemid=${query.systemid}&systemname=${query.systemname}`,
+      `${process.env.REACT_APP_BE_PATH}/news/newstype/all?systemid=${query.systemid}`,
       {
         headers: {
           Authorization: "Bearer " + cookie.getJWT(ctx),

@@ -47,15 +47,17 @@ export default function CreateNewsTypePage(props) {
   const [newstypes, setNewstypes] = useState(props.newsTypes);
   let router = useRouter();
   const [form] = useForm();
+
   useEffect(() => {
     form.setFieldsValue({
       newstype: "",
     });
   }, []);
+
   const GetNewsTypes = async () => {
     await axios
       .get(
-        `${process.env.REACT_APP_BE_PATH}/news/newstype/allnewstype?systemid=${props.query.systemid}&systemname=${props.query.systemname}`,
+        `${process.env.REACT_APP_BE_PATH}/news/newstype/all?systemid=${props.query.systemid}`,
         {
           headers: {
             Authorization: "Bearer " + cookie.getJWT(),
@@ -70,10 +72,11 @@ export default function CreateNewsTypePage(props) {
   const addNewsType = async (values) => {
     if (values.newstype !== "") {
       if (values.newstype.charAt(0) !== " ") {
-        let data = new FormData();
         let { systemid } = router.query;
-        data.append("systemid", systemid);
-        data.append("newstypename", values.newstype);
+        let data = {
+          systemid: systemid,
+          newstypename: values.newstype
+        };
         await axios
           .post(`${process.env.REACT_APP_BE_PATH}/news/newstype/create`, data, {
             headers: {
