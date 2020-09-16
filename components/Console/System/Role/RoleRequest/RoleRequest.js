@@ -1,61 +1,73 @@
 import React from "react"
 import Layout from "../../Layout/Layout";
-import { Table, Tag, Space } from 'antd';
+import { Table } from 'antd';
+import Button from "../../../../common/Button";
 
 export default function RoleRequestPage() {
 
     const columns = [
         {
             title: 'User ID',
-            dataIndex: 'name',
-            key: 'name',
-            render: text => <a>{text}</a>,
+            dataIndex: 'userId',
+            key: 'userId',
         },
         {
             title: 'Name',
-            dataIndex: 'age',
-            key: 'age',
+            dataIndex: 'name',
+            key: 'name',
         },
         {
             title: 'Role',
-            dataIndex: 'address',
-            key: 'address',
+            dataIndex: 'role',
+            key: 'role',
         },
         {
             title: 'Approve',
-            dataIndex: 'address',
-            key: 'address',
+            dataIndex: 'approve',
+            key: 'approve',
+            render: () =>
+                <Button
+                    danger={false}
+                    onClick={() => console.log()}
+                >
+                    Approve
+                </Button>,
+
         },
         {
             title: 'Reject',
-            dataIndex: 'address',
-            key: 'address',
+            dataIndex: 'reject',
+            key: 'reject',
+            render: () =>
+                <Button
+                    danger={true}
+                    onClick={() => console.log()}
+                >
+                    Reject
+                </Button>,
         },
     ];
 
     const data = [
         {
-          key: '1',
-          name: 'John Brown',
-          age: 32,
-          address: 'New York No. 1 Lake Park',
-          tags: ['nice', 'developer'],
+            key: '1',
+            userId: 'John Brown',
+            name: 32,
+            role: 'New York No. 1 Lake Park',
         },
         {
-          key: '2',
-          name: 'Jim Green',
-          age: 42,
-          address: 'London No. 1 Lake Park',
-          tags: ['loser'],
+            key: '2',
+            userId: 'Jim Green',
+            name: 42,
+            role: 'London No. 1 Lake Park',
         },
         {
-          key: '3',
-          name: 'Joe Black',
-          age: 32,
-          address: 'Sidney No. 1 Lake Park',
-          tags: ['cool', 'teacher'],
+            key: '3',
+            userId: 'Joe Black',
+            name: 32,
+            role: 'Sidney No. 1 Lake Park',
         },
-      ];
+    ];
 
     return (
         <Layout>
