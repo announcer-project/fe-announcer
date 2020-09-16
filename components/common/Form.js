@@ -8,6 +8,7 @@ import {
   Upload as UploadAnt,
   Modal as ModalAnt,
   DatePicker as DatePickerAnt,
+  Switch as SwitchAnt,
 } from "antd";
 import {
   PlusOutlined,
@@ -76,6 +77,9 @@ const StyleForm = styled.div`
   .ant-form-item-has-error .ant-form-item-split {
     color: ${(props) => props.theme.color.error};
   }
+  .ant-switch-checked {
+    background-color: ${(props) => props.theme.color.base};
+  }
 `;
 
 export const useForm = () => {
@@ -138,6 +142,14 @@ export const Checkbox = React.memo((props) => {
       {...props}
     >
       <CheckboxAnt {...props}>{props.children}</CheckboxAnt>
+    </FormAnt.Item>
+  );
+});
+
+export const Switch = React.memo((props) => {
+  return (
+    <FormAnt.Item {...props}>
+      <SwitchAnt {...props}/>
     </FormAnt.Item>
   );
 });
