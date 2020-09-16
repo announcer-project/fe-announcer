@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { useRouter } from "next/router";
 
 const Cover = styled.img`
   height: 100px;
@@ -22,20 +23,26 @@ const Body = styled.div`
 `;
 const Footer = styled.div``;
 export default function NewsPublishCard(props) {
+  const router = useRouter();
+  const { systemid } = router.query;
+
   const createMarkup = (body) => {
     return { __html: body };
   };
+
   let postdate = new Date(props.news.create_date);
   let postdateFormat = new Intl.DateTimeFormat("en-GB", {
     year: "numeric",
     month: "long",
     day: "2-digit",
-  }).format(postdate)
+  }).format(postdate);
 
   return (
     <div {...props}>
       <Card className="shadow-sm">
-        <Cover src={props.news.cover} />
+        <Cover
+          src={`${process.env.REACT_APP_STORAGE}/news/${systemid}-${props.news.ID}-cover.png`}
+        />
         <div className="px-2">
           <span>
             <b>{props.news.title}</b>
