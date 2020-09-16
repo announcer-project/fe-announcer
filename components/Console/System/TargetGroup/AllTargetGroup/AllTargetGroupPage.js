@@ -1,8 +1,8 @@
+import React, { useState } from "react";
 import styled from "styled-components";
 import { PlusOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { useRouter } from "next/router";
-
 import Layout from "../../Layout/Layout";
 
 const BoxCreateTargetGroup = styled.div`
@@ -37,7 +37,7 @@ export default function AllTargetGroupPage(props) {
               return (
                 <div key={key} className="col-3 p-2">
                   <BoxCreateTargetGroup className="shadow-sm">
-                    {targetgroup.TargetGroupName}
+                    {targetgroup.targetgroup_name}
                   </BoxCreateTargetGroup>
                 </div>
               );
