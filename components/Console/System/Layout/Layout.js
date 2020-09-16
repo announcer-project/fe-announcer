@@ -15,6 +15,14 @@ import {
   FileOutlined,
   FileAddOutlined,
   PlusOutlined,
+  ApiOutlined,
+  FacebookOutlined,
+  AimOutlined,
+  UserAddOutlined,
+  UserOutlined,
+  AuditOutlined,
+  IdcardOutlined,
+  ShareAltOutlined
 } from "@ant-design/icons";
 
 const { Content, Sider } = LayoutAnt;
@@ -136,7 +144,7 @@ export default function LayoutPage(props) {
           </SubMenu>
           <SubMenu
             key="targetgroup"
-            icon={<TeamOutlined />}
+            icon={<AimOutlined />}
             title="Target group"
           >
             <Menu.Item key="alltargetgroup">
@@ -154,48 +162,48 @@ export default function LayoutPage(props) {
               </Link>
             </Menu.Item>
           </SubMenu>
-          <SubMenu key="role" icon={<TeamOutlined />} title="Role">
+          <SubMenu key="role" icon={<IdcardOutlined />} title="Role">
             <Menu.Item key="allrole">
               <Link href={path + "/role/allrole"}>
                 <a>
-                  <TeamOutlined /> All role
+                  <UserOutlined /> All role
                 </a>
               </Link>
             </Menu.Item>
             <Menu.Item key="createrole">
               <Link href={path + "/role/createrole"}>
                 <a>
-                  <UsergroupAddOutlined /> Create role
+                  <UserAddOutlined /> Create role
                 </a>
               </Link>
             </Menu.Item>
             <Menu.Item key="rolerequest">
               <Link href={path + "/role/rolerequest"}>
                 <a>
-                  <UsergroupAddOutlined /> Role request
+                  <AuditOutlined /> Role request
                 </a>
               </Link>
             </Menu.Item>
           </SubMenu>
-          <SubMenu key="connect" icon={<TeamOutlined />} title="Connect social">
+          <SubMenu key="connect" icon={<ShareAltOutlined />} title="Connect social">
             <Menu.Item key="all">
               <Link href={path + "/connect/all"}>
                 <a>
-                  <TeamOutlined /> All Connect
+                  <ApiOutlined /> All Connect
                 </a>
               </Link>
             </Menu.Item>
             <Menu.Item key="line">
               <Link href={path + "/connect/line"}>
                 <a>
-                  <UsergroupAddOutlined /> Line Connect
+                  <img width="14px" style={{marginRight: "10px"}} src="/img/Login/Line.png"/> Line Connect
                 </a>
               </Link>
             </Menu.Item>
             <Menu.Item key="facebook">
               <Link href={path + "/connect/facebook"}>
                 <a>
-                  <UsergroupAddOutlined /> Facebook Connect
+                  <FacebookOutlined /> Facebook Connect
                 </a>
               </Link>
             </Menu.Item>
