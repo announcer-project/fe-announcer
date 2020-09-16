@@ -156,7 +156,7 @@ export const Switch = React.memo((props) => {
 
 export const ButtonSubmit = React.memo((props) => {
   return (
-    <FormAnt.Item>
+    <FormAnt.Item className="m-0">
       <Button {...props} htmlType="submit">
         {props.children}
       </Button>
