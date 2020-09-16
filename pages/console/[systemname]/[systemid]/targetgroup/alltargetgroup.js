@@ -27,12 +27,8 @@ const fetchTargetGroups = async (ctx) => {
 
 export async function getServerSideProps(ctx) {
   await withAuth(ctx);
-  const page = {
-    name: "alltargetgroup",
-    type: "targetgroup",
-  };
   const targetGroups = await fetchTargetGroups(ctx);
   return {
-    props: { query: ctx.query, page, targetGroups },
+    props: { query: ctx.query, targetGroups },
   };
 }
