@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { withAuth } from "../../../../tools/withAuth";
+import { withAuth } from "../../../../../tools/withAuth";
 
 import Page from "../../../../../components/Console/System/Boradcast/BroadcastPage";
 

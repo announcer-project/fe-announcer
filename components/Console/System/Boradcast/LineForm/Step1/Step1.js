@@ -43,6 +43,7 @@ export default function Step1() {
       text: text,
     });
   };
+  
   const onNextStep = () => {
     if (everyone || checknewstypes || checktargetgroups || checkusers) {
       let newstypesSelect = newstypes.filter((newstype) => newstype.selected);

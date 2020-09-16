@@ -37,7 +37,7 @@ export default function TargetGroupSelector() {
                   checktargetgroups ? onSelectTargetGroup(key) : "";
                 }}
               >
-                {targetgroup.targetgroupname}
+                {targetgroup.targetgroup_name}
               </TargetGroupBox>
             </div>
           );

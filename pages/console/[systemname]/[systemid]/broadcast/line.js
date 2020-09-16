@@ -1,9 +1,5 @@
 import React, { useContext, useEffect } from "react";
 import Head from "next/head";
-import newstypes from "../../../../../newstype.json";
-import targetgroups from "../../../../../targetgroup.json";
-import users from "../../../../../User.json";
-import news from "../../../../../news.json";
 import { CreateLineBroadcastProvider } from "../../../../../store/CreateLineBroadcastProvider";
 import axios from "axios";
 import cookie from "../../../../../tools/cookie";
@@ -63,15 +59,11 @@ const fetchAboutLineBroadcast = async (ctx) => {
 
 export async function getServerSideProps(ctx) {
   const auth = await withAuth(ctx);
-  let page = {};
   let aboutLineBroadcast = [];
   if (auth) {
-    page = {
-      name: "broadcast",
-    };
     aboutLineBroadcast = await fetchAboutLineBroadcast(ctx);
   }
   return {
-    props: { query: ctx.query, page, aboutLineBroadcast },
+    props: { query: ctx.query, aboutLineBroadcast },
   };
 }
