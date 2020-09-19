@@ -196,7 +196,7 @@ export default function LayoutPage(props) {
             <Menu.Item key="line">
               <Link href={path + "/connect/line"}>
                 <a>
-                  <img width="14px" style={{marginRight: "10px"}} src="/img/Login/Line.png"/> Line Connect
+                  <img width="14px" style={{marginRight: "10px"}} src="/img/Login/Line2.png"/> Line Connect
                 </a>
               </Link>
             </Menu.Item>
