@@ -36,10 +36,8 @@ const ImageContent = styled.img`
 
 function LoginPage() {
   const [loading, setLoading] = useState(true);
-  const [line, setLine] = useState(false);
   const router = useRouter();
   let { social, code } = router.query;
-  let liffId = process.env.REACT_APP_LIFF_ID;
   let pathLoginLine = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${process.env.REACT_APP_CHANNEL_ID_LOGIN}&redirect_uri=${process.env.REACT_APP_FE_PATH}/login?social=line&state=12345abcde&scope=profile%20openid%20email`;
 
   useEffect(() => {
