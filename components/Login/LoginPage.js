@@ -36,14 +36,13 @@ const ImageContent = styled.img`
 
 function LoginPage() {
   const [loading, setLoading] = useState(true);
-  const [lineProfile, setLineProfile] = useState({});
-  const [lineEmail, setLineEmail] = useState("");
+  const [line, setLine] = useState(false);
   const router = useRouter();
-  let { social } = router.query;
+  let { social, code } = router.query;
   let liffId = process.env.REACT_APP_LIFF_ID;
+  let pathLoginLine = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${process.env.REACT_APP_CHANNEL_ID_LOGIN}&redirect_uri=${process.env.REACT_APP_FE_PATH}/login?social=line&state=12345abcde&scope=profile%20openid%20email`;
 
   useEffect(() => {
-    console.log("login page");
     if (social === undefined) {
       setLoading(false);
     }
@@ -57,27 +56,7 @@ function LoginPage() {
       Social: social,
       SocialID: response.userID,
     };
-    Login(data, response.email);
-  };
-
-  const responseLine = async () => {
-    liff.init({ liffId }).then(async () => {
-      if (liff.isLoggedIn()) {
-        let profile = await liff.getProfile();
-        let email = liff.getDecodedIDToken().email;
-        let data = {
-          Social: social,
-          SocialID: profile.userId,
-        };
-        Login(data, email);
-      } else {
-        console.log("none");
-        setLoading(false);
-      }
-    });
-  };
-
-  const Login = async (data, email) => {
+    console.log(response)
     await axios
       .post(`${process.env.REACT_APP_BE_PATH}/login`, data)
       .then(async (res) => {
@@ -86,17 +65,26 @@ function LoginPage() {
       })
       .catch(async (err) => {
         Router.push(
-          `/register?social=${data.Social}&socialid=${data.SocialID}&email=${email}`
+          `/register?social=facebook&socialid=${data.SocialID}&email=${response.email}&pictureurl=${response.picture.data.url}`
         );
       });
   };
 
-  const LineLogin = async () => {
-    liff.init({ liffId }).then(async () => {
-      liff.login({
-        redirectUri: `${process.env.REACT_APP_FE_PATH}/login?social=line`,
+  const responseLine = async () => {
+    let data = {
+      Code: code,
+    };
+    await axios
+      .post(`${process.env.REACT_APP_BE_PATH}/login/line`, data)
+      .then(async (res) => {
+        console.log(res.data)
+        if (res.data.jwt === undefined) {
+          Router.push(`/register?social=line&socialid=${res.data.UserId}&email=${res.data.Email}&pictureurl=${res.data.PictureUrl}`);
+        } else {
+          await cookie.setJWT(null, res.data.jwt, 7);
+          Router.push(`/console/systems`);
+        }
       });
-    });
   };
 
   return (
@@ -117,7 +105,9 @@ function LoginPage() {
               </p>
               <div className="col-10 p-0 mx-auto">
                 <div className="mb-3">
-                  <ButtonLogin onClick={() => LineLogin()}>Line</ButtonLogin>
+                  <a href={pathLoginLine}>
+                    <ButtonLogin>Line</ButtonLogin>
+                  </a>
                 </div>
                 <div className="mb-3">
                   {social !== "line" ? (
