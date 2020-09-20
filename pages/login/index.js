@@ -46,16 +46,16 @@ const fetchJWT = async (ctx) => {
 
 export async function getServerSideProps(ctx) {
   await withNotAuth(ctx);
-  let { social, socialid } = ctx.query;
-  if (social !== undefined && social !== "undefined") {
-    if (socialid !== undefined && socialid !== "undefined") {
-      await fetchJWT(ctx);
-      const { res } = ctx;
-      res.writeHead(302, { Location: "/console/systems" });
-      res.end();
-      return { props: {} };
-    }
-  }
+  // let { social, socialid } = ctx.query;
+  // if (social !== undefined && social !== "undefined") {
+  //   if (socialid !== undefined && socialid !== "undefined") {
+  //     await fetchJWT(ctx);
+  //     const { res } = ctx;
+  //     res.writeHead(302, { Location: "/console/systems" });
+  //     res.end();
+  //     return { props: {} };
+  //   }
+  // }
   return { props: {} };
 }
 
