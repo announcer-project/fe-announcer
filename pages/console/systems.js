@@ -28,20 +28,24 @@ const fetchSystems = async (ctx) => {
     })
     .then((res) => {
       admins = res.data;
+      console.log("res: ", res.data);
+    })
+    .catch((err) => {
+      console.log("err: ", err.message);
     });
   return admins;
 };
 
 export async function getServerSideProps(ctx) {
   const auth = await withAuth(ctx);
-  let admins = []
-  if(auth) {
+  let admins = [];
+  if (auth) {
     admins = await fetchSystems(ctx);
   }
   return {
-    props: { 
-      admins
-     },
+    props: {
+      admins,
+    },
   };
 }
 

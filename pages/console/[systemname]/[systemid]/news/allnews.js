@@ -1,14 +1,14 @@
 import Head from "next/head";
-import axios from 'axios'
+import axios from "axios";
 import cookie from "../../../../../tools/cookie";
 import { withAuth } from "../../../../../tools/withAuth";
-import {useRouter} from "next/router"
+import { useRouter } from "next/router";
 
 import Page from "../../../../../components/Console/System/News/AllNews/AllNewsPage";
 
 export default function AllNewsPage(props) {
-  const router = useRouter()
-  const {systemname} = router.query
+  const router = useRouter();
+  const { systemname } = router.query;
   return (
     <>
       <Head>
@@ -33,6 +33,9 @@ const fetchAllNews = async (ctx) => {
     )
     .then((res) => {
       allnews = res.data;
+    })
+    .catch((err) => {
+      console.log("err ", err);
     });
   return allnews;
 };
