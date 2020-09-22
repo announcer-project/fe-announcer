@@ -2,6 +2,8 @@ import React from "react";
 import Layout from "../Layout/Layout";
 import styled from "styled-components";
 import Button from "../../../../components/common/Button";
+import { useRouter } from "next/router";
+import Link from "next/link"
 
 const Box = styled.div`
   border: 1px solid #a6a6a6;
@@ -18,7 +20,9 @@ const BoxSocial = styled.div`
   border-radius: 8px;
 `;
 
-export default function AllConnectPage() {
+export default function AllConnectPage({ lineConnected, facebookConnected }) {
+  console.log("lineConnected", lineConnected);
+  const router = useRouter();
   return (
     <div className="container pt-4">
       <h1>Connect social api</h1>
@@ -31,8 +35,17 @@ export default function AllConnectPage() {
             <span className="mt-2">Line Official Account</span>
           </div>
           <div>
-            <Button danger={false}>Connect API</Button>
-            <Button danger={true}>Disconnect</Button>
+            <Link href={`${router.pathname}/line`}>
+              <Button className={`${lineConnected ? "d-none" : ""}`}>
+                Connect API
+              </Button>
+            </Link>
+            <Button
+              className={`${lineConnected ? "" : "d-none"}`}
+              danger={true}
+            >
+              Disconnect
+            </Button>
           </div>
         </div>
       </Box>
@@ -45,8 +58,17 @@ export default function AllConnectPage() {
             <span className="mt-2">Facebook Page</span>
           </div>
           <div>
-            <Button danger={false}>Connect API</Button>
-            <Button danger={true}>Disconnect</Button>
+            <Link href={`${router.pathname}/facebook`}>
+              <Button className={`${facebookConnected ? "d-none" : ""}`}>
+                Connect API
+              </Button>
+            </Link>
+            <Button
+              className={`${facebookConnected ? "" : "d-none"}`}
+              danger={true}
+            >
+              Disconnect
+            </Button>
           </div>
         </div>
       </Box>

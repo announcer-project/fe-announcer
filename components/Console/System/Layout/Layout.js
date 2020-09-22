@@ -185,38 +185,9 @@ export default function LayoutPage(props) {
               </Link>
             </Menu.Item>
           </SubMenu>
-          <SubMenu
-            key="connect"
-            icon={<ShareAltOutlined />}
-            title="Connect social"
-          >
-            <Menu.Item key="all">
-              <Link href={path + "/connect/all"}>
-                <a>
-                  <ApiOutlined /> All Connect
-                </a>
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="line">
-              <Link href={path + "/connect/line"}>
-                <a>
-                  <img
-                    width="14px"
-                    style={{ marginRight: "10px" }}
-                    src="/img/Login/Line2.png"
-                  />{" "}
-                  Line Connect
-                </a>
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="facebook">
-              <Link href={path + "/connect/facebook"}>
-                <a>
-                  <FacebookOutlined /> Facebook Connect
-                </a>
-              </Link>
-            </Menu.Item>
-          </SubMenu>
+          <Menu.Item key="connect" icon={<ShareAltOutlined />}>
+            <Link href={path + "/connect"}>Connect Social</Link>
+          </Menu.Item>
           {/* <Menu.Item key="dashboard" icon={<AreaChartOutlined />}>
             Dashboard
           </Menu.Item> */}

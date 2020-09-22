@@ -15,12 +15,13 @@ export default function AllConnectPage(props) {
   );
 }
 
-const fetchTargetGroups = async (ctx) => {
-  let targetgroups = [];
+const checkConnect = async (ctx) => {
+  let line = false;
   const query = ctx.query;
+  console.log(query.systemid);
   await axios
     .get(
-      `${process.env.REACT_APP_BE_PATH}/targetgroup/all?systemid=${query.systemid}&systemname=${query.systemname}`,
+      `${process.env.REACT_APP_BE_PATH}/connect/line/check?systemid=${query.systemid}`,
       {
         headers: {
           Authorization: "Bearer " + cookie.getJWT(ctx),
@@ -28,15 +29,17 @@ const fetchTargetGroups = async (ctx) => {
       }
     )
     .then((res) => {
-      targetgroups = res.data;
+      line = res.data;
+      console.log(res.data);
     });
-  return targetgroups;
+  return line;
 };
 
 export async function getServerSideProps(ctx) {
   await withAuth(ctx);
-  //   const targetGroups = await fetchTargetGroups(ctx);
+  const lineConnected = await checkConnect(ctx);
+  console.log(lineConnected);
   return {
-    props: { query: ctx.query, console: true, system: true },
+    props: { query: ctx.query, console: true, system: true, lineConnected },
   };
 }
