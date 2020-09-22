@@ -14,7 +14,7 @@ function HomeSystemPage(props) {
   return (
     <>
       <div className="container py-3">
-        <span className="font-title">{systemname}</span>
+        <h1>{systemname}</h1>
         <News news={news} query={props.query} />
         <div className="mt-3">
           <NewsTypes newstypes={newstypes} />

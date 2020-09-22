@@ -32,7 +32,7 @@ export default function News({ news, query }) {
         <div className="col-12 mt-2">
           <div className="row">
             {news.map((news) => {
-              return <NewsCard className="col-12 col-lg-4" news={news} />;
+              return <Link href={`/news/systemname/systemid/${news.ID}`}><NewsCard className="col-12 col-lg-4" news={news} /></Link>;
             })}
           </div>
         </div>
