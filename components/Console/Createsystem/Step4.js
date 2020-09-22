@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { CreatesystemContext } from "../../../store/CreatesystemProvider";
 import { NewsTypeBox } from "./Components";
 import Button from "../../common/Button";
@@ -6,7 +6,8 @@ import axios from "axios";
 import cookie from "../../../tools/cookie";
 import Router from "next/router";
 import logo from "./ProfileImage.json";
-import Swal from "sweetalert2"
+import Swal from "sweetalert2";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const ShowLineOADetail = (props) => {
   if (props.channelID !== "") {
@@ -70,6 +71,7 @@ export default function ConfirmStep() {
     roleuser,
     nextStep,
   } = useContext(CreatesystemContext);
+  const [loading, setLoading] = useState(false);
 
   const Alert = (text) => {
     Swal.fire({
@@ -80,30 +82,34 @@ export default function ConfirmStep() {
   };
 
   const onCreateSystem = () => {
-    let data = {
-      systemprofile: image === "" ? logo.profilesystem : image,
-      systemname: systemname,
-      newstypes: newstype,
-      lineoa: {
-        channelID: channelID,
-        channelAccessToken: channelaccesstoken,
-        roleUsers: roleuser,
-      },
-    };
-    axios
-      .post(`${process.env.REACT_APP_BE_PATH}/system/create`, data, {
-        headers: {
-          Authorization: "Bearer " + cookie.getJWT(),
+    if (!loading) {
+      setLoading(true);
+      let data = {
+        systemprofile: image === "" ? logo.profilesystem : image,
+        systemname: systemname,
+        newstypes: newstype,
+        lineoa: {
+          channelID: channelID,
+          channelAccessToken: channelaccesstoken,
+          roleUsers: roleuser,
         },
-      })
-      .then((res) => {
-        console.log("response", res.data);
-        Router.push("/console/systems");
-      })
-      .catch((err) => {
-        console.log("error", err.response.data);
-        Alert(err.response.data.message);
-      });
+      };
+      axios
+        .post(`${process.env.REACT_APP_BE_PATH}/system/create`, data, {
+          headers: {
+            Authorization: "Bearer " + cookie.getJWT(),
+          },
+        })
+        .then((res) => {
+          console.log("response", res.data);
+          Router.push("/console/systems");
+        })
+        .catch((err) => {
+          console.log("error", err.response.data);
+          Alert(err.response.data.message);
+          setLoading(false);
+        });
+    }
   };
 
   return (
@@ -142,7 +148,10 @@ export default function ConfirmStep() {
         <Button danger={true} onClick={() => nextStep(2)}>
           Back
         </Button>
-        <Button onClick={() => onCreateSystem()}>Create system</Button>
+        <Button onClick={() => onCreateSystem()}>
+          <LoadingOutlined className={`mr-1 ${loading ? "" : "d-none"}`} />
+          Create system
+        </Button>
       </div>
     </div>
   );
