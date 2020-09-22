@@ -4,7 +4,7 @@ import styled from "styled-components";
 import axios from "axios";
 import Swal from "sweetalert2";
 import cookie from "../../../../../tools/cookie";
-import Layout from "../../Layout/Layout";
+import { LoadingOutlined } from "@ant-design/icons";
 import Button from "../../../../common/Button";
 
 import { useForm, Form, Input, ButtonSubmit } from "../../../../common/Form";
@@ -40,6 +40,9 @@ const ButtonAddNewsType = styled.div`
 
 export default function CreateNewsTypePage(props) {
   const [newstypes, setNewstypes] = useState(props.newsTypes);
+  const [loadingDelete, setLoadingDelete] = useState(false);
+  const [loadingCreate, setLoadingCreate] = useState(false);
+  const [selected, setSelected] = useState(0);
   let router = useRouter();
   const [form] = useForm();
 
@@ -65,57 +68,71 @@ export default function CreateNewsTypePage(props) {
   };
 
   const addNewsType = async (values) => {
-    if (values.newstype !== "") {
-      if (values.newstype.charAt(0) !== " ") {
-        let { systemid } = router.query;
-        let data = {
-          systemid: systemid,
-          newstypename: values.newstype,
-        };
-        await axios
-          .post(`${process.env.REACT_APP_BE_PATH}/news/newstype/create`, data, {
-            headers: {
-              Authorization: "Bearer " + cookie.getJWT(),
-            },
-          })
-          .then((res) => {
-            GetNewsTypes();
-            form.setFieldsValue({
-              newstype: "",
+    if (!loadingCreate || !loadingDelete) {
+      if (values.newstype !== "") {
+        if (values.newstype.charAt(0) !== " ") {
+          setLoadingCreate(true);
+          let { systemid } = router.query;
+          let data = {
+            systemid: systemid,
+            newstypename: values.newstype,
+          };
+          await axios
+            .post(
+              `${process.env.REACT_APP_BE_PATH}/news/newstype/create`,
+              data,
+              {
+                headers: {
+                  Authorization: "Bearer " + cookie.getJWT(),
+                },
+              }
+            )
+            .then((res) => {
+              GetNewsTypes();
+              form.setFieldsValue({
+                newstype: "",
+              });
+              setLoadingCreate(false);
             });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Please delete space from first text",
           });
+          setLoadingCreate(false);
+        }
       } else {
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: "Please delete space from first text",
+          text: "Please enter news type name",
         });
       }
-    } else {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Please enter news type name",
-      });
     }
   };
 
   const Delete = (newstypeid) => {
-    let { systemid } = router.query;
-    let data = {
-      systemid: systemid,
-      newstypeid: newstypeid,
-    };
-    axios
-      .post(`${process.env.REACT_APP_BE_PATH}/news/newstype/delete`, data, {
-        headers: {
-          Authorization: "Bearer " + cookie.getJWT(),
-        },
-      })
-      .then((res) => {
-        GetNewsTypes();
-      });
-    console.log(systemid);
+    if (!loadingDelete || !loadingCreate) {
+      setLoadingDelete(true);
+      setSelected(newstypeid);
+      let { systemid } = router.query;
+      let data = {
+        systemid: systemid,
+        newstypeid: newstypeid,
+      };
+      axios
+        .post(`${process.env.REACT_APP_BE_PATH}/news/newstype/delete`, data, {
+          headers: {
+            Authorization: "Bearer " + cookie.getJWT(),
+          },
+        })
+        .then((res) => {
+          GetNewsTypes();
+          setSelected(0);
+          setLoadingDelete(false);
+        });
+    }
   };
 
   return (
@@ -133,7 +150,12 @@ export default function CreateNewsTypePage(props) {
               >
                 <span>Add news type</span>
                 <Input className="mt-2" name="newstype" />
-                <ButtonSubmit>Create</ButtonSubmit>
+                <ButtonSubmit>
+                  <LoadingOutlined
+                    className={`${loadingCreate ? "" : "d-none"} mr-1`}
+                  />
+                  Create
+                </ButtonSubmit>
               </Form>
             </BoxAddNewsType>
           </div>
@@ -144,10 +166,17 @@ export default function CreateNewsTypePage(props) {
                   {newstype.newstype_name}
                   <br />
                   <Button
-                    className="mt-3"
+                    className={`mt-3 `}
                     danger={true}
                     onClick={() => Delete(newstype.ID)}
                   >
+                    <LoadingOutlined
+                      className={`${
+                        loadingDelete && selected === newstype.ID
+                          ? ""
+                          : "d-none"
+                      } mr-1`}
+                    />
                     Delete
                   </Button>
                 </Box>

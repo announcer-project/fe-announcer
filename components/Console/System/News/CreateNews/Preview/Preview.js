@@ -2,11 +2,16 @@ import React, { useContext, useEffect, useState } from "react";
 import Router, { useRouter } from "next/router";
 import axios from "axios";
 import styled from "styled-components";
-import { NotificationFilled, FileAddFilled } from "@ant-design/icons";
+import {
+  NotificationFilled,
+  FileAddFilled,
+  LoadingOutlined,
+} from "@ant-design/icons";
 import { Modal } from "antd";
 import moment from "moment";
 import Swal from "sweetalert2";
 import coverNews from "./cover.json";
+import Button from "../../../../../common/Button";
 
 import cookie from "../../../../../../tools/cookie";
 import { CreateNewsContext } from "../../../../../../store/CreateNewsProvider";
@@ -28,15 +33,6 @@ const Image = styled.img`
 `;
 const Title = styled.div`
   background-color: #eeeeee;
-`;
-
-const Button = styled.button`
-  border-radius: 50px;
-  background-color: ${(props) => (props.back ? "#CE0000" : "#050042")};
-  color: white;
-  &:hover {
-    color: white;
-  }
 `;
 
 export default function PreviewNews() {
@@ -63,6 +59,7 @@ export default function PreviewNews() {
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
+  const [creating, setCreating] = useState(false);
 
   useEffect(() => {
     scrollToTop();
@@ -118,73 +115,77 @@ export default function PreviewNews() {
     return images;
   };
   const onCreateNews = async (status) => {
-    let expiredate_status = true;
-    if (expiredate === null) {
-      expiredate_status = false;
-    }
-    let data = {
-      cover: cover === "" ? coverNews.image_cover : cover,
-      title: title,
-      body: body,
-      checkexpiredate: expiredate_status,
-      expiredate: moment(expiredate).format("DD-MM-YYYY"),
-      images: await imagesToBase64(),
-      newstypes: newsTypes.filter(function (newstype) {
-        return newstype.selected;
-      }),
-      system: systemname,
-      systemid: systemid,
-      status: status,
-    };
-    await axios
-      .post(`${process.env.REACT_APP_BE_PATH}/news/create`, data, {
-        headers: {
-          Authorization: "Bearer " + cookie.getJWT(),
-        },
-      })
-      .then((res) => {
-        let path = `/console/${systemname}/${systemid}`;
-        if (status === "draft") {
-          Swal.fire({
-            icon: "success",
-            title: "Draft news success",
-            showConfirmButton: true,
-            timer: 3000,
-          }).then((result) => {
-            Router.push(path + "/news/allnews");
-          });
-        } else if (status === "publish") {
-          Swal.fire({
-            icon: "success",
-            title: "Create news success",
-            showConfirmButton: true,
-            timer: 3000,
-          }).then((result) => {
+    if (!creating) {
+      setCreating(true);
+      let expiredate_status = true;
+      if (expiredate === null) {
+        expiredate_status = false;
+      }
+      let data = {
+        cover: cover === "" ? coverNews.image_cover : cover,
+        title: title,
+        body: body,
+        checkexpiredate: expiredate_status,
+        expiredate: moment(expiredate).format("DD-MM-YYYY"),
+        images: await imagesToBase64(),
+        newstypes: newsTypes.filter(function (newstype) {
+          return newstype.selected;
+        }),
+        system: systemname,
+        systemid: systemid,
+        status: status,
+      };
+      await axios
+        .post(`${process.env.REACT_APP_BE_PATH}/news/create`, data, {
+          headers: {
+            Authorization: "Bearer " + cookie.getJWT(),
+          },
+        })
+        .then((res) => {
+          let path = `/console/${systemname}/${systemid}`;
+          if (status === "draft") {
             Swal.fire({
-              title: "Do you want to announce the news?",
-              showCancelButton: true,
-              confirmButtonColor: "#3085d6",
-              cancelButtonColor: "#d33",
-              confirmButtonText: "Yes",
+              icon: "success",
+              title: "Draft news success",
+              showConfirmButton: true,
+              timer: 3000,
             }).then((result) => {
-              if (result.value) {
-                Router.push(path + `/news/${res.data}/announce`);
-              } else {
-                Router.push(path + "/news/allnews");
-              }
+              Router.push(path + "/news/allnews");
             });
-          });
-        }
-      })
-      .catch((err) => {
-        if (err.response) {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: err.response.data,
-          });
-        }
-      });
+          } else if (status === "publish") {
+            Swal.fire({
+              icon: "success",
+              title: "Create news success",
+              showConfirmButton: true,
+              timer: 3000,
+            }).then((result) => {
+              Swal.fire({
+                title: "Do you want to announce the news?",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes",
+              }).then((result) => {
+                if (result.value) {
+                  Router.push(path + `/broadcast/line`);
+                } else {
+                  Router.push(path + "/news/allnews");
+                }
+              });
+            });
+          }
+        })
+        .catch((err) => {
+          if (err.response) {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: err.response.data,
+            });
+            setCreating(false);
+          }
+        });
+    }
   };
 
   return (
@@ -261,30 +262,30 @@ export default function PreviewNews() {
       </div>
       <div className="d-flex justify-content-between pt-3">
         <div className="d-inine-block">
-          <Button
-            back={true}
-            onClick={() => changeStep(1)}
-            className="btn px-4"
-          >
+          <Button danger={true} onClick={() => changeStep(1)}>
             Back
           </Button>
         </div>
         <div className="d-inine-block">
           <div className="d-flex">
             <div className="d-inine-block">
-              <Button onClick={onDraft} className="btn px-4 ml-2 d-flex">
+              <Button onClick={onDraft} className="mr-2">
+                <LoadingOutlined
+                  className={`mr-2 ${creating ? "" : "d-none"} `}
+                />
                 <FileAddFilled
-                  className="mr-2 "
-                  style={{ fontSize: "20px", paddingTop: "3px" }}
+                  className={`mr-2 ${creating ? "d-none" : ""} `}
                 />
                 <span>Draft</span>
               </Button>
             </div>
             <div className="d-inine-block">
-              <Button onClick={onPublish} className="btn px-4 ml-2 d-flex">
+              <Button onClick={onPublish}>
+                <LoadingOutlined
+                  className={`mr-2 ${creating ? "" : "d-none"} `}
+                />
                 <NotificationFilled
-                  className="mr-2 "
-                  style={{ fontSize: "20px", paddingTop: "3px" }}
+                  className={`mr-2 ${creating ? "d-none" : ""} `}
                 />
                 <span>Publish</span>
               </Button>

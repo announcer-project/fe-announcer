@@ -1,8 +1,5 @@
 import React, { useContext, useState, useEffect, useMemo } from "react";
-import dynamic from "next/dynamic";
-import moment from "moment";
-import Swal from "sweetalert2";
-import styled from "styled-components";
+import Button from "../../../../../common/Button";
 import { EyeOutlined } from "@ant-design/icons";
 import { CreateNewsContext } from "../../../../../../store/CreateNewsProvider";
 import {
@@ -16,8 +13,12 @@ import {
   Selected,
   ButtonSubmit,
 } from "../../../../../common/Form";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function FromCreateNews(props) {
+  const router = useRouter();
+  const { systemid, systemname } = router.query;
   const {
     title,
     body,
@@ -90,6 +91,7 @@ export default function FromCreateNews(props) {
     <div>
       <Form form={form} layout={"vertical"} onFinish={onPreview}>
         <UploadImage
+          label="Cover"
           form={form}
           height="300px"
           name="cover"
@@ -98,10 +100,12 @@ export default function FromCreateNews(props) {
           Upload cover
         </UploadImage>
         <Input
+          label="Title"
           name="title"
           rules={[{ required: true, message: "Please enter title" }]}
         />
         <TextEditor
+          label="Body"
           form={form}
           height="300px"
           name="body"
@@ -134,11 +138,15 @@ export default function FromCreateNews(props) {
             },
           ]}
         />
-        <div className="d-flex justify-content-between">
-          <ButtonSubmit danger={true}>Back</ButtonSubmit>
-          <ButtonSubmit>
-            <EyeOutlined /> Preview
-          </ButtonSubmit>
+        <div className="mt-5">
+          <div className="d-flex justify-content-between">
+            <Link href={`/console/${systemname}/${systemid}/news/allnews`}>
+              <Button danger={true}>Back</Button>
+            </Link>
+            <ButtonSubmit>
+              <EyeOutlined /> Preview
+            </ButtonSubmit>
+          </div>
         </div>
       </Form>
     </div>
