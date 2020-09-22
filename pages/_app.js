@@ -2,7 +2,6 @@ import Head from "next/head";
 import dynamic from "next/dynamic";
 import { createGlobalStyle } from "styled-components";
 import Theme from "../components/Theme";
-import { useRouter } from "next/router";
 import LayoutSidebar from "../components/Console/System/Layout/Layout";
 import Layout from "../components/Layouts/Layouts";
 
@@ -45,46 +44,47 @@ const Loading = dynamic(
 );
 
 function MyApp({ Component, pageProps }) {
-  return (
-    <>
-      <Head>
-        <link rel="icon" href="/announcer-logo.ico" />
-      </Head>
-      <GlobalStyle />
-      <Theme>
-        {pageProps.console && pageProps.system ? (
-          <LayoutSidebar>
-            <Loading />
-            <div className="global">
-              <Component {...pageProps} />
-            </div>
-          </LayoutSidebar>
-        ) : (
-          <></>
-        )}
-        {pageProps.console && !pageProps.system ? (
-          <Layout>
-            <Loading />
-            <div className="global">
-              <Component {...pageProps} />
-            </div>
-          </Layout>
-        ) : (
-          <></>
-        )}
-        {!pageProps.console && !pageProps.system ? (
-          <div>
-            <Loading />
-            <div className="global">
-              <Component {...pageProps} />
-            </div>
-          </div>
-        ) : (
-          <></>
-        )}
-      </Theme>
-    </>
-  );
+  const App = ({ children }) => {
+    return (
+      <>
+        <Head>
+          <link rel="icon" href="/announcer-logo.ico" />
+        </Head>
+        <GlobalStyle />
+        <Loading />
+        <Theme>
+          <div className="global">{children}</div>
+        </Theme>
+      </>
+    );
+  };
+
+  if (pageProps.console && !pageProps.system) {
+    return (
+      <App>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </App>
+    );
+  }
+  if (pageProps.console && pageProps.system) {
+    return (
+      <App>
+        <LayoutSidebar>
+          <Component {...pageProps} />
+        </LayoutSidebar>
+      </App>
+    );
+  }
+  if (!pageProps.console && !pageProps.system) {
+    return (
+      <App>
+        <Loading />
+        <Component {...pageProps} />
+      </App>
+    );
+  }
 }
 
 export default MyApp;
