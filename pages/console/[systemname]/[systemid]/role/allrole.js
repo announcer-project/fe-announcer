@@ -32,6 +32,6 @@ export async function getServerSideProps(ctx) {
   await withAuth(ctx);
     const role = await fetchRole(ctx);
   return {
-    props: { query: ctx.query, role},
+    props: { query: ctx.query, role, console: true, system: true},
   };
 }

@@ -52,12 +52,8 @@ const fetchNewsTypes = async (ctx) => {
 
 export async function getServerSideProps(ctx) {
   await withAuth(ctx);
-  const page = {
-    name: "createnews",
-    type: "news",
-  };
   const newsTypes = await fetchNewsTypes(ctx);
   return {
-    props: { query: ctx.query, page, newsTypes },
+    props: { query: ctx.query, newsTypes, console: true, system: true },
   };
 }

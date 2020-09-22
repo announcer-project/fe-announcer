@@ -9,22 +9,20 @@ function HomeSystemPage(props) {
   const systemname = props.query.systemname;
   const news = props.aboutSystem.news;
   const newstypes = props.aboutSystem.newstypes;
-  const targetgroups = props.aboutSystem.targetgroups
+  const targetgroups = props.aboutSystem.targetgroups;
 
   return (
     <>
-      <Layout {...props}>
-        <div className="container py-3">
-          <span className="font-title">{systemname}</span>
-          <News news={news} query={props.query} />
-          <div className="mt-3">
-            <NewsTypes newstypes={newstypes} />
-          </div>
-          <div className="mt-3">
-            <TargerGroups targetgroups={targetgroups} />
-          </div>
+      <div className="container py-3">
+        <span className="font-title">{systemname}</span>
+        <News news={news} query={props.query} />
+        <div className="mt-3">
+          <NewsTypes newstypes={newstypes} />
         </div>
-      </Layout>
+        <div className="mt-3">
+          <TargerGroups targetgroups={targetgroups} />
+        </div>
+      </div>
     </>
   );
 }

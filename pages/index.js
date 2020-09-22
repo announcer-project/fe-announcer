@@ -12,3 +12,7 @@ export default function Home() {
     </>
   );
 }
+
+export async function getServerSideProps(ctx) {
+  return { props: { console: true } };
+}

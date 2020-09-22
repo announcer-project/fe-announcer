@@ -1,6 +1,5 @@
 import React from "react";
 import Router, { useRouter } from "next/router";
-import Layout from "../../Layout/Layout";
 import cookie from "../../../../../tools/cookie";
 import axios from "axios";
 
@@ -36,25 +35,21 @@ export default function CreateRolePage() {
   };
 
   return (
-    <Layout>
-      <div className="container pt-4">
-        <h1>Create Role Page</h1>
-        <Form form={form} layout={"vertical"} name="basic" onFinish={onFinish}>
-          <Input
-            label="Role name"
-            name="rolename"
-            placeholder="Role name"
-            rules={[
-              { required: true, message: "Please input your role name!" },
-            ]}
-          />
-          <Switch name="require" label="Must approve" />
-          <div className="d-flex justify-content-between">
-            <ButtonSubmit danger={true}>Back</ButtonSubmit>
-            <ButtonSubmit>Create role</ButtonSubmit>
-          </div>
-        </Form>
-      </div>
-    </Layout>
+    <div className="container pt-4">
+      <h1>Create Role Page</h1>
+      <Form form={form} layout={"vertical"} name="basic" onFinish={onFinish}>
+        <Input
+          label="Role name"
+          name="rolename"
+          placeholder="Role name"
+          rules={[{ required: true, message: "Please input your role name!" }]}
+        />
+        <Switch name="require" label="Must approve" />
+        <div className="d-flex justify-content-between">
+          <ButtonSubmit danger={true}>Back</ButtonSubmit>
+          <ButtonSubmit>Create role</ButtonSubmit>
+        </div>
+      </Form>
+    </div>
   );
 }

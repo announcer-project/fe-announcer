@@ -64,6 +64,6 @@ export async function getServerSideProps(ctx) {
     aboutLineBroadcast = await fetchAboutLineBroadcast(ctx);
   }
   return {
-    props: { query: ctx.query, aboutLineBroadcast },
+    props: { query: ctx.query, aboutLineBroadcast, console: true, system: true },
   };
 }

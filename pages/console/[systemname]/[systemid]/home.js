@@ -41,7 +41,7 @@ export async function getServerSideProps(ctx) {
   };
   const aboutSystem = await fetchAboutSystem(ctx)
   return {
-    props: { query: ctx.query, page, aboutSystem },
+    props: { query: ctx.query, page, aboutSystem, console: true, system: true },
   };
 }
 

@@ -28,7 +28,6 @@ const fetchSystems = async (ctx) => {
     })
     .then((res) => {
       admins = res.data;
-      console.log("res: ", res.data);
     })
     .catch((err) => {
       console.log("err: ", err.message);
@@ -45,6 +44,7 @@ export async function getServerSideProps(ctx) {
   return {
     props: {
       admins,
+      console: true,
     },
   };
 }

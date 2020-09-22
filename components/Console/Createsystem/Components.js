@@ -3,8 +3,8 @@ import styled from "styled-components";
 
 const StyleBox = styled.div`
   border-radius: 50px;
-  background-color: ${(props) => (props.background ? "#050042" : "white")};
-  color: ${(props) => (props.color ? "white" : "#050042")};
+  background-color: ${(props) => (props.background ? props.theme.color.base : "white")};
+  color: ${(props) => (props.color ? "white" : props.theme.color.base)};
 `;
 
 export function NewsTypeBox(props) {

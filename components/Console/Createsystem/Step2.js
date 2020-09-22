@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Form, Input, Switch } from "antd";
-import {DeleteOutlined} from "@ant-design/icons"
+import { Form, Input, Switch } from "../../common/Form";
+import Button from "../../common/Button";
+import { DeleteOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import Swal from "sweetalert2";
 import { CreatesystemContext } from "../../../store/CreatesystemProvider";
@@ -20,7 +21,6 @@ const ButtonAddNewsType = styled.div`
 `;
 
 function Step2() {
-  const [form] = Form.useForm();
   const [roleUserInput, setRoleUserInput] = useState("");
   const {
     channelID,
@@ -31,14 +31,8 @@ function Step2() {
     changeRoleUser,
     nextStep,
   } = useContext(CreatesystemContext);
-  const [formLayout] = useState("vertical");
 
-  useEffect(() => {
-    form.setFieldsValue({
-      channelid: channelID,
-      channelaccesstoken: channelaccesstoken,
-    });
-  }, []);
+  useEffect(() => {}, []);
 
   const addRoleUser = () => {
     let newRoleuser = roleuser;
@@ -60,7 +54,7 @@ function Step2() {
 
   const onRequire = (key) => {
     let newRoleuser = roleuser;
-    newRoleuser[key].require = !newRoleuser[key].require
+    newRoleuser[key].require = !newRoleuser[key].require;
     changeRoleUser(newRoleuser);
   };
 
@@ -81,7 +75,7 @@ function Step2() {
 
   const onNextStep = () => {
     if (
-      channelid !== "" &&
+      channelID !== "" &&
       channelaccesstoken !== "" &&
       roleuser.length !== 0
     ) {
@@ -97,102 +91,89 @@ function Step2() {
     }
   };
 
-  const formItemLayout = null;
-  const buttonItemLayout = null;
   return (
-    <div id="FormCreateSystem">
-      <span>
+    <div>
+      <h2>
         <b>Connect Line Offial Account</b>
-      </span>
+      </h2>
       <div className="px-3 pt-3">
-        <Form
-          {...formItemLayout}
-          layout={formLayout}
-          form={form}
-          initialValues={{
-            layout: formLayout,
-          }}
-        >
-          <Form.Item name="channelid" label="Channel ID">
-            <Input
-              value={channelID}
-              onChange={(e) => changeChannelID(e.target.value)}
-              style={{ borderRadius: "10px", height: "25px" }}
-            />
-          </Form.Item>
-          <Form.Item
-            className="mt-2"
-            name="channelaccesstoken"
-            label="Channel Access Token"
-          >
-            <Input
-              value={channelaccesstoken}
-              onChange={(e) => changeChannelAccessToken(e.target.value)}
-              style={{ borderRadius: "10px", height: "25px" }}
-            />
-          </Form.Item>
-          <div className="row mt-2">
-            <div className="col-8 col-sm-10 pr-0">
-              <Form.Item label="Role User">
-                <Input
-                  value={roleUserInput}
-                  onChange={(e) => setRoleUserInput(e.target.value)}
-                  style={{ borderRadius: "10px", height: "25px" }}
-                />
-              </Form.Item>
+        <Form>
+          <p>Channel ID</p>
+          <Input
+            value={channelID}
+            onChange={(e) => changeChannelID(e.target.value)}
+          />
+          <p>Channel Access Token</p>
+          <Input
+            value={channelaccesstoken}
+            onChange={(e) => changeChannelAccessToken(e.target.value)}
+          />
+          <div className="row pt-2">
+            <p>Add role</p>
+            <div className="col-8 col-xs-9 col-lg-10 pr-0">
+              <Input
+                value={roleUserInput}
+                onChange={(e) => setRoleUserInput(e.target.value)}
+              />
             </div>
-            <div className="col-4 col-sm-2 pt-3">
-              <ButtonAddNewsType
-                className="px-4 pt-1 font-small"
+            <div className="col-4 col-xs-3 col-lg-2">
+              <Button
+                style={{ width: "100%" }}
+                className="py-1"
                 onClick={() => addRoleUser()}
               >
                 Add
-              </ButtonAddNewsType>
+              </Button>
             </div>
-          </div>
-          <div>
-            {roleuser.map((role, key) => {
-              return (
-                <div key={key} className="mt-2 d-flex justify-content-between border p-3" >
-                  <div>
-                    <span>{role.rolename}</span>
+            <div>
+              {roleuser.map((role, key) => {
+                return (
+                  <div
+                    key={key}
+                    className="mt-2 d-flex justify-content-between border p-3"
+                  >
+                    <div>
+                      <span>{role.rolename}</span>
+                    </div>
+                    <div>
+                      <span>Must approve ? </span>
+                      {role.require ? (
+                        <Switch
+                          className="mb-0 ml-1 mr-3 d-inline-block "
+                          onChange={() => onRequire(key)}
+                          size="small"
+                          defaultChecked
+                        />
+                      ) : (
+                        <Switch
+                          className="mb-0 ml-1 mr-3 d-inline-block "
+                          onChange={() => onRequire(key)}
+                          size="small"
+                        />
+                      )}
+                      <Button
+                        danger={true}
+                        onClick={() => deleteRoleUser(role.rolename)}
+                      >
+                        <DeleteOutlined />
+                      </Button>
+                    </div>
                   </div>
-                  <div>
-                    <span className="mr-3">
-                      Must approve ?{" "}
-                      <Switch
-                        onChange={() => onRequire(key)}
-                        size="small"
-                        {...(role.require ? "defaultChecked" : "")}
-                      />
-                    </span>
-                    <span>
-                      <button onClick={() => deleteRoleUser(role.rolename)}><DeleteOutlined/></button>
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </Form>
       </div>
       <div className="mt-5 d-flex justify-content-between">
-        <BackButton
-          className="px-4 py-2 font-small"
-          onClick={() => nextStep(1)}
-        >
+        <Button danger={true} onClick={() => nextStep(1)}>
           Back
-        </BackButton>
+        </Button>
         <div>
-          <NextButton onClick={() => onSkip()} className="px-4 py-2 font-small">
+          <Button className="mr-2" onClick={() => onSkip()}>
             Skip
-          </NextButton>
-          <NextButton
-            onClick={() => onNextStep()}
-            className="px-4 py-2 font-small ml-2"
-          >
-            Next
-          </NextButton>
+          </Button>
+          <Button onClick={() => onNextStep()}>Next</Button>
         </div>
       </div>
     </div>

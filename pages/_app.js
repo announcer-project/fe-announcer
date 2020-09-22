@@ -2,6 +2,9 @@ import Head from "next/head";
 import dynamic from "next/dynamic";
 import { createGlobalStyle } from "styled-components";
 import Theme from "../components/Theme";
+import { useRouter } from "next/router";
+import LayoutSidebar from "../components/Console/System/Layout/Layout";
+import Layout from "../components/Layouts/Layouts";
 
 import "antd/dist/antd.css";
 
@@ -49,10 +52,36 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <GlobalStyle />
       <Theme>
-        <Loading />
-        <div className="global">
-          <Component {...pageProps} />
-        </div>
+        {pageProps.console && pageProps.system ? (
+          <LayoutSidebar>
+            <Loading />
+            <div className="global">
+              <Component {...pageProps} />
+            </div>
+          </LayoutSidebar>
+        ) : (
+          <></>
+        )}
+        {pageProps.console && !pageProps.system ? (
+          <Layout>
+            <Loading />
+            <div className="global">
+              <Component {...pageProps} />
+            </div>
+          </Layout>
+        ) : (
+          <></>
+        )}
+        {!pageProps.console && !pageProps.system ? (
+          <div>
+            <Loading />
+            <div className="global">
+              <Component {...pageProps} />
+            </div>
+          </div>
+        ) : (
+          <></>
+        )}
       </Theme>
     </>
   );
