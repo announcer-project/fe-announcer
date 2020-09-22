@@ -34,22 +34,20 @@ export default function RegisterPage() {
   };
 
   return (
-    <Layouts>
-      <div className="container">
-        <Box className="col-12 col-lg-9 my-5 mx-auto py-3 py-lg-5 px-3">
-          <p className="text-center font-title m-0">Register</p>
-          <div id="StepRegister" className="col-12 col-lg-10 mx-auto mt-4">
-            <Steps size="small" current={step - 1}>
-              <Step title="Verify your e-mail" />
-              <Step title="In Progress" />
-              <Step title="Confirm" />
-            </Steps>
-          </div>
-          <div className="col-12 col-lg-6 mx-auto mt-3 pt-lg-4">
-            {StepRegister()}
-          </div>
-        </Box>
-      </div>
-    </Layouts>
+    <div className="container">
+      <Box className="col-12 col-lg-9 my-5 mx-auto py-3 py-lg-5 px-3">
+        <p className="text-center font-title m-0">Register</p>
+        <div id="StepRegister" className="col-12 col-lg-10 mx-auto mt-4">
+          <Steps size="small" current={step - 1}>
+            <Step title="Verify your e-mail" />
+            <Step title="In Progress" />
+            <Step title="Confirm" />
+          </Steps>
+        </div>
+        <div className="col-12 col-lg-6 mx-auto mt-3 pt-lg-4">
+          {StepRegister()}
+        </div>
+      </Box>
+    </div>
   );
 }

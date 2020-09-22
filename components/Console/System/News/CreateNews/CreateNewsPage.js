@@ -13,16 +13,14 @@ export default function AllNewsPage(props) {
       case 1:
         return <Form {...props} />;
       case 2:
-        return <Preview/>;
+        return <Preview />;
     }
   };
 
   return (
-    <Layout>
-      <div className="container mt-3 mb-5">
-        <h1>Create News Page</h1>
-        <div className="mt-3">{Step()}</div>
-      </div>
-    </Layout>
+    <div className="container mt-3 mb-5">
+      <h1>Create News Page</h1>
+      <div className="mt-3">{Step()}</div>
+    </div>
   );
 }

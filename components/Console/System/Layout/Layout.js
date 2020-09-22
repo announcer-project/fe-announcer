@@ -22,7 +22,7 @@ import {
   UserOutlined,
   AuditOutlined,
   IdcardOutlined,
-  ShareAltOutlined
+  ShareAltOutlined,
 } from "@ant-design/icons";
 
 const { Content, Sider } = LayoutAnt;
@@ -185,7 +185,11 @@ export default function LayoutPage(props) {
               </Link>
             </Menu.Item>
           </SubMenu>
-          <SubMenu key="connect" icon={<ShareAltOutlined />} title="Connect social">
+          <SubMenu
+            key="connect"
+            icon={<ShareAltOutlined />}
+            title="Connect social"
+          >
             <Menu.Item key="all">
               <Link href={path + "/connect/all"}>
                 <a>
@@ -196,7 +200,12 @@ export default function LayoutPage(props) {
             <Menu.Item key="line">
               <Link href={path + "/connect/line"}>
                 <a>
-                  <img width="14px" style={{marginRight: "10px"}} src="/img/Login/Line2.png"/> Line Connect
+                  <img
+                    width="14px"
+                    style={{ marginRight: "10px" }}
+                    src="/img/Login/Line2.png"
+                  />{" "}
+                  Line Connect
                 </a>
               </Link>
             </Menu.Item>
@@ -208,9 +217,9 @@ export default function LayoutPage(props) {
               </Link>
             </Menu.Item>
           </SubMenu>
-          <Menu.Item key="dashboard" icon={<AreaChartOutlined />}>
+          {/* <Menu.Item key="dashboard" icon={<AreaChartOutlined />}>
             Dashboard
-          </Menu.Item>
+          </Menu.Item> */}
         </Menu>
       </Sidebar>
       <Layout className="site-layout">

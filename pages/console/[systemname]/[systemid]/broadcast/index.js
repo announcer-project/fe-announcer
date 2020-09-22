@@ -9,7 +9,7 @@ export default function BroadcastPage(props) {
       <Head>
         <title>{props.query.systemname} - NMS</title>
       </Head>
-      <Page {...props} />
+      <Page />
     </>
   );
 }
@@ -17,6 +17,6 @@ export default function BroadcastPage(props) {
 export async function getServerSideProps(ctx) {
   await withAuth(ctx);
   return {
-    props: { query: ctx.query },
+    props: { query: ctx.query, console: true, system: true },
   };
 }

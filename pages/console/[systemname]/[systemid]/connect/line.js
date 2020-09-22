@@ -18,6 +18,6 @@ export default function ConnectLinePage(props) {
 export async function getServerSideProps(ctx) {
   await withAuth(ctx);
   return {
-    props: { query: ctx.query },
+    props: { query: ctx.query, console: true, system: true },
   };
 }

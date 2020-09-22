@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import styled from "styled-components";
 
-import Layout from "../Layout/Layout";
 import System from "./SystemBox";
 
 const SystemBox = styled.div`
@@ -36,41 +35,39 @@ function SystemsPage(props) {
 
   return (
     <>
-      <Layout>
-        <Background>
-          <div className="container">
-            <div className="py-3 py-sm-5">
-              <div className="font-title" style={{ color: "white" }}>
-                <b>All system</b>
+      <Background>
+        <div className="container">
+          <div className="py-3 py-sm-5">
+            <div className="font-title" style={{ color: "white" }}>
+              <b>All system</b>
+            </div>
+            <div className="row">
+              <div className="col-12 col-sm-4 mt-3">
+                <Link href="/console/createsystem">
+                  <SystemBox className="text-center">
+                    <span className="font-large">
+                      +<br />
+                      Add system
+                    </span>
+                  </SystemBox>
+                </Link>
               </div>
-              <div className="row">
-                <div className="col-12 col-sm-4 mt-3">
-                  <Link href="/console/createsystem">
-                    <SystemBox className="text-center">
-                      <span className="font-large">
-                        +<br />
-                        Add system
-                      </span>
-                    </SystemBox>
+              {admins.map((admin, key) => {
+                let system = admin.system;
+                return (
+                  <Link
+                    href={`/console/${system.system_name}/${system.ID}/home`}
+                  >
+                    <div key={key} className="col-12 col-sm-4 mt-3">
+                      <System admin={admin} />
+                    </div>
                   </Link>
-                </div>
-                {admins.map((admin, key) => {
-                  let system = admin.system;
-                  return (
-                    <Link
-                      href={`/console/${system.system_name}/${system.ID}/home`}
-                    >
-                      <div key={key} className="col-12 col-sm-4 mt-3">
-                        <System admin={admin} />
-                      </div>
-                    </Link>
-                  );
-                })}
-              </div>
+                );
+              })}
             </div>
           </div>
-        </Background>
-      </Layout>
+        </div>
+      </Background>
     </>
   );
 }

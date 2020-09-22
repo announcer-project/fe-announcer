@@ -37,6 +37,6 @@ export async function getServerSideProps(ctx) {
   await withAuth(ctx);
   //   const targetGroups = await fetchTargetGroups(ctx);
   return {
-    props: { query: ctx.query },
+    props: { query: ctx.query, console: true, system: true },
   };
 }

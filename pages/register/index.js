@@ -21,7 +21,7 @@ function RegisterPage(props) {
 
 export async function getServerSideProps(ctx) {
   await withNotAuthRegister(ctx);
-  return { props: { query: ctx.query } };
+  return { props: { query: ctx.query, console: true } };
 }
 
 export default RegisterPage;

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import Layout from "../Layouts/Layouts";
 import Button from "../common/Button";
 
 import {
@@ -42,7 +41,7 @@ export default function Home(props) {
   }, []);
 
   return (
-    <Layout {...props}>
+    <div>
       <div>Hello, next.js</div>
       <Link href="/login">
         <button type="button" className="btn btn-success">
@@ -114,15 +113,11 @@ export default function Home(props) {
             ]}
             rules={[{ required: true, message: "Please input your password!" }]}
           />
-          <DatePicker
-          form={form}
-            label="Upload cover"
-            name="date-time"
-          />
+          <DatePicker form={form} label="Upload cover" name="date-time" />
           <ButtonSubmit danger={true}>Back</ButtonSubmit>
           <ButtonSubmit>test</ButtonSubmit>
         </Form>
       </div>
-    </Layout>
+    </div>
   );
 }

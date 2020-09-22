@@ -44,6 +44,6 @@ export async function getServerSideProps(ctx) {
   await withAuth(ctx);
   const allnews = await fetchAllNews(ctx);
   return {
-    props: { allnews },
+    props: { allnews, console: true, system: true },
   };
 }

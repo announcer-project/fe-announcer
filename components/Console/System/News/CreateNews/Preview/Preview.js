@@ -6,6 +6,7 @@ import { NotificationFilled, FileAddFilled } from "@ant-design/icons";
 import { Modal } from "antd";
 import moment from "moment";
 import Swal from "sweetalert2";
+import coverNews from "./cover.json";
 
 import cookie from "../../../../../../tools/cookie";
 import { CreateNewsContext } from "../../../../../../store/CreateNewsProvider";
@@ -122,7 +123,7 @@ export default function PreviewNews() {
       expiredate_status = false;
     }
     let data = {
-      cover: cover,
+      cover: cover === "" ? coverNews.image_cover : cover,
       title: title,
       body: body,
       checkexpiredate: expiredate_status,

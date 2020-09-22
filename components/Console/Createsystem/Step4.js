@@ -1,10 +1,12 @@
 import React, { useContext } from "react";
 import { CreatesystemContext } from "../../../store/CreatesystemProvider";
-import { Switch } from "antd";
-import { NewsTypeBox, NextButton, BackButton } from "./Components";
+import { NewsTypeBox } from "./Components";
+import Button from "../../common/Button";
 import axios from "axios";
 import cookie from "../../../tools/cookie";
 import Router from "next/router";
+import logo from "./ProfileImage.json";
+import Swal from "sweetalert2"
 
 const ShowLineOADetail = (props) => {
   if (props.channelID !== "") {
@@ -18,7 +20,7 @@ const ShowLineOADetail = (props) => {
           <span>
             <b>Channel Access Token : </b>
             <span style={{ wordBreak: "break-all" }}>
-              {props.channelaccesstoken}
+              {props.channelAccessToken}
             </span>
           </span>
         </div>
@@ -68,11 +70,18 @@ export default function ConfirmStep() {
     roleuser,
     nextStep,
   } = useContext(CreatesystemContext);
-  console.log("newstype", newstype);
+
+  const Alert = (text) => {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: text,
+    });
+  };
 
   const onCreateSystem = () => {
     let data = {
-      systemprofile: image,
+      systemprofile: image === "" ? logo.profilesystem : image,
       systemname: systemname,
       newstypes: newstype,
       lineoa: {
@@ -93,6 +102,7 @@ export default function ConfirmStep() {
       })
       .catch((err) => {
         console.log("error", err.response.data);
+        Alert(err.response.data.message);
       });
   };
 
@@ -129,18 +139,10 @@ export default function ConfirmStep() {
         </div>
       </div>
       <div className="mt-5 d-flex justify-content-between">
-        <BackButton
-          className="px-4 py-2 font-small"
-          onClick={() => nextStep(2)}
-        >
+        <Button danger={true} onClick={() => nextStep(2)}>
           Back
-        </BackButton>
-        <NextButton
-          onClick={() => onCreateSystem()}
-          className="px-4 py-2 font-small ml-2"
-        >
-          Create system
-        </NextButton>
+        </Button>
+        <Button onClick={() => onCreateSystem()}>Create system</Button>
       </div>
     </div>
   );

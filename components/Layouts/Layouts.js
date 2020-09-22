@@ -4,7 +4,7 @@ function Layouts(props) {
   return (
     <div>
       <Navbar />
-      <div className="container">{props.children}</div>
+      <div>{props.children}</div>
     </div>
   );
 }

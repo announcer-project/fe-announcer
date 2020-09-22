@@ -7,12 +7,7 @@ import cookie from "../../../../../tools/cookie";
 import Layout from "../../Layout/Layout";
 import Button from "../../../../common/Button";
 
-import {
-  useForm,
-  Form,
-  Input,
-  ButtonSubmit,
-} from "../../../../common/Form";
+import { useForm, Form, Input, ButtonSubmit } from "../../../../common/Form";
 
 const Box = styled.div`
   height: 145px;
@@ -75,7 +70,7 @@ export default function CreateNewsTypePage(props) {
         let { systemid } = router.query;
         let data = {
           systemid: systemid,
-          newstypename: values.newstype
+          newstypename: values.newstype,
         };
         await axios
           .post(`${process.env.REACT_APP_BE_PATH}/news/newstype/create`, data, {
@@ -124,45 +119,43 @@ export default function CreateNewsTypePage(props) {
   };
 
   return (
-    <Layout {...props}>
-      <div className="container pt-4">
-        <h1>Create news type</h1>
-        <div className="col-12">
-          <div className="row">
-            <div className="col-3 p-2">
-              <BoxAddNewsType className="shadow-sm pt-3 px-3">
-                <Form
-                  form={form}
-                  layout={"vertical"}
-                  name="basic"
-                  onFinish={addNewsType}
-                >
-                  <span>Add news type</span>
-                  <Input className="mt-2" name="newstype" />
-                  <ButtonSubmit>Create</ButtonSubmit>
-                </Form>
-              </BoxAddNewsType>
-            </div>
-            {newstypes.map((newstype) => {
-              return (
-                <div className="col-3 p-2">
-                  <Box className="shadow-sm">
-                    {newstype.newstype_name}
-                    <br />
-                    <Button
-                      className="mt-3"
-                      danger={true}
-                      onClick={() => Delete(newstype.ID)}
-                    >
-                      Delete
-                    </Button>
-                  </Box>
-                </div>
-              );
-            })}
+    <div className="container pt-4">
+      <h1>Create news type</h1>
+      <div className="col-12">
+        <div className="row">
+          <div className="col-3 p-2">
+            <BoxAddNewsType className="shadow-sm pt-3 px-3">
+              <Form
+                form={form}
+                layout={"vertical"}
+                name="basic"
+                onFinish={addNewsType}
+              >
+                <span>Add news type</span>
+                <Input className="mt-2" name="newstype" />
+                <ButtonSubmit>Create</ButtonSubmit>
+              </Form>
+            </BoxAddNewsType>
           </div>
+          {newstypes.map((newstype) => {
+            return (
+              <div className="col-3 p-2">
+                <Box className="shadow-sm">
+                  {newstype.newstype_name}
+                  <br />
+                  <Button
+                    className="mt-3"
+                    danger={true}
+                    onClick={() => Delete(newstype.ID)}
+                  >
+                    Delete
+                  </Button>
+                </Box>
+              </div>
+            );
+          })}
         </div>
       </div>
-    </Layout>
+    </div>
   );
 }
