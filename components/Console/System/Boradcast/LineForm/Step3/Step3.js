@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import MobileScreen from "./MobileScreen";
 import { CreateLineBroadcastContext } from "../../../../../../store/CreateLineBroadcastProvider";
 import axios from "axios";
@@ -6,6 +6,7 @@ import Router, { useRouter } from "next/router";
 import Swal from "sweetalert2";
 import Button from "../../../../../common/Button";
 import cookie from "../../../../../../tools/cookie";
+import { LoadingOutlined } from "@ant-design/icons";
 
 export default function Step3() {
   const {
@@ -21,6 +22,7 @@ export default function Step3() {
   } = useContext(CreateLineBroadcastContext);
   const router = useRouter();
   const { systemid, systemname } = router.query;
+  const [loading, setLoading] = useState(false);
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -34,55 +36,58 @@ export default function Step3() {
   }, []);
 
   const onBroadcast = () => {
-    let datamessages = [];
-    messages.forEach((msg) => {
-      let typemessage = {
-        type: "",
-        data: "",
-        news: {},
-      };
-      switch (msg.type) {
-        case "news":
-          typemessage.type = msg.type;
-          typemessage.news = msg.data;
-          break;
-        default:
-          typemessage.type = msg.type;
-          typemessage.data = msg.data;
-          break;
-      }
-      datamessages.push(typemessage);
-    });
-
-    let data = {
-      systemid: systemid,
-      everyone: everyone,
-      checknewstypes: checknewstypes,
-      newstypes: newstypes.filter((newstype) => newstype.selected),
-      checktargetgroups: checktargetgroups,
-      targetgroups: targetgroups.filter((newstype) => newstype.selected),
-      checkusers: checkusers,
-      users: usersSelect,
-      messages: datamessages,
-    };
-    console.log(data)
-    axios
-      .post(`${process.env.REACT_APP_BE_PATH}/broadcast/line`, data, {
-        headers: {
-          Authorization: "Bearer " + cookie.getJWT(),
+    if (!loading) {
+      setLoading(true);
+      let datamessages = [];
+      messages.forEach((msg) => {
+        let typemessage = {
+          type: "",
+          data: "",
+          news: {},
+        };
+        switch (msg.type) {
+          case "news":
+            typemessage.type = msg.type;
+            typemessage.news = msg.data;
+            break;
+          default:
+            typemessage.type = msg.type;
+            typemessage.data = msg.data;
+            break;
         }
-      })
-      .then((res) => {
-        console.log(res.data);
-        Swal.fire({
-          icon: "success",
-          title: "Broadcast success",
-          showConfirmButton: true,
-          timer: 3000,
-        }).then((result) => {
-          Router.push(`/console/${systemname}/${systemid}/home`);
-        });
+        datamessages.push(typemessage);
       });
+
+      let data = {
+        systemid: systemid,
+        everyone: everyone,
+        checknewstypes: checknewstypes,
+        newstypes: newstypes.filter((newstype) => newstype.selected),
+        checktargetgroups: checktargetgroups,
+        targetgroups: targetgroups.filter((newstype) => newstype.selected),
+        checkusers: checkusers,
+        users: usersSelect,
+        messages: datamessages,
+      };
+      console.log(data);
+      axios
+        .post(`${process.env.REACT_APP_BE_PATH}/broadcast/line`, data, {
+          headers: {
+            Authorization: "Bearer " + cookie.getJWT(),
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          Swal.fire({
+            icon: "success",
+            title: "Broadcast success",
+            showConfirmButton: true,
+            timer: 3000,
+          }).then((result) => {
+            Router.push(`/console/${systemname}/${systemid}/home`);
+          });
+        });
+    }
   };
   return (
     <div>
@@ -97,7 +102,8 @@ export default function Step3() {
           Back
         </Button>
         <Button className="px-5" onClick={() => onBroadcast()}>
-          Next
+          <LoadingOutlined className={`mr-1 ${loading ? "" : "d-none"}`} />
+          Confirm
         </Button>
       </div>
     </div>

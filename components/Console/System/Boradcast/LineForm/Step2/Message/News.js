@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import {useRouter} from "next/router"
 import styled from "styled-components";
 import { CreateLineBroadcastContext } from "../../../../../../../store/CreateLineBroadcastProvider";
 
@@ -16,6 +17,8 @@ const Card = styled(NewsCard)`
 `;
 
 export default function News({ boxnumber }) {
+  const router = useRouter()
+  const {systemid} = router.query
   const { messages, changeMessages, news } = useContext(
     CreateLineBroadcastContext
   );
@@ -36,13 +39,13 @@ export default function News({ boxnumber }) {
   const createMarkup = (body) => {
     return { __html: body };
   };
-
+  console.log("message", message)
   return (
     <div>
       <div className="p-3 border-bottom">
         <div className="row">
           <div className="col-12 col-sm-2">
-            <ImageCover src={message.data.cover} />
+            <ImageCover src={`${process.env.REACT_APP_STORAGE}/news/${systemid}-${message.data.ID}-cover.png`} />
           </div>
           <div className="col-12 col-sm-10">
             <b>
