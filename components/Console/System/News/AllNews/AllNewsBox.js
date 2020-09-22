@@ -27,7 +27,7 @@ export default function AllNewsBox(props) {
           if (type === "Draft") {
             return <NewsDraftCard className="col-12 col-lg-4" news={news} />;
           } else {
-            return <NewsPublishCard className="col-12 col-lg-4" news={news} />;
+            return <Link href={`/news/systemname/systemid/${news.ID}`}><NewsPublishCard className="col-12 col-lg-4" news={news} /></Link>;
           }
         })}
       </div>

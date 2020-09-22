@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import styled from "styled-components";
-
+import { PlusOutlined } from "@ant-design/icons";
 import System from "./SystemBox";
 
 const SystemBox = styled.div`
@@ -25,6 +25,10 @@ const Background = styled.div`
   background-color: white;
 `;
 
+const ButtonAdd = styled.div`
+  font-size: 20px;
+`
+
 function SystemsPage(props) {
   const [admins, setAdmins] = useState([]);
 
@@ -45,10 +49,10 @@ function SystemsPage(props) {
               <div className="col-12 col-sm-4 mt-3">
                 <Link href="/console/createsystem">
                   <SystemBox className="text-center">
-                    <span className="font-large">
-                      +<br />
+                    <ButtonAdd>
+                      <PlusOutlined className="pb-3"/><br/>
                       Add system
-                    </span>
+                    </ButtonAdd>
                   </SystemBox>
                 </Link>
               </div>
