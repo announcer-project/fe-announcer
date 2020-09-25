@@ -3,7 +3,7 @@ import Layout from "../../Layout/Layout";
 import { Table } from "antd";
 import Button from "../../../../common/Button";
 
-export default function RoleRequestPage() {
+export default function RoleRequestPage({rolerequests}) {
   const columns = [
     {
       title: "User ID",
@@ -24,8 +24,8 @@ export default function RoleRequestPage() {
       title: "Approve",
       dataIndex: "approve",
       key: "approve",
-      render: () => (
-        <Button danger={false} onClick={() => console.log()}>
+      render: (text, record) => (
+        <Button onClick={() => console.log(record.key)}>
           Approve
         </Button>
       ),
@@ -34,8 +34,8 @@ export default function RoleRequestPage() {
       title: "Reject",
       dataIndex: "reject",
       key: "reject",
-      render: () => (
-        <Button danger={true} onClick={() => console.log()}>
+      render: (text, record) => (
+        <Button danger={true} onClick={() => console.log(record.key)}>
           Reject
         </Button>
       ),
@@ -48,6 +48,7 @@ export default function RoleRequestPage() {
       userId: "John Brown",
       name: 32,
       role: "New York No. 1 Lake Park",
+      n: "New York No. 1 Lake Park",
     },
     {
       key: "2",

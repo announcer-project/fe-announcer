@@ -15,28 +15,25 @@ export default function RoleRequestPage(props) {
   );
 }
 
-const fetchTargetGroups = async (ctx) => {
-  let targetgroups = [];
+const fetchRoleRequests = async (ctx) => {
+  let rolerequests = [];
   const query = ctx.query;
   await axios
-    .get(
-      `${process.env.REACT_APP_BE_PATH}/targetgroup/all?systemid=${query.systemid}&systemname=${query.systemname}`,
-      {
-        headers: {
-          Authorization: "Bearer " + cookie.getJWT(ctx),
-        },
-      }
-    )
+    .get(`${process.env.REACT_APP_BE_PATH}/role/request/${query.systemid}`, {
+      headers: {
+        Authorization: "Bearer " + cookie.getJWT(ctx),
+      },
+    })
     .then((res) => {
-      targetgroups = res.data;
+      rolerequests = res.data;
     });
-  return targetgroups;
+  return rolerequests;
 };
 
 export async function getServerSideProps(ctx) {
   await withAuth(ctx);
-  //   const targetGroups = await fetchTargetGroups(ctx);
+  const rolerequests = await fetchRoleRequests(ctx);
   return {
-    props: { query: ctx.query, console: true, system: true },
+    props: { query: ctx.query, console: true, system: true, rolerequests },
   };
 }
