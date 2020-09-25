@@ -3,19 +3,13 @@ import { LineRegisterContext } from "../../../store/LineRegisterProvider";
 import styled from "styled-components";
 import Swal from "sweetalert2";
 import axios from "axios";
+import Button from "../../common/Button"
 
 const NewstypeBox = styled.div`
   border-radius: 20px;
   cursor: pointer;
-  background-color: ${(props) => (props.selected ? "#050042" : "white")};
+  background-color: ${(props) => (props.selected ? props.theme.color.base : "white")};
   color: ${(props) => (props.selected ? "white" : "rgb(0,0,0,0.65)")};
-`;
-
-const Button = styled.button`
-  background-color: ${(props) => (props.back ? "#CE0000" : "#050042")};
-  color: white;
-  border-radius: 20px;
-  border: none;
 `;
 
 export default function Step3(props) {
@@ -58,6 +52,7 @@ export default function Step3(props) {
         systemid: props.query.systemid,
         line: lineid,
       };
+      console.log(data)
       axios
         .post(`${process.env.REACT_APP_BE_PATH}/line/register`, data)
         .then((res) => {
@@ -94,10 +89,10 @@ export default function Step3(props) {
         })}
       </div>
       <div className="mt-5 d-flex justify-content-between">
-        <Button back={true} className="px-5 py-2" onClick={() => nextStep(2)}>
+        <Button danger={true} onClick={() => nextStep(2)}>
           Back
         </Button>
-        <Button className="px-5 py-2" onClick={() => onNextStep()}>
+        <Button onClick={() => onNextStep()}>
           Next
         </Button>
       </div>

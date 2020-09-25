@@ -2,22 +2,16 @@ import React, { useContext } from "react";
 import { LineRegisterContext } from "../../../store/LineRegisterProvider";
 import styled from "styled-components";
 import Swal from "sweetalert2";
+import Button from "../../common/Button"
 
 const RoleBox = styled.div`
   border-radius: 20px;
   cursor: pointer;
-  background-color: ${(props) => (props.selected ? "#050042" : "white")};
+  background-color: ${(props) => (props.selected ? props.theme.color.base : "white")};
   color: ${(props) => (props.selected ? "white" : "rgb(0,0,0,0.65)")};
 `;
 
-const Button = styled.button`
-  background-color: ${(props) => (props.back ? "#CE0000" : "#050042")};
-  color: white;
-  border-radius: 20px;
-  border: none;
-`;
-
-export default function Step2(props) {
+export default function Step2() {
   const { haveuser, roles, roleSelected, selectRole, nextStep } = useContext(
     LineRegisterContext
   );
@@ -65,11 +59,11 @@ export default function Step2(props) {
         {haveuser ? (
           <div />
         ) : (
-          <Button back={true} className="px-5 py-2" onClick={() => nextStep(1)}>
+          <Button danger={true} onClick={() => nextStep(1)}>
             Back
           </Button>
         )}
-        <Button className="px-5 py-2" onClick={() => onNextStep()}>
+        <Button onClick={() => onNextStep()}>
           Next
         </Button>
       </div>

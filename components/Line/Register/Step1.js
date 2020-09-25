@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import styled from "styled-components";
-import { Form, Input } from "antd";
 import { LineRegisterContext } from "../../../store/LineRegisterProvider";
+import { Form, Input, ButtonSubmit, useForm } from "../../common/Form";
 
 const Bg = styled.div`
   min-height: 100vh;
@@ -10,30 +10,8 @@ const Bg = styled.div`
   background-repeat: no-repeat;
 `;
 
-const FormItem = styled(Form.Item)`
-  .ant-input {
-    height: 40px;
-    background-color: #e5e5e5;
-    border: 1px solid #e5e5e5;
-    border-radius: 20px;
-    padding-left: 20px;
-  }
-`;
-
-const SubmitButton = styled.button`
-  background-color: #050042;
-  color: white;
-  border-radius: 20px;
-  border: none;
-`;
-
-const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
-};
-
 export default function Step1(props) {
-  const [form] = Form.useForm();
+  const [form] = useForm();
   const {
     nextStep,
     firstname,
@@ -48,59 +26,42 @@ export default function Step1(props) {
       lastname: lastname,
     });
   }, []);
+
+  const onFinish = (values) => {
+    changeFirstname(values.firstname)
+    changeLastname(values.lastname)
+    nextStep(2)
+  }
   return (
     <Bg>
       <div className="text-center pt-5">
         <img
-          className="col-8 mt-4"
+          className="col-8"
           src={`${process.env.REACT_APP_STORAGE}/systems/${props.query.systemid}.png`}
         />
       </div>
-      <div className="container mt-5">
+      <div className="container mt-4">
         <div className="text-center">
           <span className="font-title">
             <b>Register</b>
           </span>
         </div>
         <div className="mt-4">
-          <Form
-            {...layout}
-            form={form}
-            name="basic"
-            initialValues={{ remember: true }}
-            onFinish={() => nextStep(2)}
-          >
-            <FormItem
+          <Form form={form} layout={"vertical"} onFinish={onFinish}>
+            <Input
+              placeholder="Firstname"
               name="firstname"
-              rules={[
-                { required: true, message: "Please input your firstname!" },
-              ]}
-            >
-              <Input
-                value={firstname}
-                onChange={(e) => changeFirstname(e.target.value)}
-                placeholder="Firstname"
-              />
-            </FormItem>
-            <FormItem
+              rules={[{ required: true, message: "Please enter firstname" }]}
+            />
+            <Input
               className="mt-2"
+              placeholder="Lastname"
               name="lastname"
-              rules={[
-                { required: true, message: "Please input your lastname!" },
-              ]}
-            >
-              <Input
-                value={lastname}
-                onChange={(e) => changeLastname(e.target.value)}
-                placeholder="Lastname"
-              />
-            </FormItem>
-
-            <Form.Item className="text-center mt-2">
-              <SubmitButton className="px-5 py-2" type="submit">
-                Next
-              </SubmitButton>
-            </Form.Item>
+              rules={[{ required: true, message: "Please enter lastname" }]}
+            />
+            <div className="text-right pt-2">
+              <ButtonSubmit>Next</ButtonSubmit>
+            </div>
           </Form>
         </div>
       </div>
