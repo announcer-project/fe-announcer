@@ -12,6 +12,7 @@ export default function LiffPage() {
   return <LineLiff/>;
 }
 
-export function getServerSideProps() {
+export function getServerSideProps(ctx) {
+  console.log(ctx.query)
   return { props: {} };
 }
