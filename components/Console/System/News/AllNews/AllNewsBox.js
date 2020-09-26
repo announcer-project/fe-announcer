@@ -2,6 +2,7 @@ import Link from "next/link";
 import styled from "styled-components";
 import NewsDraftCard from "../../NewsDraftCard";
 import NewsPublishCard from "../../NewsPublishCard";
+import { useRouter } from "next/router";
 
 const BoxAllNews = styled.div`
   background-color: ${(props) =>
@@ -12,6 +13,8 @@ export default function AllNewsBox(props) {
   const path = props.path;
   const type = props.type;
   const news = props.news;
+  const router = useRouter();
+  const {systemname,systemid} = router.query
 
   const createMarkup = (body) => {
     return { __html: body };
@@ -27,7 +30,7 @@ export default function AllNewsBox(props) {
           if (type === "Draft") {
             return <NewsDraftCard className="col-12 col-lg-4" news={news} />;
           } else {
-            return <Link href={`/news/systemname/systemid/${news.ID}`}><NewsPublishCard className="col-12 col-lg-4" news={news} /></Link>;
+            return <Link href={`/news/${systemname}/${systemid}/${news.ID}`}><NewsPublishCard className="col-12 col-lg-4" news={news} /></Link>;
           }
         })}
       </div>
