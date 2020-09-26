@@ -71,7 +71,7 @@ export default function AllConnectPage({ lineConnected, facebookConnected }) {
           </div>
         </div>
       </Box>
-      <Box>
+      {/* <Box>
         <div className="d-flex justify-content-between">
           <div>
             <BoxSocial line={false}>
@@ -93,7 +93,7 @@ export default function AllConnectPage({ lineConnected, facebookConnected }) {
             </Button>
           </div>
         </div>
-      </Box>
+      </Box> */}
     </div>
   );
 }
