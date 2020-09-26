@@ -12,7 +12,7 @@ const fetchTargetGroups = async (ctx) => {
   const query = ctx.query;
   await axios
     .get(
-      `${process.env.REACT_APP_BE_PATH}/targetgroup/all?systemid=${query.systemid}`,
+      `${process.env.REACT_APP_BE_PATH}/targetgroup/${query.systemid}/all`,
       {
         headers: {
           Authorization: "Bearer " + cookie.getJWT(ctx),

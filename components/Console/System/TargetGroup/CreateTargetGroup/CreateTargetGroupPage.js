@@ -87,44 +87,44 @@ export default function CreateTargetGroupPage(props) {
   };
 
   const AddTargetGroup = async (values) => {
-    console.log(values);
     if (membersSelect.length === 0) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
         text: "Please add member",
       });
+    } else {
+      let membersReq = await SetMembersReq();
+      let data = {
+        groupname: values.targetgroup,
+        systemid: systemid,
+        members: membersReq,
+      };
+      console.log(data);
+      axios
+        .post(`${process.env.REACT_APP_BE_PATH}/targetgroup/create`, data, {
+          headers: {
+            Authorization: "Bearer " + cookie.getJWT(),
+          },
+        })
+        .then((res) => {
+          Swal.fire({
+            icon: "success",
+            title: "Create target group success",
+            timer: 3000,
+          }).then((result) => {
+            Router.push(`${path}/targetgroup/alltargetgroup`);
+          });
+        })
+        .catch((err) => {
+          console.log(err.message);
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Server error",
+          });
+        });
     }
-    let membersReq = await SetMembersReq();
-    let data = {
-      groupname: values.targetgroup,
-      systemid: systemid,
-      members: membersReq,
-    };
-    console.log(data);
-    axios
-      .post(`${process.env.REACT_APP_BE_PATH}/targetgroup/create`, data, {
-        headers: {
-          Authorization: "Bearer " + cookie.getJWT(),
-        },
-      })
-      .then((res) => {
-        Swal.fire({
-          icon: "success",
-          title: "Create target group success",
-          timer: 3000,
-        }).then((result) => {
-          Router.push(`${path}/targetgroup/alltargetgroup`);
-        });
-      })
-      .catch((err) => {
-        console.log(err.message);
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Server error",
-        });
-      });
   };
 
   return (

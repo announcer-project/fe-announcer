@@ -1,38 +1,64 @@
 import React, { useState } from "react";
-import styled from "styled-components";
-import { DeleteOutlined } from "@ant-design/icons";
+import cookie from "../../../../../tools/cookie";
+import { DeleteOutlined, LoadingOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import Layout from "../../Layout/Layout";
+import axios from "axios";
 import Button from "../../../../common/Button";
 import { Table } from "antd";
 
-const BoxCreateTargetGroup = styled.div`
-  height: 145px;
-  border: 1px solid #a6a6a6;
-  border-radius: 10px;
-  cursor: pointer;
-  text-align: center;
-  padding-top: 60px;
-`;
-
 export default function AllTargetGroupPage(props) {
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { systemid, systemname } = router.query;
   const path = `/console/${systemname}/${systemid}`;
-  const targetgroups = props.targetGroups;
+  const [targetgroups, setTargetgroups] = useState(props.targetGroups);
+  const [selected, setSelected] = useState(0);
+
+  const fetchTargetgroups = async () => {
+    await axios
+      .get(`${process.env.REACT_APP_BE_PATH}/targetgroup/${systemid}/all`, {
+        headers: {
+          Authorization: "Bearer " + cookie.getJWT(),
+        },
+      })
+      .then((res) => {
+        setTargetgroups(res.data);
+      });
+  };
+
+  const Delete = async (targetgroupid) => {
+    if (!loading) {
+      setLoading(true);
+      setSelected(targetgroupid);
+      await axios
+        .delete(
+          `${process.env.REACT_APP_BE_PATH}/targetgroup/${systemid}/${targetgroupid}`,
+          {
+            headers: {
+              Authorization: "Bearer " + cookie.getJWT(),
+            },
+          }
+        )
+        .then((res) => {
+          fetchTargetgroups();
+          setLoading(false);
+          setSelected(0);
+        });
+    }
+  };
 
   const columns = [
     {
       title: "Target group",
-      dataIndex: "targetgroup",
-      key: "targetgroup",
+      dataIndex: "targetgroup_name",
+      key: "targetgroup_name",
       align: "center",
     },
     {
       title: "People",
-      dataIndex: "people",
-      key: "people",
+      dataIndex: "number_members",
+      key: "number_members",
       align: "center",
     },
     {
@@ -40,27 +66,16 @@ export default function AllTargetGroupPage(props) {
       dataIndex: "delete",
       key: "delete",
       render: (text, record) => (
-        <Button danger={true} onClick={() => onApprove(record.key)}><DeleteOutlined /></Button>
+        <Button danger={true} onClick={() => Delete(record.ID)}>
+          <LoadingOutlined
+            className={`${selected === record.ID && loading ? "" : "d-none"}`}
+          />
+          <DeleteOutlined
+            className={`${selected === record.ID && loading ? "d-none" : ""}`}
+          />
+        </Button>
       ),
       align: "center",
-    },
-  ];
-
-  const data = [
-    {
-      key: '1',
-      targetgroup: 'John Brown',
-      people: 32,
-    },
-    {
-      key: '2',
-      targetgroup: 'Jim Green',
-      people: 42,
-    },
-    {
-      key: '3',
-      targetgroup: 'Joe Black',
-      people: 32,
     },
   ];
 
@@ -68,11 +83,13 @@ export default function AllTargetGroupPage(props) {
     <div className="container pt-4">
       <div className="d-flex justify-content-between pb-4">
         <h1>All target group</h1>
-        <Link href={`/console/${systemname}/${systemid}/targetgroup/createtargetgroup`}>
+        <Link
+          href={`/console/${systemname}/${systemid}/targetgroup/createtargetgroup`}
+        >
           <Button>Create target group</Button>
         </Link>
       </div>
-      <Table columns={columns} dataSource={data} />
+      <Table columns={columns} dataSource={targetgroups} />
     </div>
   );
 }
