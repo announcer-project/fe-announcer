@@ -189,7 +189,6 @@ export default function CreateNewsTypePage(props) {
           name="basic"
           onFinish={addNewsType}
         >
-          <span>Add news type</span>
           <Input className="mt-2" name="newstype" />
           <ButtonSubmit>
             <LoadingOutlined
