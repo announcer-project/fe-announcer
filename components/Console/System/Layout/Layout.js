@@ -114,8 +114,8 @@ export default function LayoutPage(props) {
               <a>{systemname}</a>
             </Link>
           </Menu.Item>
-          <Menu.Item key="broadcast" icon={<SendOutlined />}>
-            <Link href={path + "/broadcast"}>
+          <Menu.Item key="line" icon={<SendOutlined />}>
+            <Link href={path + "/broadcast/line"}>
               <a>Broadcast</a>
             </Link>
           </Menu.Item>
@@ -187,6 +187,9 @@ export default function LayoutPage(props) {
           </SubMenu>
           <Menu.Item key="connect" icon={<ShareAltOutlined />}>
             <Link href={path + "/connect"}>Connect Social</Link>
+          </Menu.Item>
+          <Menu.Item key="setting" icon={<ShareAltOutlined />}>
+            <Link href={path + "/setting"}>Setting</Link>
           </Menu.Item>
           {/* <Menu.Item key="dashboard" icon={<AreaChartOutlined />}>
             Dashboard
