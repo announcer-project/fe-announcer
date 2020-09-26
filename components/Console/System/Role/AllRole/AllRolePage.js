@@ -3,25 +3,51 @@ import Layout from "../../Layout/Layout";
 import styled from "styled-components";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Button from "../../../../common/Button";
+import { Table } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
 
-const Box = styled.div`
-  height: 145px;
-  border: 1px solid #a6a6a6;
-  border-radius: 10px;
-  cursor: pointer;
-  text-align: center;
-  padding-top: 10px;
-`;
+const columns = [
+  {
+    title: "Role",
+    dataIndex: "role",
+    key: "role",
+    align: "center",
+  },
+  {
+    title: "Must approve",
+    dataIndex: "mustapprove",
+    key: "mustapprove",
+    align: "center",
+  },
+  {
+    title: "Delete",
+    dataIndex: "delete",
+    key: "delete",
+    render: (text, record) => (
+      <Button danger={true} onClick={() => onApprove(record.key)}><DeleteOutlined /></Button>
+    ),
+    align: "center",
+  },
+];
 
-const BoxApprove = styled.div`
-  color: white;
-  background-color: ${(props) => props.theme.color.background};
-  border-radius: 50px;
-  text-align: center;
-  padding: 3px 10px 3px 10px;
-  margin-right: 10px;
-  float: right;
-`;
+const data = [
+  {
+    key: '1',
+    role: 'John Brown',
+    mustapprove: 32,
+  },
+  {
+    key: '2',
+    role: 'Jim Green',
+    mustapprove: 42,
+  },
+  {
+    key: '3',
+    role: 'Joe Black',
+    mustapprove: 32,
+  },
+];
 
 export default function AllRolePage(props) {
   const [rolenames] = useState(props.role);
@@ -30,35 +56,13 @@ export default function AllRolePage(props) {
 
   return (
     <div className="container pt-4">
-      <h1>Role user (Line official account)</h1>
-      <div className="col-12">
-        <div className="row">
-          <div className="col-3 p-2">
-            <Link href={`/console/${systemname}/${systemid}/role/createrole`}>
-              <Box className="text-center">
-                <div className="font-large mt-4">
-                  +<br />
-                  Create role user
-                </div>
-              </Box>
-            </Link>
-          </div>
-          {rolenames.map((role) => {
-            return (
-              <div className="col-3 p-2">
-                <Box className="shadow-sm">
-                  <div>
-                    <BoxApprove className={`${role.require ? "" : "d-none"}`}>
-                      Must approve
-                    </BoxApprove>
-                  </div>
-                  <div className="mt-5">{role.rolename}</div>
-                </Box>
-              </div>
-            );
-          })}
-        </div>
+      <div className="d-flex justify-content-between pb-4">
+        <h1>Role user (Line official account)</h1>
+        <Link href={`/console/${systemname}/${systemid}/role/createrole`}>
+          <Button>Create role</Button>
+        </Link>
       </div>
+      <Table columns={columns} dataSource={data} />
     </div>
   );
 }

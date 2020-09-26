@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { PlusOutlined } from "@ant-design/icons";
+import { DeleteOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Layout from "../../Layout/Layout";
+import Button from "../../../../common/Button";
+import { Table } from "antd";
 
 const BoxCreateTargetGroup = styled.div`
   height: 145px;
@@ -19,30 +21,58 @@ export default function AllTargetGroupPage(props) {
   const { systemid, systemname } = router.query;
   const path = `/console/${systemname}/${systemid}`;
   const targetgroups = props.targetGroups;
+
+  const columns = [
+    {
+      title: "Target group",
+      dataIndex: "targetgroup",
+      key: "targetgroup",
+      align: "center",
+    },
+    {
+      title: "People",
+      dataIndex: "people",
+      key: "people",
+      align: "center",
+    },
+    {
+      title: "Delete",
+      dataIndex: "delete",
+      key: "delete",
+      render: (text, record) => (
+        <Button danger={true} onClick={() => onApprove(record.key)}><DeleteOutlined /></Button>
+      ),
+      align: "center",
+    },
+  ];
+
+  const data = [
+    {
+      key: '1',
+      targetgroup: 'John Brown',
+      people: 32,
+    },
+    {
+      key: '2',
+      targetgroup: 'Jim Green',
+      people: 42,
+    },
+    {
+      key: '3',
+      targetgroup: 'Joe Black',
+      people: 32,
+    },
+  ];
+
   return (
     <div className="container pt-4">
-      <h1>All target group</h1>
-      <div className="col-12">
-        <div className="row">
-          <div className="col-3 p-2">
-            <Link href={`${path}/targetgroup/createtargetgroup`}>
-              <BoxCreateTargetGroup className="shadow-sm pt-5">
-                <PlusOutlined />
-                <p>Add target group</p>
-              </BoxCreateTargetGroup>
-            </Link>
-          </div>
-          {targetgroups.map((targetgroup, key) => {
-            return (
-              <div key={key} className="col-3 p-2">
-                <BoxCreateTargetGroup className="shadow-sm">
-                  {targetgroup.targetgroup_name}
-                </BoxCreateTargetGroup>
-              </div>
-            );
-          })}
-        </div>
+      <div className="d-flex justify-content-between pb-4">
+        <h1>All target group</h1>
+        <Link href={`/console/${systemname}/${systemid}/targetgroup/createtargetgroup`}>
+          <Button>Create target group</Button>
+        </Link>
       </div>
+      <Table columns={columns} dataSource={data} />
     </div>
   );
 }
