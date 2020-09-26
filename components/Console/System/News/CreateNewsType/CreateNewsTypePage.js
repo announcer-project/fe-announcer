@@ -4,7 +4,7 @@ import styled from "styled-components";
 import axios from "axios";
 import Swal from "sweetalert2";
 import cookie from "../../../../../tools/cookie";
-import { DeleteOutlined, LoadingOutlined} from "@ant-design/icons";
+import { DeleteOutlined, LoadingOutlined } from "@ant-design/icons";
 import Button from "../../../../common/Button";
 import { Table, Modal } from "antd";
 
@@ -19,7 +19,7 @@ export default function CreateNewsTypePage(props) {
   const [form] = useForm();
   const [visible, setVisible] = useState();
   const [loading, setLoading] = useState();
-
+  console.log(newstypes);
   useEffect(() => {
     form.setFieldsValue({
       newstype: "",
@@ -67,6 +67,9 @@ export default function CreateNewsTypePage(props) {
                 newstype: "",
               });
               setLoadingCreate(false);
+              setLoading(true);
+              setLoading(false);
+              setVisible(false);
             });
         } else {
           Swal.fire({
@@ -109,18 +112,17 @@ export default function CreateNewsTypePage(props) {
     }
   };
 
-
   const columns = [
     {
       title: "News type",
-      dataIndex: "newstype",
-      key: "newstype",
+      dataIndex: "newstype_name",
+      key: "newstype_name",
       align: "center",
     },
     {
       title: "Number of news",
-      dataIndex: "numofnews",
-      key: "numofnews",
+      dataIndex: "number_news",
+      key: "number_news",
       align: "center",
     },
     {
@@ -128,46 +130,28 @@ export default function CreateNewsTypePage(props) {
       dataIndex: "delete",
       key: "delete",
       render: (text, record) => (
-        <Button danger={true} onClick={() => onApprove(record.key)}><DeleteOutlined /></Button>
+        <Button danger={true} onClick={() => Delete(record.ID)}>
+          <LoadingOutlined
+            className={`${
+              record.ID === selected && loadingDelete ? "" : "d-none"
+            }`}
+          />
+          <DeleteOutlined className={`${record.ID === selected && loadingDelete ? "d-none" : ""}`} />
+        </Button>
       ),
       align: "center",
     },
   ];
 
-  const data = [
-    {
-      key: '1',
-      newstype: 'John Brown',
-      numofnews: 32,
-    },
-    {
-      key: '2',
-      newstype: 'Jim Green',
-      numofnews: 42,
-    },
-    {
-      key: '3',
-      newstype: 'Joe Black',
-      numofnews: 32,
-    },
-  ];
+  const data = newstypes;
 
   const showModal = () => {
-    setVisible(true)
-  };
-
-  const handleOk = () => {
-    setLoading(true)
-    setTimeout(() => {
-      setLoading(false)
-      setVisible(false)
-    }, 3000);
+    setVisible(true);
   };
 
   const handleCancel = () => {
-    setVisible(false)
+    setVisible(false);
   };
-
 
   return (
     <div className="container pt-4">
@@ -179,7 +163,6 @@ export default function CreateNewsTypePage(props) {
       <Modal
         visible={visible}
         title="Create news type"
-        onOk={handleOk}
         onCancel={handleCancel}
         footer={null}
       >
@@ -191,15 +174,16 @@ export default function CreateNewsTypePage(props) {
         >
           <span>Add news type</span>
           <Input className="mt-2" name="newstype" />
-          <ButtonSubmit>
-            <LoadingOutlined
-              className={`${loadingCreate ? "" : "d-none"} mr-1`}
-            />
-                  Create
-                </ButtonSubmit>
+          <div className="text-center">
+            <ButtonSubmit>
+              <LoadingOutlined
+                className={`${loadingCreate ? "" : "d-none"} mr-1`}
+              />
+              Create
+            </ButtonSubmit>
+          </div>
         </Form>
       </Modal>
-
     </div>
   );
 }
