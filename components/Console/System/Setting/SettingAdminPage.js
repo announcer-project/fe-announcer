@@ -1,12 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Table } from "antd";
+import { Table, Modal } from "antd";
 import Button from "../../../common/Button";
-import { PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
 import cookie from "../../../../tools/cookie";
+
+import { useForm, Form, Input, ButtonSubmit } from "../../../common/Form";
+
 
 export default function SettingAdminPage(props) {
   let [isAdmin, setIsAdmin] = useState(false);
   let [user, setUser] = useState(props.user);
+
+  const [loadingCreate, setLoadingCreate] = useState(false);
+  const [form] = useForm();
+  const [visible, setVisible] = useState();
+  const [loading, setLoading] = useState();
 
   useEffect(() => {
     if (props.admins[0].userId === user.ID) {
@@ -68,18 +76,56 @@ export default function SettingAdminPage(props) {
     },
   ];
 
+  const showModal = () => {
+    setVisible(true)
+  };
+
+  const handleOk = () => {
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+      setVisible(false)
+    }, 3000);
+  };
+
+  const handleCancel = () => {
+    setVisible(false)
+  };
+
   const data = props.admins;
 
   return (
     <div className="container pt-4">
       <div className="d-flex justify-content-between">
         <h1>Setting admin</h1>
-        <Button>
+        <Button onClick={showModal}>
           <PlusOutlined className="mr-1 anticon" />
           Add admin
         </Button>
       </div>
       <Table className="mt-4" columns={columns} dataSource={data} />
+      <Modal
+        visible={visible}
+        title="Add admin"
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={null}
+      >
+        <Form
+          form={form}
+          layout={"vertical"}
+          name="basic"
+          // onFinish={addNewsType}
+        >
+          <Input className="mt-2" name="admin" />
+          <ButtonSubmit>
+            <LoadingOutlined
+              className={`${loadingCreate ? "" : "d-none"} mr-1`}
+            />
+                  Add
+                </ButtonSubmit>
+        </Form>
+      </Modal>
     </div>
   );
 }
