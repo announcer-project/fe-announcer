@@ -15,9 +15,25 @@ export default function SettingPage(props) {
   );
 }
 
+const fetchSystem = async (ctx) => {
+  let { systemid } = ctx.query;
+  let system = {};
+  await axios
+    .get(`${process.env.REACT_APP_BE_PATH}/system/${systemid}`, {
+      headers: {
+        Authorization: "Bearer " + cookie.getJWT(ctx),
+      },
+    })
+    .then((res) => {
+      system = res.data;
+    });
+  return system;
+};
+
 export async function getServerSideProps(ctx) {
   await withAuth(ctx);
+  let system = await fetchSystem(ctx)
   return {
-    props: { query: ctx.query, console: true, system: true },
+    props: { query: ctx.query, console: true, system: true, systemDetail: system },
   };
 }
