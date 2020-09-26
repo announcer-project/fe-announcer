@@ -34,6 +34,9 @@ const GlobalStyle = createGlobalStyle`
   .input-text-height {
     height: 30px;
   }
+  .anticon {
+    vertical-align: 0em;
+  }
 `;
 
 const Loading = dynamic(

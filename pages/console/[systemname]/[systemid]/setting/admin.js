@@ -15,9 +15,41 @@ export default function SettingAdminPage(props) {
   );
 }
 
+const fetchAllAdmin = async (ctx) => {
+  const { systemid } = ctx.query;
+  let admins = [];
+  await axios
+    .get(`${process.env.REACT_APP_BE_PATH}/admin/${systemid}`, {
+      headers: {
+        Authorization: "Bearer " + cookie.getJWT(ctx),
+      },
+    })
+    .then((res) => {
+      admins = res.data;
+    });
+  return admins;
+};
+
+const fetchUser = async (ctx) => {
+  const { systemid } = ctx.query;
+  let user = {};
+  await axios
+    .get(`${process.env.REACT_APP_BE_PATH}/user`, {
+      headers: {
+        Authorization: "Bearer " + cookie.getJWT(ctx),
+      },
+    })
+    .then((res) => {
+      user = res.data;
+    });
+  return user;
+};
+
 export async function getServerSideProps(ctx) {
   await withAuth(ctx);
+  let admins = await fetchAllAdmin(ctx);
+  let user = await fetchUser(ctx);
   return {
-    props: { query: ctx.query, console: true, system: true },
+    props: { query: ctx.query, console: true, system: true, admins, user },
   };
 }
