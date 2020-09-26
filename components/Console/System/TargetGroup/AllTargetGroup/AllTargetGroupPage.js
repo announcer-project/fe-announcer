@@ -68,9 +68,11 @@ export default function AllTargetGroupPage(props) {
     <div className="container pt-4">
       <div className="d-flex justify-content-between pb-4">
         <h1>All target group</h1>
-        <Button>Create role</Button>
+        <Link href={`/console/${systemname}/${systemid}/targetgroup/createtargetgroup`}>
+          <Button>Create target group</Button>
+        </Link>
       </div>
-        <Table columns={columns} dataSource={data} />
+      <Table columns={columns} dataSource={data} />
     </div>
   );
 }
