@@ -4,39 +4,11 @@ import styled from "styled-components";
 import axios from "axios";
 import Swal from "sweetalert2";
 import cookie from "../../../../../tools/cookie";
-import { LoadingOutlined } from "@ant-design/icons";
+import { DeleteOutlined, LoadingOutlined} from "@ant-design/icons";
 import Button from "../../../../common/Button";
+import { Table, Modal } from "antd";
 
 import { useForm, Form, Input, ButtonSubmit } from "../../../../common/Form";
-
-const Box = styled.div`
-  height: 145px;
-  border: 1px solid #a6a6a6;
-  border-radius: 10px;
-  cursor: pointer;
-  text-align: center;
-  padding-top: 40px;
-`;
-const BoxAddNewsType = styled.div`
-  height: 145px;
-  border: 1px solid #a6a6a6;
-  border-radius: 10px;
-  cursor: pointer;
-  text-align: center;
-`;
-const ButtonAddNewsType = styled.div`
-  background-color: #050042;
-  border: none;
-  border-radius: 10px;
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  cursor: pointer;
-  width: 77px;
-  margin-top: 10px;
-`;
 
 export default function CreateNewsTypePage(props) {
   const [newstypes, setNewstypes] = useState(props.newsTypes);
@@ -45,6 +17,8 @@ export default function CreateNewsTypePage(props) {
   const [selected, setSelected] = useState(0);
   let router = useRouter();
   const [form] = useForm();
+  const [visible, setVisible] = useState();
+  const [loading, setLoading] = useState();
 
   useEffect(() => {
     form.setFieldsValue({
@@ -135,56 +109,97 @@ export default function CreateNewsTypePage(props) {
     }
   };
 
+
+  const columns = [
+    {
+      title: "News type",
+      dataIndex: "newstype",
+      key: "newstype",
+      align: "center",
+    },
+    {
+      title: "Number of news",
+      dataIndex: "numofnews",
+      key: "numofnews",
+      align: "center",
+    },
+    {
+      title: "Delete",
+      dataIndex: "delete",
+      key: "delete",
+      render: (text, record) => (
+        <Button danger={true} onClick={() => onApprove(record.key)}><DeleteOutlined /></Button>
+      ),
+      align: "center",
+    },
+  ];
+
+  const data = [
+    {
+      key: '1',
+      newstype: 'John Brown',
+      numofnews: 32,
+    },
+    {
+      key: '2',
+      newstype: 'Jim Green',
+      numofnews: 42,
+    },
+    {
+      key: '3',
+      newstype: 'Joe Black',
+      numofnews: 32,
+    },
+  ];
+
+  const showModal = () => {
+    setVisible(true)
+  };
+
+  const handleOk = () => {
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+      setVisible(false)
+    }, 3000);
+  };
+
+  const handleCancel = () => {
+    setVisible(false)
+  };
+
+
   return (
     <div className="container pt-4">
-      <h1>Create news type</h1>
-      <div className="col-12">
-        <div className="row">
-          <div className="col-3 p-2">
-            <BoxAddNewsType className="shadow-sm pt-3 px-3">
-              <Form
-                form={form}
-                layout={"vertical"}
-                name="basic"
-                onFinish={addNewsType}
-              >
-                <span>Add news type</span>
-                <Input className="mt-2" name="newstype" />
-                <ButtonSubmit>
-                  <LoadingOutlined
-                    className={`${loadingCreate ? "" : "d-none"} mr-1`}
-                  />
+      <div className="d-flex justify-content-between pb-4">
+        <h1>Create news type</h1>
+        <Button onClick={showModal}>Create news type</Button>
+      </div>
+      <Table columns={columns} dataSource={data} />
+      <Modal
+        visible={visible}
+        title="Create news type"
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={null}
+      >
+        <Form
+          form={form}
+          layout={"vertical"}
+          name="basic"
+          onFinish={addNewsType}
+        >
+          <span>Add news type</span>
+          <Input className="mt-2" name="newstype" />
+          <ButtonSubmit>
+            <LoadingOutlined
+              className={`${loadingCreate ? "" : "d-none"} mr-1`}
+            />
                   Create
                 </ButtonSubmit>
-              </Form>
-            </BoxAddNewsType>
-          </div>
-          {newstypes.map((newstype) => {
-            return (
-              <div className="col-3 p-2">
-                <Box className="shadow-sm">
-                  {newstype.newstype_name}
-                  <br />
-                  <Button
-                    className={`mt-3 `}
-                    danger={true}
-                    onClick={() => Delete(newstype.ID)}
-                  >
-                    <LoadingOutlined
-                      className={`${
-                        loadingDelete && selected === newstype.ID
-                          ? ""
-                          : "d-none"
-                      } mr-1`}
-                    />
-                    Delete
-                  </Button>
-                </Box>
-              </div>
-            );
-          })}
-        </div>
-      </div>
+        </Form>
+      </Modal>
+
     </div>
   );
 }
