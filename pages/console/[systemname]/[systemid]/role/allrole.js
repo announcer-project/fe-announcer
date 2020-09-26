@@ -16,22 +16,28 @@ export default function AllRolePage(props) {
 }
 
 const fetchRole = async (ctx) => {
-  let role = [];
+  let roles = [];
   const query = ctx.query;
   await axios
-    .get(
-      `${process.env.REACT_APP_BE_PATH}/role/all?systemid=${query.systemid}`
-    )
+    .get(`${process.env.REACT_APP_BE_PATH}/role/all?systemid=${query.systemid}`)
     .then((res) => {
-      role = res.data;
+      roles = res.data;
     });
-  return role;
+  let newRoles = [];
+  roles.forEach((role) => {
+    let approve = "";
+    if (role.require) {
+      approve = "Must approve";
+    }
+    newRoles.push({ ...role, mustapprove: approve });
+  });
+  return newRoles;
 };
 
 export async function getServerSideProps(ctx) {
   await withAuth(ctx);
-    const role = await fetchRole(ctx);
+  const role = await fetchRole(ctx);
   return {
-    props: { query: ctx.query, role, console: true, system: true},
+    props: { query: ctx.query, role, console: true, system: true },
   };
 }

@@ -7,52 +7,34 @@ import Button from "../../../../common/Button";
 import { Table } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 
-const columns = [
-  {
-    title: "Role",
-    dataIndex: "role",
-    key: "role",
-    align: "center",
-  },
-  {
-    title: "Must approve",
-    dataIndex: "mustapprove",
-    key: "mustapprove",
-    align: "center",
-  },
-  {
-    title: "Delete",
-    dataIndex: "delete",
-    key: "delete",
-    render: (text, record) => (
-      <Button danger={true} onClick={() => onApprove(record.key)}><DeleteOutlined /></Button>
-    ),
-    align: "center",
-  },
-];
-
-const data = [
-  {
-    key: '1',
-    role: 'John Brown',
-    mustapprove: 32,
-  },
-  {
-    key: '2',
-    role: 'Jim Green',
-    mustapprove: 42,
-  },
-  {
-    key: '3',
-    role: 'Joe Black',
-    mustapprove: 32,
-  },
-];
-
 export default function AllRolePage(props) {
   const [rolenames] = useState(props.role);
   let router = useRouter();
   let { systemid, systemname } = router.query;
+  console.log(rolenames)
+  const columns = [
+    {
+      title: "Role",
+      dataIndex: "rolename",
+      key: "rolename",
+      align: "center",
+    },
+    {
+      title: "Must approve",
+      dataIndex: "mustapprove",
+      key: "mustapprove",
+      align: "center",
+    },
+    {
+      title: "Delete",
+      dataIndex: "delete",
+      key: "delete",
+      render: (text, record) => (
+        <Button danger={true} onClick={() => onApprove(record.key)}><DeleteOutlined /></Button>
+      ),
+      align: "center",
+    },
+  ];
 
   return (
     <div className="container pt-4">
@@ -62,7 +44,7 @@ export default function AllRolePage(props) {
           <Button>Create role</Button>
         </Link>
       </div>
-      <Table columns={columns} dataSource={data} />
+      <Table columns={columns} dataSource={rolenames} />
     </div>
   );
 }
