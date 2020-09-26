@@ -42,7 +42,7 @@ export default function Home(props) {
 
   return (
     <div>
-      <div>Hello, next.js</div>
+      {/* <div>Hello, next.js</div>
       <Link href="/login">
         <button type="button" className="btn btn-success">
           Console
@@ -117,7 +117,7 @@ export default function Home(props) {
           <ButtonSubmit danger={true}>Back</ButtonSubmit>
           <ButtonSubmit>test</ButtonSubmit>
         </Form>
-      </div>
+      </div> */}
     </div>
   );
 }
