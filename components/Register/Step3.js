@@ -1,11 +1,12 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { RegisterContext } from "../../store/RegisterProvider";
-import RegisterButton from "./RegisterButton";
 import cookie from "../../tools/cookie";
 import Router from "next/router";
 import { useRouter } from "next/router";
+import Button from "../common/Button";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const Profile = styled.img`
   width: 150px;
@@ -17,34 +18,34 @@ const Profile = styled.img`
 function Step3() {
   const router = useRouter();
   const { pictureurl, social, socialid } = router.query;
-  const {
-    email,
-    imageUrl,
-    image,
-    firstname,
-    lastname,
-    nextStep,
-  } = useContext(RegisterContext);
+  const { email, imageUrl, image, firstname, lastname, nextStep } = useContext(
+    RegisterContext
+  );
+  const [loading, setLoading] = useState(false);
 
   const onRegister = async () => {
-    let data = {
-      email: email,
-      fname: firstname,
-      lname: lastname,
-      imagesocial: imageUrl,
-      imageUrl: pictureurl,
-      imageprofile: image,
-      [social]: socialid,
-    };
-    await axios
-      .post(`${process.env.REACT_APP_BE_PATH}/register`, data)
-      .then((res) => {
-        cookie.setJWT(null, res.data.jwt, 7);
-        Router.push("/console/systems");
-      })
-      .catch((err) => {
-        console.log("error ", err.response);
-      });
+    if (!loading) {
+      setLoading(true);
+      let data = {
+        email: email,
+        fname: firstname,
+        lname: lastname,
+        imagesocial: imageUrl,
+        imageUrl: pictureurl,
+        imageprofile: image,
+        [social]: socialid,
+      };
+      await axios
+        .post(`${process.env.REACT_APP_BE_PATH}/register`, data)
+        .then((res) => {
+          cookie.setJWT(null, res.data.jwt, 7);
+          Router.push("/console/systems");
+        })
+        .catch((err) => {
+          console.log("error ", err.response);
+          setLoading(false);
+        });
+    }
   };
 
   return (
@@ -59,21 +60,13 @@ function Step3() {
         </p>
       </div>
       <div className="pt-3 d-flex justify-content-between">
-        <RegisterButton
-          onClick={() => nextStep(2)}
-          back={true}
-          className="px-4 py-2"
-          type="submit"
-        >
+        <Button onClick={() => nextStep(2)} danger={true}>
           Back
-        </RegisterButton>
-        <RegisterButton
-          onClick={() => onRegister()}
-          className="px-4 py-2"
-          type="submit"
-        >
+        </Button>
+        <Button onClick={() => onRegister()}>
+          <LoadingOutlined className={`${loading ? "" : "d-none"} mr-1`} />
           Register
-        </RegisterButton>
+        </Button>
       </div>
     </div>
   );

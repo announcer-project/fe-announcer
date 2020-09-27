@@ -42,7 +42,7 @@ export default function LiffInit(props) {
       } else {
         liff.login({
           redirectUri:
-            "http://localhost:3000/line/Announcer/AC-H2V07Y5112/register",
+            "http://localhost:3000/line/Joknoi/AC-RKDT2M8SS1/register",
         });
       }
     });
