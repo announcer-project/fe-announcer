@@ -1,13 +1,5 @@
 import styled from "styled-components";
-
-const Button = styled.button`
-  width: 100%;
-  padding: 8px;
-  border-radius: 30px;
-  border: none;
-  background-color: #050042;
-  color: white;
-`;
+import Button from "../common/Button"
 
 export default function ButtonLogin(props) {
   return (

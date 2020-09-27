@@ -125,10 +125,10 @@ export const Input = React.memo((props) => {
 });
 
 export const InputPassword = React.memo(
-  ({ label, name, rules, value, setPassword }) => {
+  (props) => {
     return (
-      <FormAnt.Item label={label} name={name} rules={rules}>
-        <InputAnt.Password value={value} onChange={setPassword} />
+      <FormAnt.Item label={props.label} name={props.name} rules={props.rules}>
+        <InputAnt.Password {...props} value={props.value} onChange={props.setPassword} />
       </FormAnt.Item>
     );
   }

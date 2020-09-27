@@ -36,7 +36,7 @@ function CreatesystemPage(props) {
           <div className="text-center">
             <h1>Create System</h1>
           </div>
-          <div id="StepCreateSystem" className="mt-4 ">
+          <div className="mt-4 ">
             <Step
               StepShow={[
                 { title: "System detail" },

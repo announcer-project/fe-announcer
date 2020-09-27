@@ -51,10 +51,9 @@ function LoginPage() {
 
   const responseFacebook = async (response) => {
     let data = {
-      Social: social,
+      Social: "facebook",
       SocialID: response.userID,
     };
-    console.log(response)
     await axios
       .post(`${process.env.REACT_APP_BE_PATH}/login`, data)
       .then(async (res) => {
@@ -95,8 +94,8 @@ function LoginPage() {
           </div>
           <Background className="col-12 col-sm-4">
             <Content className="col-10 p-0">
-              <div className="col-8 p-0 mx-auto d-sm-none">
-                <img src="/img/logo.png" alt="pic news" width="100%" />
+              <div className="col-8 p-0 mx-auto">
+                <img src="/img/announcer-logo.png" alt="pic news" width="100%" />
               </div>
               <p className="text-center font-title">
                 <b>SIGN IN</b>
@@ -104,7 +103,7 @@ function LoginPage() {
               <div className="col-10 p-0 mx-auto">
                 <div className="mb-3">
                   <a href={pathLoginLine}>
-                    <ButtonLogin>Line</ButtonLogin>
+                    <ButtonLogin className="col-12">Line</ButtonLogin>
                   </a>
                 </div>
                 <div className="mb-3">
@@ -116,18 +115,18 @@ function LoginPage() {
                       fields="name,email,picture"
                       callback={responseFacebook}
                       render={(renderProps) => (
-                        <ButtonLogin onClick={renderProps.onClick}>
+                        <ButtonLogin className="col-12" onClick={renderProps.onClick}>
                           Facebook
                         </ButtonLogin>
                       )}
                     />
                   ) : (
-                    <ButtonLogin>Facebook</ButtonLogin>
+                    <ButtonLogin className="col-12">Facebook</ButtonLogin>
                   )}
                 </div>
-                <div>
+                {/* <div>
                   <ButtonLogin>Google</ButtonLogin>
-                </div>
+                </div> */}
               </div>
             </Content>
           </Background>
