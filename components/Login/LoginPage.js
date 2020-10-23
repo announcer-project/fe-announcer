@@ -124,9 +124,6 @@ function LoginPage() {
                     <ButtonLogin className="col-12">Facebook</ButtonLogin>
                   )}
                 </div>
-                {/* <div>
-                  <ButtonLogin>Google</ButtonLogin>
-                </div> */}
               </div>
             </Content>
           </Background>

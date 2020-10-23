@@ -47,47 +47,49 @@ const Loading = dynamic(
 );
 
 function MyApp({ Component, pageProps }) {
-  const App = ({ children }) => {
-    return (
-      <>
-        <Head>
-          <link rel="icon" href="/announcer-logo.ico" />
-        </Head>
-        <GlobalStyle />
-        <Loading />
-        <Theme>
-          <div className="global">{children}</div>
-        </Theme>
-      </>
-    );
-  };
+  // const App = ({ children }) => {
+  return (
+    <>
+      <Head>
+        <link rel="icon" href="/announcer-logo.ico" />
+      </Head>
+      <GlobalStyle />
+      <Loading />
+      <Theme>
+        <div className="global">
+          <Component {...pageProps} />
+        </div>
+      </Theme>
+    </>
+  );
+  // };
 
-  if (pageProps.console && !pageProps.system) {
-    return (
-      <App>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </App>
-    );
-  }
-  if (pageProps.console && pageProps.system) {
-    return (
-      <App>
-        <LayoutSidebar>
-          <Component {...pageProps} />
-        </LayoutSidebar>
-      </App>
-    );
-  }
-  if (!pageProps.console && !pageProps.system) {
-    return (
-      <App>
-        <Loading />
-        <Component {...pageProps} />
-      </App>
-    );
-  }
+  // if (pageProps.console && !pageProps.system) {
+  //   return (
+  //     <App>
+  //       <Layout>
+  //         <Component {...pageProps} />
+  //       </Layout>
+  //     </App>
+  //   );
+  // }
+  // if (pageProps.console && pageProps.system) {
+  //   return (
+  //     <App>
+  //       <LayoutSidebar>
+  //         <Component {...pageProps} />
+  //       </LayoutSidebar>
+  //     </App>
+  //   );
+  // }
+  // if (!pageProps.console && !pageProps.system) {
+  //   return (
+  //     <App>
+  //       <Loading />
+  //       <Component {...pageProps} />
+  //     </App>
+  //   );
+  // }
 }
 
 export default MyApp;
