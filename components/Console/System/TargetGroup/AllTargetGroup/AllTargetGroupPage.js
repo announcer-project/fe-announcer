@@ -7,12 +7,12 @@ import axios from "axios";
 import Button from "../../../../common/Button";
 import { Table } from "antd";
 
-export default function AllTargetGroupPage(props) {
+export default function AllTargetGroupPage({targetGroups}) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { systemid, systemname } = router.query;
   const path = `/console/${systemname}/${systemid}`;
-  const [targetgroups, setTargetgroups] = useState(props.targetGroups);
+  const [targetgroups, setTargetgroups] = useState(targetGroups);
   const [selected, setSelected] = useState(0);
 
   const fetchTargetgroups = async () => {
