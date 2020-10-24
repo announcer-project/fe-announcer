@@ -1,24 +1,35 @@
 import React, { useContext, useEffect } from "react";
 import Head from "next/head";
 import { CreateLineBroadcastProvider } from "../../../../../store/CreateLineBroadcastProvider";
+import withAuth from "../../../../../hoc/withAuth";
+import withLayout from "../../../../../hoc/withLayoutConsole";
 import axios from "axios";
 import cookie from "../../../../../tools/cookie";
-import { withAuth } from "../../../../../tools/withAuth";
 
 import Page from "../../../../../components/Console/System/Boradcast/BroadcastLinePage";
 
-export default function BroadcastLinePage(props) {
+function BroadcastLinePage({ systemname, aboutLineBroadcast }) {
   return (
     <>
       <Head>
-        <title>{props.query.systemname} - NMS</title>
+        <title>{systemname} - Announcer</title>
       </Head>
       <CreateLineBroadcastProvider>
-        <Page {...props} />
+        <Page aboutLineBroadcast={aboutLineBroadcast} />
       </CreateLineBroadcastProvider>
     </>
   );
 }
+
+BroadcastLinePage.getInitialProps = async (ctx) => {
+  let aboutLineBroadcast = await fetchAboutLineBroadcast(ctx);
+  return {
+    systemname: ctx.query.systemname,
+    aboutLineBroadcast,
+  };
+};
+
+export default withAuth(withLayout(BroadcastLinePage));
 
 const setSelected = (data) => {
   let newData = [];
@@ -56,14 +67,3 @@ const fetchAboutLineBroadcast = async (ctx) => {
 
   return data;
 };
-
-export async function getServerSideProps(ctx) {
-  const auth = await withAuth(ctx);
-  let aboutLineBroadcast = [];
-  if (auth) {
-    aboutLineBroadcast = await fetchAboutLineBroadcast(ctx);
-  }
-  return {
-    props: { query: ctx.query, aboutLineBroadcast, console: true, system: true },
-  };
-}

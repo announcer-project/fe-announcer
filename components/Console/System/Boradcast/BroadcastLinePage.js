@@ -6,7 +6,7 @@ import Receiver from "./LineForm/Step1/Step1";
 import Message from "./LineForm/Step2/Step2";
 import Preview from "./LineForm/Step3/Step3";
 
-export default function BroadcastLinePage(props) {
+export default function BroadcastLinePage({aboutLineBroadcast}) {
   const {
     selectNewsTypes,
     selectTargetGroups,
@@ -14,26 +14,24 @@ export default function BroadcastLinePage(props) {
     setNews,
     step,
   } = useContext(CreateLineBroadcastContext);
-  const newstypes = props.aboutLineBroadcast.newstypes;
-  const targetgroups = props.aboutLineBroadcast.targetgroups;
-  const users = props.aboutLineBroadcast.users;
-  const news = props.aboutLineBroadcast.news;
 
   useEffect(() => {
-    selectNewsTypes(newstypes);
-    selectTargetGroups(targetgroups);
-    selectUsers(users);
-    setNews(news);
+    if(aboutLineBroadcast) {
+      selectNewsTypes(aboutLineBroadcast.newstypes);
+      selectTargetGroups(aboutLineBroadcast.targetgroups);
+      selectUsers(aboutLineBroadcast.users);
+      setNews(aboutLineBroadcast.news);
+    }
   }, []);
 
-  const StepForm = (props) => {
+  const StepForm = () => {
     switch (step) {
       case 1:
         return <Receiver />;
       case 2:
         return <Message />;
       default:
-        return <Preview systemname={props.query.systemname} />;
+        return <Preview />;
     }
   };
   return (
@@ -52,7 +50,7 @@ export default function BroadcastLinePage(props) {
               size="small"
             />
           </div>
-          <div className="mt-2 mt-sm-4 px-0 px-sm-3">{StepForm(props)}</div>
+          <div className="mt-2 mt-sm-4 px-0 px-sm-3">{StepForm()}</div>
         </div>
       </div>
     </div>
