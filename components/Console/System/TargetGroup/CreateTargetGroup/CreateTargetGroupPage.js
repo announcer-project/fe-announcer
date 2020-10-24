@@ -23,10 +23,10 @@ const ButtonCreateTargetGroup = styled.div`
   margin-top: 10px;
 `;
 
-export default function CreateTargetGroupPage(props) {
+export default function CreateTargetGroupPage({ membersdb }) {
   const router = useRouter();
   const { systemid, systemname } = router.query;
-  const [members, setMembers] = useState(props.targetGroups || []);
+  const [members, setMembers] = useState(membersdb || []);
   const [membersSelect, setMembersSelect] = useState([]);
   const [membersNotSelect, setMembersNotSelect] = useState([]);
   const [search, setSearch] = useState("");

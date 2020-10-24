@@ -1,11 +1,20 @@
-import { withAuth } from "../../../../../tools/withAuth";
-import axios from "axios"
-import cookie from "../../../../../tools/cookie"
+import Head from "next/head";
+import axios from "axios";
+import cookie from "../../../../../tools/cookie";
+import withAuth from "../../../../../hoc/withAuth";
+import withLayout from "../../../../../hoc/withLayoutConsole";
 
 import Page from "../../../../../components/Console/System/TargetGroup/CreateTargetGroup/CreateTargetGroupPage";
 
-export default function CreateTargetGroupPage(props) {
-  return <Page {...props} />;
+function CreateTargetGroupPage({ systemname, membersDB }) {
+  return (
+    <>
+      <Head>
+        <title>{systemname} - Announcer</title>
+      </Head>
+      <Page membersdb={membersDB} />
+    </>
+  );
 }
 
 const fetchMembers = async (ctx) => {
@@ -26,10 +35,12 @@ const fetchMembers = async (ctx) => {
   return members;
 };
 
-export async function getServerSideProps(ctx) {
-  await withAuth(ctx);
-  const targetGroups = await fetchMembers(ctx);
+CreateTargetGroupPage.getInitialProps = async (ctx) => {
+  const membersDB = await fetchMembers(ctx);
   return {
-    props: { query: ctx.query, targetGroups, console: true, system: true },
+    systemname: ctx.query.systemname,
+    membersDB,
   };
-}
+};
+
+export default withAuth(withLayout(CreateTargetGroupPage));
