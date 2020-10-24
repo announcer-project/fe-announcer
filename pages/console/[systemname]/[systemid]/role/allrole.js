@@ -1,16 +1,17 @@
-import axios from "axios";
-import cookie from "../../../../../tools/cookie";
-import { withAuth } from "../../../../../tools/withAuth";
-import Page from "../../../../../components/Console/System/Role/AllRole/AllRolePage";
 import Head from "next/head";
+import axios from "axios";
+import withAuth from "../../../../../hoc/withAuth";
+import withLayout from "../../../../../hoc/withLayoutConsole";
 
-export default function AllRolePage(props) {
+import Page from "../../../../../components/Console/System/Role/AllRole/AllRolePage";
+
+function AllRolePage({ systemname, role }) {
   return (
     <React.Fragment>
       <Head>
-        <title>{props.query.systemname} - NMS</title>
+        <title>{systemname} - NMS</title>
       </Head>
-      <Page {...props} />
+      <Page role={role} />
     </React.Fragment>
   );
 }
@@ -34,10 +35,9 @@ const fetchRole = async (ctx) => {
   return newRoles;
 };
 
-export async function getServerSideProps(ctx) {
-  await withAuth(ctx);
+AllRolePage.getInitialProps = async (ctx) => {
   const role = await fetchRole(ctx);
-  return {
-    props: { query: ctx.query, role, console: true, system: true },
-  };
-}
+  return { systemname: ctx.query.systemname, role };
+};
+
+export default withAuth(withLayout(AllRolePage));

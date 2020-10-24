@@ -7,11 +7,11 @@ import Button from "../../../../common/Button";
 import { Table } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 
-export default function AllRolePage(props) {
-  const [rolenames] = useState(props.role);
+export default function AllRolePage({ role }) {
+  const [rolenames] = useState(role);
   let router = useRouter();
   let { systemid, systemname } = router.query;
-  console.log(rolenames)
+
   const columns = [
     {
       title: "Role",
@@ -30,7 +30,9 @@ export default function AllRolePage(props) {
       dataIndex: "delete",
       key: "delete",
       render: (text, record) => (
-        <Button danger={true} onClick={() => onApprove(record.key)}><DeleteOutlined /></Button>
+        <Button danger={true} onClick={() => onApprove(record.key)}>
+          <DeleteOutlined />
+        </Button>
       ),
       align: "center",
     },

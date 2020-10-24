@@ -1,16 +1,18 @@
+import Head from "next/head";
 import axios from "axios";
 import cookie from "../../../../../tools/cookie";
-import { withAuth } from "../../../../../tools/withAuth";
-import Page from "../../../../../components/Console/System/Role/RoleRequest/RoleRequest";
-import Head from "next/head";
+import withAuth from "../../../../../hoc/withAuth"
+import withLayout from "../../../../../hoc/withLayoutConsole"
 
-export default function RoleRequestPage(props) {
+import Page from "../../../../../components/Console/System/Role/RoleRequest/RoleRequest";
+
+function RoleRequestPage({systemname, rolerequests}) {
   return (
     <React.Fragment>
       <Head>
-        <title>{props.query.systemname} - NMS</title>
+        <title>{systemname} - Announcer</title>
       </Head>
-      <Page {...props} />
+      <Page rolerequests={rolerequests} />
     </React.Fragment>
   );
 }
@@ -30,10 +32,12 @@ const fetchRoleRequests = async (ctx) => {
   return rolerequests;
 };
 
-export async function getServerSideProps(ctx) {
-  await withAuth(ctx);
+RoleRequestPage.getInitialProps = async (ctx) => {
   const rolerequests = await fetchRoleRequests(ctx);
   return {
-    props: { query: ctx.query, console: true, system: true, rolerequests },
+    systemname: ctx.query.systemname,
+    rolerequests,
   };
-}
+};
+
+export default withAuth(withLayout(RoleRequestPage));
