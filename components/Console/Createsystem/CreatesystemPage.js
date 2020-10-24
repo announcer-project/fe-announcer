@@ -22,8 +22,6 @@ function CreatesystemPage(props) {
         return <Step1 {...props} />;
       case 2:
         return <Step2 {...props} />;
-      // case 3:
-      //     return <Step3 {...props} />;
       case 3:
         return <Step4 {...props} />;
     }
