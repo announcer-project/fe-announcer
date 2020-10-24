@@ -34,12 +34,12 @@ const ButtonAdd = styled.div`
 function SystemsPage(props) {
   const [admins, setAdmins] = useState(null);
 
-  useEffect(async () => {
+  useEffect(() => {
     let header = {
       Authorization: "Bearer " + cookie.getJWT(),
     };
     let admins = [];
-    await axios
+    axios
       .get(`${process.env.REACT_APP_BE_PATH}/system/all`, {
         headers: header,
       })

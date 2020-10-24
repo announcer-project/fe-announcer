@@ -74,7 +74,6 @@ function LoginPage() {
     await axios
       .post(`${process.env.REACT_APP_BE_PATH}/login/line`, data)
       .then(async (res) => {
-        console.log(res.data)
         if (res.data.jwt === undefined) {
           Router.push(`/register?social=line&socialid=${res.data.UserId}&email=${res.data.Email}&pictureurl=${res.data.PictureUrl}`);
         } else {
