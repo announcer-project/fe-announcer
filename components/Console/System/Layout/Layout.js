@@ -65,13 +65,13 @@ export default function LayoutPage(props) {
   const router = useRouter();
   let pagename = router.pathname.split("/")[4];
   let pagetype = router.pathname.split("/")[5];
-  if (pagetype !== undefined) {
+
+  if (pagetype !== undefined && pagename !== "connect") {
     let name = pagename;
     pagename = pagetype;
     pagetype = name;
   }
   const { systemid, systemname } = router.query;
-  const path = `/console/${systemname}/${systemid}`;
 
   const onCollapse = (collapsed) => {
     setCollapsed(collapsed);

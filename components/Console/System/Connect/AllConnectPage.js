@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { LoadingOutlined, DeleteOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import axios from "axios";
-import cookie from "../../../../tools/cookie"
+import cookie from "../../../../tools/cookie";
 
 const Box = styled.div`
   border: 1px solid #a6a6a6;
@@ -54,7 +54,10 @@ export default function AllConnectPage({ lineConnected }) {
             <span className="mt-2">Line Official Account</span>
           </div>
           <div>
-            <Link href={`/console/${systemname}/${systemid}/connect/line`}>
+            <Link
+              href={`/console/[systemname]/[systemid]/connect/line?systemname=${systemname}&systemid=${systemid}`}
+              as={`/console/${systemname}/${systemid}/connect/line`}
+            >
               <Button className={`${lineConnect ? "d-none" : ""}`}>
                 Connect API
               </Button>
