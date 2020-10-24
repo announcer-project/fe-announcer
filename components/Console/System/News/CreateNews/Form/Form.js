@@ -16,7 +16,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-export default function FromCreateNews(props) {
+export default function FromCreateNews({newstypes}) {
   const router = useRouter();
   const { systemid, systemname } = router.query;
   const {
@@ -59,7 +59,7 @@ export default function FromCreateNews(props) {
   };
 
   useEffect(() => {
-    selectNewsType(props.newsTypes);
+    selectNewsType(newstypes);
     const today = new Date();
     setPostdate(today);
     scrollToTop();
@@ -130,7 +130,7 @@ export default function FromCreateNews(props) {
           form={form}
           label="Select news type"
           name="newstypes"
-          defaultValue={newsTypes.length === 0 ? props.newsTypes : newsTypes}
+          defaultValue={newsTypes.length === 0 ? newstypes : newsTypes}
           rules={[
             {
               required: true,

@@ -1,17 +1,15 @@
 import React, { useContext } from "react";
 import { CreateNewsContext } from "../../../../../store/CreateNewsProvider";
 
-import Layout from "../../Layout/Layout";
 import Form from "./Form/Form";
 import Preview from "./Preview/Preview";
 
-export default function AllNewsPage(props) {
+export default function AllNewsPage({ newstypes }) {
   const { step } = useContext(CreateNewsContext);
-
   const Step = () => {
     switch (step) {
       case 1:
-        return <Form {...props} />;
+        return <Form newstypes={newstypes} />;
       case 2:
         return <Preview />;
     }

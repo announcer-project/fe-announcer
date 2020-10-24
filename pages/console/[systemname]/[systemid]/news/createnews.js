@@ -1,18 +1,20 @@
 import Head from "next/head";
 import axios from "axios";
 import cookie from "../../../../../tools/cookie";
-import { withAuth } from "../../../../../tools/withAuth";
 import { CreateNewsProvider } from "../../../../../store/CreateNewsProvider";
+import withAuth from "../../../../../hoc/withAuth"
+import withLayout from "../../../../../hoc/withLayoutConsole"
+
 import Page from "../../../../../components/Console/System/News/CreateNews/CreateNewsPage";
 
-export default function CreateNewsPage(props) {
+function CreateNewsPage({ systemname, newstypes }) {
   return (
     <>
       <Head>
-        <title>{props.query.systemname} - NMS</title>
+        <title>{systemname} - NMS</title>
       </Head>
       <CreateNewsProvider>
-        <Page {...props} />
+        <Page newstypes={newstypes} />
       </CreateNewsProvider>
     </>
   );
@@ -50,10 +52,12 @@ const fetchNewsTypes = async (ctx) => {
   return newstypes;
 };
 
-export async function getServerSideProps(ctx) {
-  await withAuth(ctx);
-  const newsTypes = await fetchNewsTypes(ctx);
+CreateNewsPage.getInitialProps = async (ctx) => {
+  const newstypes = await fetchNewsTypes(ctx);
   return {
-    props: { query: ctx.query, newsTypes, console: true, system: true },
+    systemname: ctx.query.systemname,
+    newstypes,
   };
-}
+};
+
+export default withAuth(withLayout(CreateNewsPage))
