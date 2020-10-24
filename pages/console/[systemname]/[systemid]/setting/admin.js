@@ -1,16 +1,18 @@
+import Head from "next/head";
 import axios from "axios";
 import cookie from "../../../../../tools/cookie";
-import { withAuth } from "../../../../../tools/withAuth";
-import Page from "../../../../../components/Console/System/Setting/SettingAdminPage";
-import Head from "next/head";
+import withAuth from "../../../../../hoc/withAuth";
+import withLayout from "../../../../../hoc/withLayoutConsole";
 
-export default function SettingAdminPage(props) {
+import Page from "../../../../../components/Console/System/Setting/SettingAdminPage";
+
+function SettingAdminPage({ systemname, admins, user }) {
   return (
     <React.Fragment>
       <Head>
-        <title>{props.query.systemname} - NMS</title>
+        <title>{systemname} - NMS</title>
       </Head>
-      <Page {...props} />
+      <Page admins={admins} userdb={user} />
     </React.Fragment>
   );
 }
@@ -31,7 +33,6 @@ const fetchAllAdmin = async (ctx) => {
 };
 
 const fetchUser = async (ctx) => {
-  const { systemid } = ctx.query;
   let user = {};
   await axios
     .get(`${process.env.REACT_APP_BE_PATH}/user`, {
@@ -45,11 +46,14 @@ const fetchUser = async (ctx) => {
   return user;
 };
 
-export async function getServerSideProps(ctx) {
-  await withAuth(ctx);
+SettingAdminPage.getInitialProps = async (ctx) => {
   let admins = await fetchAllAdmin(ctx);
   let user = await fetchUser(ctx);
   return {
-    props: { query: ctx.query, console: true, system: true, admins, user },
+    systemname: ctx.query.systemname,
+    admins,
+    user,
   };
-}
+};
+
+export default withAuth(withLayout(SettingAdminPage));

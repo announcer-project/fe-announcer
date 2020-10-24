@@ -66,7 +66,7 @@ export default function LayoutPage(props) {
   let pagename = router.pathname.split("/")[4];
   let pagetype = router.pathname.split("/")[5];
 
-  if (pagetype !== undefined && pagename !== "connect") {
+  if (pagetype !== undefined && pagename !== "connect" && pagename !== "setting") {
     let name = pagename;
     pagename = pagetype;
     pagetype = name;

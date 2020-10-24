@@ -1,16 +1,18 @@
+import Head from "next/head";
 import axios from "axios";
 import cookie from "../../../../../tools/cookie";
-import { withAuth } from "../../../../../tools/withAuth";
-import Page from "../../../../../components/Console/System/Setting/SettingPage";
-import Head from "next/head";
+import withAuth from "../../../../../hoc/withAuth"
+import withLayout from "../../../../../hoc/withLayoutConsole"
 
-export default function SettingPage(props) {
+import Page from "../../../../../components/Console/System/Setting/SettingPage";
+
+function SettingPage({ systemname, systemDetail }) {
   return (
     <React.Fragment>
       <Head>
-        <title>{props.query.systemname} - NMS</title>
+        <title>{systemname} - NMS</title>
       </Head>
-      <Page {...props} />
+      <Page systemDetail={systemDetail} />
     </React.Fragment>
   );
 }
@@ -30,10 +32,9 @@ const fetchSystem = async (ctx) => {
   return system;
 };
 
-export async function getServerSideProps(ctx) {
-  await withAuth(ctx);
-  let system = await fetchSystem(ctx)
-  return {
-    props: { query: ctx.query, console: true, system: true, systemDetail: system },
-  };
-}
+SettingPage.getInitialProps = async (ctx) => {
+  let system = await fetchSystem(ctx);
+  return { systemname: ctx.query.systemname, systemDetail: system };
+};
+
+export default withAuth(withLayout(SettingPage));

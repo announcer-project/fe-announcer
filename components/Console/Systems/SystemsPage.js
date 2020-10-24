@@ -79,7 +79,8 @@ function SystemsPage(props) {
                     let system = admin.system;
                     return (
                       <Link
-                        href={`/console/${system.system_name}/${system.ID}/home`}
+                        href={`/console/[systemname]/[systemid]/home?systemname=${system.system_name}&systemid=${system.ID}`}
+                        as={`/console/${system.system_name}/${system.ID}/home`}
                       >
                         <div key={key} className="col-12 col-sm-4 mt-3">
                           <System admin={admin} />

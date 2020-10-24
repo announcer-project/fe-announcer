@@ -7,9 +7,9 @@ import cookie from "../../../../tools/cookie";
 import { useForm, Form, Input, ButtonSubmit } from "../../../common/Form";
 
 
-export default function SettingAdminPage(props) {
+export default function SettingAdminPage({admins, userdb}) {
   let [isAdmin, setIsAdmin] = useState(false);
-  let [user, setUser] = useState(props.user);
+  let [user, setUser] = useState(userdb);
 
   const [loadingCreate, setLoadingCreate] = useState(false);
   const [form] = useForm();
@@ -17,7 +17,7 @@ export default function SettingAdminPage(props) {
   const [loading, setLoading] = useState();
 
   useEffect(() => {
-    if (props.admins[0].userId === user.ID) {
+    if (admins[0].userId === user.ID) {
       setIsAdmin(true);
     }
   });
@@ -92,7 +92,7 @@ export default function SettingAdminPage(props) {
     setVisible(false)
   };
 
-  const data = props.admins;
+  const data = admins;
 
   return (
     <div className="container pt-4">

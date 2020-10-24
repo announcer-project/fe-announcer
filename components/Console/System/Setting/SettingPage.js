@@ -22,10 +22,10 @@ const Text = styled.div`
   color: black;
 `;
 
-export default function SettingPage(props) {
+export default function SettingPage({ systemDetail }) {
   const router = useRouter();
   const { systemname, systemid } = router.query;
-  const system = props.systemDetail;
+  const system = systemDetail;
   return (
     <div className="container py-4">
       <h1>Setting</h1>
@@ -36,7 +36,10 @@ export default function SettingPage(props) {
         <div className="pt-5">System name: {system.system_name}</div>
         <div className="pt-3 pb-5">System ID: {system.ID}</div>
       </div>
-      <Link href={`/console/${systemname}/${systemid}/setting/admin`}>
+      <Link
+        href={`/console/[systemname]/[systemid]/setting/admin?systemname=${systemname}&systemid=${systemid}`}
+        as={`/console/${systemname}/${systemid}/setting/admin`}
+      >
         <Box>
           <a>
             <div className="d-flex justify-content-between">
