@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import styled from "styled-components";
 import axios from "axios";
 import Swal from "sweetalert2";
 import cookie from "../../../../../tools/cookie";
@@ -10,16 +9,17 @@ import { Table, Modal } from "antd";
 
 import { useForm, Form, Input, ButtonSubmit } from "../../../../common/Form";
 
-export default function CreateNewsTypePage(props) {
-  const [newstypes, setNewstypes] = useState(props.newsTypes);
+export default function CreateNewsTypePage({ newsTypes }) {
+  const [newstypes, setNewstypes] = useState(newsTypes);
   const [loadingDelete, setLoadingDelete] = useState(false);
   const [loadingCreate, setLoadingCreate] = useState(false);
   const [selected, setSelected] = useState(0);
   let router = useRouter();
+  let { systemname, systemid } = router.query;
   const [form] = useForm();
   const [visible, setVisible] = useState();
   const [loading, setLoading] = useState();
-  console.log(newstypes);
+
   useEffect(() => {
     form.setFieldsValue({
       newstype: "",
@@ -29,7 +29,7 @@ export default function CreateNewsTypePage(props) {
   const GetNewsTypes = async () => {
     await axios
       .get(
-        `${process.env.REACT_APP_BE_PATH}/news/newstype/all?systemid=${props.query.systemid}`,
+        `${process.env.REACT_APP_BE_PATH}/news/newstype/all?systemid=${systemid}`,
         {
           headers: {
             Authorization: "Bearer " + cookie.getJWT(),
@@ -93,7 +93,6 @@ export default function CreateNewsTypePage(props) {
     if (!loadingDelete || !loadingCreate) {
       setLoadingDelete(true);
       setSelected(newstypeid);
-      let { systemid } = router.query;
       let data = {
         systemid: systemid,
         newstypeid: newstypeid,
@@ -136,7 +135,11 @@ export default function CreateNewsTypePage(props) {
               record.ID === selected && loadingDelete ? "" : "d-none"
             }`}
           />
-          <DeleteOutlined className={`${record.ID === selected && loadingDelete ? "d-none" : ""}`} />
+          <DeleteOutlined
+            className={`${
+              record.ID === selected && loadingDelete ? "d-none" : ""
+            }`}
+          />
         </Button>
       ),
       align: "center",

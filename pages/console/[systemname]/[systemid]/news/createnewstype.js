@@ -1,12 +1,20 @@
 import axios from "axios";
 import cookie from "../../../../../tools/cookie";
-
-import { withAuth } from "../../../../../tools/withAuth";
+import Head from "next/head";
+import withAuth from "../../../../../hoc/withAuth";
+import withLayout from "../../../../../hoc/withLayoutConsole";
 
 import Page from "../../../../../components/Console/System/News/CreateNewsType/CreateNewsTypePage";
 
-export default function CreateNewsTypePage(props) {
-  return <Page {...props} />;
+function CreateNewsTypePage({ systemname, newstypes }) {
+  return (
+    <>
+      <Head>
+        <title>{systemname} - Announcer</title>
+      </Head>
+      <Page newsTypes={newstypes} />
+    </>
+  );
 }
 
 const fetchNewsTypes = async (ctx) => {
@@ -27,10 +35,12 @@ const fetchNewsTypes = async (ctx) => {
   return newstypes;
 };
 
-export async function getServerSideProps(ctx) {
-  await withAuth(ctx);
-  const newsTypes = await fetchNewsTypes(ctx);
+CreateNewsTypePage.getInitialProps = async (ctx) => {
+  let newstypes = await fetchNewsTypes(ctx);
   return {
-    props: { query: ctx.query, console: true, system: true, newsTypes },
+    systemname: ctx.query.systemname,
+    newstypes,
   };
-}
+};
+
+export default withAuth(withLayout(CreateNewsTypePage));
