@@ -4,12 +4,26 @@ import Router from "next/router";
 
 const withAuth = (WrappedComponent) => {
   return class ComponentWithAuth extends Component {
-    render() {
-      const jwt = cookie.getJWT();
+    static async getInitialProps(ctx) {
+      const jwt = cookie.getJWT(ctx);
       if (!jwt) {
-        Router.push("/login");
-        return <></>;
+        if (ctx.res) {
+          ctx.res.writeHead(302, {
+            Location: "/login",
+          });
+          ctx.res.end();
+        } else {
+          Router.push("/login");
+        }
       }
+      // Check if Page has a `getInitialProps`; if so, call it.
+      const pageProps =
+        WrappedComponent.getInitialProps &&
+        (await WrappedComponent.getInitialProps(ctx));
+      // Return props.
+      return { ...pageProps };
+    }
+    render() {
       return <WrappedComponent />;
     }
   };

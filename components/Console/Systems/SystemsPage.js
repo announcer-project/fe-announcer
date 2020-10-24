@@ -3,6 +3,8 @@ import Link from "next/link";
 import styled from "styled-components";
 import { PlusOutlined } from "@ant-design/icons";
 import System from "./SystemBox";
+import axios from "axios";
+import cookie from "../../../tools/cookie";
 
 const SystemBox = styled.div`
   height: 250px;
@@ -27,14 +29,26 @@ const Background = styled.div`
 
 const ButtonAdd = styled.div`
   font-size: 20px;
-`
+`;
 
 function SystemsPage(props) {
-  const [admins, setAdmins] = useState([]);
+  const [admins, setAdmins] = useState(null);
 
-  useEffect(() => {
-    console.log("admins", props.admins);
-    setAdmins(props.admins);
+  useEffect(async () => {
+    let header = {
+      Authorization: "Bearer " + cookie.getJWT(),
+    };
+    let admins = [];
+    await axios
+      .get(`${process.env.REACT_APP_BE_PATH}/system/all`, {
+        headers: header,
+      })
+      .then((res) => {
+        setAdmins(res.data);
+      })
+      .catch((err) => {
+        console.log("err: ", err.message);
+      });
   }, []);
 
   return (
@@ -50,24 +64,31 @@ function SystemsPage(props) {
                 <Link href="/console/createsystem">
                   <SystemBox className="text-center">
                     <ButtonAdd>
-                      <PlusOutlined className="pb-3"/><br/>
+                      <PlusOutlined className="pb-3" />
+                      <br />
                       Add system
                     </ButtonAdd>
                   </SystemBox>
                 </Link>
               </div>
-              {admins.map((admin, key) => {
-                let system = admin.system;
-                return (
-                  <Link
-                    href={`/console/${system.system_name}/${system.ID}/home`}
-                  >
-                    <div key={key} className="col-12 col-sm-4 mt-3">
-                      <System admin={admin} />
-                    </div>
-                  </Link>
-                );
-              })}
+              {!admins ? (
+                <>loading</>
+              ) : (
+                <>
+                  {admins.map((admin, key) => {
+                    let system = admin.system;
+                    return (
+                      <Link
+                        href={`/console/${system.system_name}/${system.ID}/home`}
+                      >
+                        <div key={key} className="col-12 col-sm-4 mt-3">
+                          <System admin={admin} />
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </>
+              )}
             </div>
           </div>
         </div>
