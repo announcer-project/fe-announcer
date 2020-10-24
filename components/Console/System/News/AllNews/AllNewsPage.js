@@ -4,10 +4,7 @@ import { useRouter } from "next/router";
 import Layout from "../../Layout/Layout";
 import AllNewsBox from "./AllNewsBox";
 
-export default function AllNewsPage(props) {
-  const allnews = props.allnews;
-  const newsdraft = allnews.draft;
-  const newspublish = allnews.publish;
+export default function AllNewsPage({ allnews }) {
   const router = useRouter();
   const { systemid, systemname } = router.query;
   const path = `/console/${systemname}/${systemid}`;
@@ -15,8 +12,14 @@ export default function AllNewsPage(props) {
   return (
     <div className="container pt-2">
       <h1>{systemname} - All news</h1>
-      <AllNewsBox type="Draft" news={newsdraft} path={path} />
-      <AllNewsBox type="Publish" news={newspublish} path={path} />
+      {allnews ? (
+        <div>
+          <AllNewsBox type="Draft" news={allnews.draft} path={path} />
+          <AllNewsBox type="Publish" news={allnews.publish} path={path} />
+        </div>
+      ) : (
+        <p>loading</p>
+      )}
     </div>
   );
 }
