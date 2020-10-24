@@ -22,8 +22,7 @@ const BoxSocial = styled.div`
   border-radius: 8px;
 `;
 
-export default function AllConnectPage({ lineConnected, facebookConnected }) {
-  console.log("lineConnected", lineConnected);
+export default function AllConnectPage({ lineConnected }) {
   const router = useRouter();
   const { systemid, systemname } = router.query;
   const [lineConnect, setLineConnect] = useState(lineConnected);

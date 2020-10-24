@@ -1,16 +1,18 @@
+import Head from "next/head";
 import axios from "axios";
 import cookie from "../../../../../tools/cookie";
-import { withAuth } from "../../../../../tools/withAuth";
-import Page from "../../../../../components/Console/System/Connect/AllConnectPage";
-import Head from "next/head";
+import withAuth from "../../../../../hoc/withAuth";
+import withLayout from "../../../../../hoc/withLayoutConsole";
 
-export default function AllConnectPage(props) {
+import Page from "../../../../../components/Console/System/Connect/AllConnectPage";
+
+function AllConnectPage({ systemname, lineConnected }) {
   return (
     <React.Fragment>
       <Head>
-        <title>{props.query.systemname} - Announcer</title>
+        <title>{systemname} - Announcer</title>
       </Head>
-      <Page {...props} />
+      <Page lineConnected={lineConnected} />
     </React.Fragment>
   );
 }
@@ -35,11 +37,12 @@ const checkConnect = async (ctx) => {
   return line;
 };
 
-export async function getServerSideProps(ctx) {
-  await withAuth(ctx);
+AllConnectPage.getInitialProps = async (ctx) => {
   const lineConnected = await checkConnect(ctx);
-  console.log(lineConnected);
   return {
-    props: { query: ctx.query, console: true, system: true, lineConnected },
+    systemname: ctx.query.systemname,
+    lineConnected,
   };
-}
+};
+
+export default withAuth(withLayout(AllConnectPage));
