@@ -13,13 +13,13 @@ const SeeMore = styled.span`
   }
 `;
 
-export default function News({ news, query }) {
+export default function News({ news, systemname, systemid }) {
   return (
     <div className="border rounded p-3 mt-3 ">
       <div className="d-flex justify-content-between">
         <span className="font-large">News</span>
         <Link
-          href={`/console/${query.systemname}/${query.systemid}/news/allnews`}
+          href={`/console/${systemname}/${systemid}/news/allnews`}
         >
           <SeeMore className="font-small align-text-bottom mt-1">
             See more
@@ -32,7 +32,7 @@ export default function News({ news, query }) {
             image={Empty.PRESENTED_IMAGE_SIMPLE}
             description="Not have news"
           >
-            <Link href={`/console/${query.systemname}/${query.systemid}/news/createnews`}>
+            <Link href={`/console/${systemname}/${systemid}/news/createnews`}>
               <Button>Create news</Button>
             </Link>
           </Empty>
@@ -41,7 +41,7 @@ export default function News({ news, query }) {
           <div className="col-12 mt-2">
             <div className="row">
               {news.map((news) => {
-                return <Link href={`/news/${query.systemname}/${query.systemid}/${news.ID}`}><NewsCard className="col-12 col-lg-4" news={news} /></Link>;
+                return <Link href={`/news/${systemname}/${systemid}/${news.ID}`}><NewsCard className="col-12 col-lg-4" news={news} /></Link>;
               })}
             </div>
           </div>

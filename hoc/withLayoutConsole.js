@@ -1,5 +1,5 @@
 import { Component } from "react";
-import Layout from "../components/Layouts/Layouts";
+import Layout from "../components/Console/System/Layout/Layout";
 
 const withLayout = (WrappedComponent) => {
   return class ComponentwithLayout extends Component {
@@ -12,11 +12,9 @@ const withLayout = (WrappedComponent) => {
 
     render() {
       return (
-        <>
-          <Layout>
-            <WrappedComponent />
-          </Layout>
-        </>
+        <Layout>
+          <WrappedComponent {...this.props} />
+        </Layout>
       );
     }
   };

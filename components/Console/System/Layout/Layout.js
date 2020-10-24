@@ -110,32 +110,47 @@ export default function LayoutPage(props) {
           mode="inline"
         >
           <Menu.Item key="home" icon={<HomeOutlined />}>
-            <Link href={path + "/home"}>
+            <Link
+              href={`/console/[systemname]/[systemid]/home?systemname=${systemname}&systemid=${systemid}`}
+              as={`/console/${systemname}/${systemid}/home`}
+            >
               <a>{systemname}</a>
             </Link>
           </Menu.Item>
           <Menu.Item key="line" icon={<SendOutlined />}>
-            <Link href={path + "/broadcast/line"}>
+            <Link
+              href={`/console/[systemname]/[systemid]/broadcast/line?systemname=${systemname}&systemid=${systemid}`}
+              as={`/console/${systemname}/${systemid}/broadcast/line`}
+            >
               <a>Broadcast</a>
             </Link>
           </Menu.Item>
           <SubMenu key="news" icon={<FileOutlined />} title="News">
             <Menu.Item key="allnews">
-              <Link href={path + "/news/allnews"}>
+              <Link
+                href={`/console/[systemname]/[systemid]/news/allnews?systemname=${systemname}&systemid=${systemid}`}
+                as={`/console/${systemname}/${systemid}/news/allnews`}
+              >
                 <a>
                   <GlobalOutlined /> All news
                 </a>
               </Link>
             </Menu.Item>
             <Menu.Item key="createnews">
-              <Link href={path + "/news/createnews"}>
+              <Link
+                href={`/console/[systemname]/[systemid]/news/createnews?systemname=${systemname}&systemid=${systemid}`}
+                as={`/console/${systemname}/${systemid}/news/createnews`}
+              >
                 <a>
                   <FileAddOutlined /> Create news
                 </a>
               </Link>
             </Menu.Item>
             <Menu.Item key="createnewstype">
-              <Link href={path + "/news/createnewstype"}>
+              <Link
+                href={`/console/[systemname]/[systemid]/news/createnewstype?systemname=${systemname}&systemid=${systemid}`}
+                as={`/console/${systemname}/${systemid}/news/createnewstype`}
+              >
                 <a>
                   <PlusOutlined /> Create news type
                 </a>
@@ -148,14 +163,20 @@ export default function LayoutPage(props) {
             title="Target group"
           >
             <Menu.Item key="alltargetgroup">
-              <Link href={path + "/targetgroup/alltargetgroup"}>
+              <Link
+                href={`/console/[systemname]/[systemid]/targetgroup/alltargetgroup?systemname=${systemname}&systemid=${systemid}`}
+                as={`/console/${systemname}/${systemid}/targetgroup/alltargetgroup`}
+              >
                 <a>
                   <TeamOutlined /> All target group
                 </a>
               </Link>
             </Menu.Item>
             <Menu.Item key="createtargetgroup">
-              <Link href={path + "/targetgroup/createtargetgroup"}>
+              <Link
+                href={`/console/[systemname]/[systemid]/targetgroup/createtargetgroup?systemname=${systemname}&systemid=${systemid}`}
+                as={`/console/${systemname}/${systemid}/targetgroup/createtargetgroup`}
+              >
                 <a>
                   <UsergroupAddOutlined /> Create target group
                 </a>
@@ -164,21 +185,30 @@ export default function LayoutPage(props) {
           </SubMenu>
           <SubMenu key="role" icon={<IdcardOutlined />} title="Role">
             <Menu.Item key="allrole">
-              <Link href={path + "/role/allrole"}>
+              <Link
+                href={`/console/[systemname]/[systemid]/role/allrole?systemname=${systemname}&systemid=${systemid}`}
+                as={`/console/${systemname}/${systemid}/role/allrole`}
+              >
                 <a>
                   <UserOutlined /> All role
                 </a>
               </Link>
             </Menu.Item>
             <Menu.Item key="createrole">
-              <Link href={path + "/role/createrole"}>
+              <Link
+                href={`/console/[systemname]/[systemid]/role/createrole?systemname=${systemname}&systemid=${systemid}`}
+                as={`/console/${systemname}/${systemid}/role/createrole`}
+              >
                 <a>
                   <UserAddOutlined /> Create role
                 </a>
               </Link>
             </Menu.Item>
             <Menu.Item key="rolerequest">
-              <Link href={path + "/role/rolerequest"}>
+              <Link
+                href={`/console/[systemname]/[systemid]/role/rolerequest?systemname=${systemname}&systemid=${systemid}`}
+                as={`/console/${systemname}/${systemid}/role/rolerequest`}
+              >
                 <a>
                   <AuditOutlined /> Role request
                 </a>
@@ -186,10 +216,20 @@ export default function LayoutPage(props) {
             </Menu.Item>
           </SubMenu>
           <Menu.Item key="connect" icon={<ShareAltOutlined />}>
-            <Link href={path + "/connect"}>Connect Social</Link>
+            <Link
+              href={`/console/[systemname]/[systemid]/connect?systemname=${systemname}&systemid=${systemid}`}
+              as={`/console/${systemname}/${systemid}/connect`}
+            >
+              <a>Connect Social</a>
+            </Link>
           </Menu.Item>
           <Menu.Item key="setting" icon={<ShareAltOutlined />}>
-            <Link href={path + "/setting"}>Setting</Link>
+            <Link
+              href={`/console/[systemname]/[systemid]/setting?systemname=${systemname}&systemid=${systemid}`}
+              as={`/console/${systemname}/${systemid}/setting`}
+            >
+              <a>Setting</a>
+            </Link>
           </Menu.Item>
           {/* <Menu.Item key="dashboard" icon={<AreaChartOutlined />}>
             Dashboard

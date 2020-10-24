@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 import Layout from "../Layout/Layout";
 import News from "./News";
@@ -6,21 +7,31 @@ import NewsTypes from "./NewsTypes";
 import TargerGroups from "./TargetGroups";
 
 function HomeSystemPage(props) {
-  const systemname = props.query.systemname;
-  const news = props.aboutSystem.news;
-  const newstypes = props.aboutSystem.newstypes;
-  const targetgroups = props.aboutSystem.targetgroups;
+  const router = useRouter();
+  const { systemname, systemid } = router.query;
 
   return (
     <>
       <div className="container py-3">
         <h1>{systemname}</h1>
-        <News news={news} query={props.query} />
+        {props.news ? (
+          <News news={props.news} systemname systemid />
+        ) : (
+          <p>loading</p>
+        )}
         <div className="mt-3">
-          <NewsTypes newstypes={newstypes} />
+          {props.newstypes ? (
+            <NewsTypes newstypes={props.newstypes} />
+          ) : (
+            <p>loading</p>
+          )}
         </div>
         <div className="mt-3">
-          <TargerGroups targetgroups={targetgroups} />
+          {props.targetgroups ? (
+            <TargerGroups targetgroups={props.targetgroups} systemname systemid />
+          ) : (
+            <p>loading</p>
+          )}
         </div>
       </div>
     </>

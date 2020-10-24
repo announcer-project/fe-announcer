@@ -1,5 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import { Empty } from 'antd';
+import Button from "../../../common/Button";
+import Link from "next/link"
 
 const IconGroup = styled.img`
   height: 100%;
@@ -7,14 +10,21 @@ const IconGroup = styled.img`
   object-fit: cover;
 `;
 
-export default function TargetGroups({ targetgroups }) {
+export default function TargetGroups({ targetgroups, systemname, systemid }) {
   return (
     <div className="px-3">
       <span className="font-large">Target group</span>
       <div style={{ borderBottom: "2px solid #050042" }}></div>
       {targetgroups.length === 0 ? (
-        <div className="border p-5 text-center font-small color-drop mt-2">
-          Not have target group
+        <div className="border p-4 text-center font-small color-drop mt-2">
+          <Empty
+            image={Empty.PRESENTED_IMAGE_SIMPLE}
+            description="Not have target group"
+          >
+            <Link href={`/console/${systemname}/${systemid}/news/createnews`}>
+              <Button>Create target group</Button>
+            </Link>
+          </Empty>
         </div>
       ) : (
         <div className="col-12">

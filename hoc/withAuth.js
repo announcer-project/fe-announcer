@@ -5,6 +5,7 @@ import Router from "next/router";
 const withAuth = (WrappedComponent) => {
   return class ComponentWithAuth extends Component {
     static async getInitialProps(ctx) {
+
       const jwt = cookie.getJWT(ctx);
       if (!jwt) {
         if (ctx.res) {
@@ -23,8 +24,9 @@ const withAuth = (WrappedComponent) => {
       // Return props.
       return { ...pageProps };
     }
+    
     render() {
-      return <WrappedComponent />;
+      return <WrappedComponent {...this.props} />;
     }
   };
 };

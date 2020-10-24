@@ -23,7 +23,7 @@ const withNotAuth = (WrappedComponent, cookies) => {
       return { ...pageProps }
     }
     render() {
-      return <WrappedComponent />;
+      return <WrappedComponent {...this.props} />;
     }
   };
 };
