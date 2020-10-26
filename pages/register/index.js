@@ -9,7 +9,7 @@ function RegisterPage({ systemname }) {
   return (
     <>
       <Head>
-        <title>Announcer - Register</title>
+        <title>{systemname} - Register</title>
       </Head>
       <RegisterProvider>
         <Page />
@@ -18,8 +18,8 @@ function RegisterPage({ systemname }) {
   );
 }
 
-export async function getServerSideProps(ctx) {
+RegisterPage.getInitialProps = async (ctx) => {
   return { systemname: ctx.query.systemname };
-}
+};
 
 export default withNotAuth(withLayout(RegisterPage));
