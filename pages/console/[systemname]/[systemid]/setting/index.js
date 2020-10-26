@@ -1,39 +1,22 @@
-import axios from "axios";
-import cookie from "../../../../../tools/cookie";
-import { withAuth } from "../../../../../tools/withAuth";
-import Page from "../../../../../components/Console/System/Setting/SettingPage";
 import Head from "next/head";
+import withAuth from "../../../../../hoc/withAuth"
+import withLayout from "../../../../../hoc/withLayoutConsole"
 
-export default function SettingPage(props) {
+import Page from "../../../../../components/Console/System/Setting/SettingPage";
+
+function SettingPage({ systemname }) {
   return (
     <React.Fragment>
       <Head>
-        <title>{props.query.systemname} - NMS</title>
+        <title>{systemname} - Announcer</title>
       </Head>
-      <Page {...props} />
+      <Page />
     </React.Fragment>
   );
 }
 
-const fetchSystem = async (ctx) => {
-  let { systemid } = ctx.query;
-  let system = {};
-  await axios
-    .get(`${process.env.REACT_APP_BE_PATH}/system/${systemid}`, {
-      headers: {
-        Authorization: "Bearer " + cookie.getJWT(ctx),
-      },
-    })
-    .then((res) => {
-      system = res.data;
-    });
-  return system;
+SettingPage.getInitialProps = async (ctx) => {
+  return { systemname: ctx.query.systemname };
 };
 
-export async function getServerSideProps(ctx) {
-  await withAuth(ctx);
-  let system = await fetchSystem(ctx)
-  return {
-    props: { query: ctx.query, console: true, system: true, systemDetail: system },
-  };
-}
+export default withAuth(withLayout(SettingPage));

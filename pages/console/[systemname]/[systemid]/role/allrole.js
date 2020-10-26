@@ -1,43 +1,22 @@
-import axios from "axios";
-import cookie from "../../../../../tools/cookie";
-import { withAuth } from "../../../../../tools/withAuth";
-import Page from "../../../../../components/Console/System/Role/AllRole/AllRolePage";
 import Head from "next/head";
+import withAuth from "../../../../../hoc/withAuth";
+import withLayout from "../../../../../hoc/withLayoutConsole";
 
-export default function AllRolePage(props) {
+import Page from "../../../../../components/Console/System/Role/AllRole/AllRolePage";
+
+function AllRolePage({ systemname }) {
   return (
     <React.Fragment>
       <Head>
-        <title>{props.query.systemname} - NMS</title>
+        <title>{systemname} - NMS</title>
       </Head>
-      <Page {...props} />
+      <Page />
     </React.Fragment>
   );
 }
 
-const fetchRole = async (ctx) => {
-  let roles = [];
-  const query = ctx.query;
-  await axios
-    .get(`${process.env.REACT_APP_BE_PATH}/role/all?systemid=${query.systemid}`)
-    .then((res) => {
-      roles = res.data;
-    });
-  let newRoles = [];
-  roles.forEach((role) => {
-    let approve = "";
-    if (role.require) {
-      approve = "Must approve";
-    }
-    newRoles.push({ ...role, mustapprove: approve });
-  });
-  return newRoles;
+AllRolePage.getInitialProps = async (ctx) => {
+  return { systemname: ctx.query.systemname };
 };
 
-export async function getServerSideProps(ctx) {
-  await withAuth(ctx);
-  const role = await fetchRole(ctx);
-  return {
-    props: { query: ctx.query, role, console: true, system: true },
-  };
-}
+export default withAuth(withLayout(AllRolePage));

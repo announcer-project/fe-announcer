@@ -5,11 +5,11 @@ export const CreateLineBroadcastContext = createContext({});
 const initialState = {
   everyone: false,
   checknewstypes: false,
-  newstypes: [],
+  newstypes: null,
   checktargetgroups: false,
-  targetgroups: [],
+  targetgroups: null,
   checkusers: false,
-  users: [],
+  users: null,
   usersSelect: [],
   messages: [
     {

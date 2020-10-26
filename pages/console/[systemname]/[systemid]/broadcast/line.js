@@ -1,69 +1,28 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import Head from "next/head";
 import { CreateLineBroadcastProvider } from "../../../../../store/CreateLineBroadcastProvider";
-import axios from "axios";
-import cookie from "../../../../../tools/cookie";
-import { withAuth } from "../../../../../tools/withAuth";
+import withAuth from "../../../../../hoc/withAuth";
+import withLayout from "../../../../../hoc/withLayoutConsole";
 
 import Page from "../../../../../components/Console/System/Boradcast/BroadcastLinePage";
 
-export default function BroadcastLinePage(props) {
+function BroadcastLinePage({ systemname }) {
   return (
     <>
       <Head>
-        <title>{props.query.systemname} - NMS</title>
+        <title>{systemname} - Announcer</title>
       </Head>
       <CreateLineBroadcastProvider>
-        <Page {...props} />
+        <Page />
       </CreateLineBroadcastProvider>
     </>
   );
 }
 
-const setSelected = (data) => {
-  let newData = [];
-  for (let index = 0; index < data.length; index++) {
-    let newdata1 = data[index];
-    let newdata2 = {
-      ...newdata1,
-      selected: false,
-    };
-    newData.push(newdata2);
-  }
-  return newData;
-};
-
-const fetchAboutLineBroadcast = async (ctx) => {
-  let data = {};
-  const query = ctx.query;
-  await axios
-    .get(
-      `${process.env.REACT_APP_BE_PATH}/broadcast/line/aboutsystem?systemid=${query.systemid}`,
-      {
-        headers: {
-          Authorization: "Bearer " + cookie.getJWT(ctx),
-        },
-      }
-    )
-    .then((res) => {
-      data = {
-        newstypes: setSelected(res.data.newstypes),
-        targetgroups: setSelected(res.data.targetgroups),
-        users: setSelected(res.data.users),
-        news: res.data.news,
-      };
-    });
-
-  return data;
-};
-
-export async function getServerSideProps(ctx) {
-  const auth = await withAuth(ctx);
-  let aboutLineBroadcast = [];
-  if (auth) {
-    aboutLineBroadcast = await fetchAboutLineBroadcast(ctx);
-  }
+BroadcastLinePage.getInitialProps = async (ctx) => {
   return {
-    props: { query: ctx.query, aboutLineBroadcast, console: true, system: true },
+    systemname: ctx.query.systemname,
   };
-}
+};
+
+export default withAuth(withLayout(BroadcastLinePage));

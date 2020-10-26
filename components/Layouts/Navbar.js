@@ -36,7 +36,7 @@ function Navbar() {
 
   useEffect(() => {
     if (cookie.getJWT()) {
-      console.log("have")
+      console.log("have");
       try {
         let userData = jwtDecode(cookie.getJWT());
         setUser(userData);
@@ -83,12 +83,14 @@ function Navbar() {
               width="35px"
               height="35px"
             />
-            <span className="ml-2"><b>Announcer</b></span>
+            <span className="ml-2">
+              <b>Announcer</b>
+            </span>
           </Logo>
         </Link>
-        {cookie.getJWT() ? (
-          <div>
-            <span className="d-none d-lg-inline-block">Hi' {user.fname}</span>
+        <div>
+          <Button onClick={onLink}>console</Button>
+          {cookie.getJWT() ? (
             <Dropdown overlay={menu()} trigger={["click"]}>
               <Profile
                 src={`${process.env.REACT_APP_STORAGE}/profile/${user.user_id}.jpg`}
@@ -96,10 +98,10 @@ function Navbar() {
                 className="ml-3"
               />
             </Dropdown>
-          </div>
-        ) : (
-          <Button onClick={onLink}>console</Button>
-        )}
+          ) : (
+            ""
+          )}
+        </div>
       </div>
     </Bar>
   );

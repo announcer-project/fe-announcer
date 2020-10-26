@@ -1,36 +1,26 @@
 import axios from "axios";
 import cookie from "../../../../../tools/cookie";
-
-import { withAuth } from "../../../../../tools/withAuth";
+import Head from "next/head";
+import withAuth from "../../../../../hoc/withAuth";
+import withLayout from "../../../../../hoc/withLayoutConsole";
 
 import Page from "../../../../../components/Console/System/News/CreateNewsType/CreateNewsTypePage";
 
-export default function CreateNewsTypePage(props) {
-  return <Page {...props} />;
+function CreateNewsTypePage({ systemname }) {
+  return (
+    <>
+      <Head>
+        <title>{systemname} - Announcer</title>
+      </Head>
+      <Page />
+    </>
+  );
 }
 
-const fetchNewsTypes = async (ctx) => {
-  const query = ctx.query;
-  let newstypes = [];
-  await axios
-    .get(
-      `${process.env.REACT_APP_BE_PATH}/news/newstype/all?systemid=${query.systemid}`,
-      {
-        headers: {
-          Authorization: "Bearer " + cookie.getJWT(ctx),
-        },
-      }
-    )
-    .then((res) => {
-      newstypes = res.data;
-    });
-  return newstypes;
+CreateNewsTypePage.getInitialProps = async (ctx) => {
+  return {
+    systemname: ctx.query.systemname,
+  };
 };
 
-export async function getServerSideProps(ctx) {
-  await withAuth(ctx);
-  const newsTypes = await fetchNewsTypes(ctx);
-  return {
-    props: { query: ctx.query, console: true, system: true, newsTypes },
-  };
-}
+export default withAuth(withLayout(CreateNewsTypePage));

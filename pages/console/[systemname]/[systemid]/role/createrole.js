@@ -1,23 +1,22 @@
-import axios from "axios";
-import cookie from "../../../../../tools/cookie";
-import { withAuth } from "../../../../../tools/withAuth";
-import Page from "../../../../../components/Console/System/Role/CreateRole/CreateRolePage";
 import Head from "next/head";
+import withAuth from "../../../../../hoc/withAuth"
+import withLayout from "../../../../../hoc/withLayoutConsole"
 
-export default function CreateRolePage(props) {
+import Page from "../../../../../components/Console/System/Role/CreateRole/CreateRolePage";
+
+function CreateRolePage({ systemname }) {
   return (
     <React.Fragment>
       <Head>
-        <title>{props.query.systemname} - NMS</title>
+        <title>{systemname} - Announcer</title>
       </Head>
-      <Page {...props} />
+      <Page />
     </React.Fragment>
   );
 }
 
-export async function getServerSideProps(ctx) {
-  await withAuth(ctx);
-  return {
-    props: { query: ctx.query, console: true, system: true },
-  };
-}
+CreateRolePage.getInitialProps = async (ctx) => {
+  return { systemname: ctx.query.systemname };
+};
+
+export default withAuth(withLayout(CreateRolePage));

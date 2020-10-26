@@ -1,35 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import styled from "styled-components";
 import axios from "axios";
 import Swal from "sweetalert2";
 import cookie from "../../../../../tools/cookie";
 import { DeleteOutlined, LoadingOutlined } from "@ant-design/icons";
 import Button from "../../../../common/Button";
 import { Table, Modal } from "antd";
+import Skeleton from "react-loading-skeleton"
 
 import { useForm, Form, Input, ButtonSubmit } from "../../../../common/Form";
 
-export default function CreateNewsTypePage(props) {
-  const [newstypes, setNewstypes] = useState(props.newsTypes);
+export default function CreateNewsTypePage() {
+  const [newstypes, setNewstypes] = useState(null);
   const [loadingDelete, setLoadingDelete] = useState(false);
   const [loadingCreate, setLoadingCreate] = useState(false);
   const [selected, setSelected] = useState(0);
   let router = useRouter();
+  let { systemname, systemid } = router.query;
   const [form] = useForm();
   const [visible, setVisible] = useState();
   const [loading, setLoading] = useState();
-  console.log(newstypes);
+
   useEffect(() => {
-    form.setFieldsValue({
-      newstype: "",
-    });
+    GetNewsTypes();
   }, []);
 
   const GetNewsTypes = async () => {
     await axios
       .get(
-        `${process.env.REACT_APP_BE_PATH}/news/newstype/all?systemid=${props.query.systemid}`,
+        `${process.env.REACT_APP_BE_PATH}/news/newstype/all?systemid=${systemid}`,
         {
           headers: {
             Authorization: "Bearer " + cookie.getJWT(),
@@ -93,7 +92,6 @@ export default function CreateNewsTypePage(props) {
     if (!loadingDelete || !loadingCreate) {
       setLoadingDelete(true);
       setSelected(newstypeid);
-      let { systemid } = router.query;
       let data = {
         systemid: systemid,
         newstypeid: newstypeid,
@@ -136,7 +134,11 @@ export default function CreateNewsTypePage(props) {
               record.ID === selected && loadingDelete ? "" : "d-none"
             }`}
           />
-          <DeleteOutlined className={`${record.ID === selected && loadingDelete ? "d-none" : ""}`} />
+          <DeleteOutlined
+            className={`${
+              record.ID === selected && loadingDelete ? "d-none" : ""
+            }`}
+          />
         </Button>
       ),
       align: "center",
@@ -159,30 +161,36 @@ export default function CreateNewsTypePage(props) {
         <h1>Create news type</h1>
         <Button onClick={showModal}>Create news type</Button>
       </div>
-      <Table columns={columns} dataSource={data} />
-      <Modal
-        visible={visible}
-        title="Create news type"
-        onCancel={handleCancel}
-        footer={null}
-      >
-        <Form
-          form={form}
-          layout={"vertical"}
-          name="basic"
-          onFinish={addNewsType}
-        >
-          <Input className="mt-2" name="newstype" />
-          <div className="text-center">
-            <ButtonSubmit>
-              <LoadingOutlined
-                className={`${loadingCreate ? "" : "d-none"} mr-1`}
-              />
-              Create
-            </ButtonSubmit>
-          </div>
-        </Form>
-      </Modal>
+      {newstypes ? (
+        <>
+          <Table columns={columns} dataSource={data} />
+          <Modal
+            visible={visible}
+            title="Create news type"
+            onCancel={handleCancel}
+            footer={null}
+          >
+            <Form
+              form={form}
+              layout={"vertical"}
+              name="basic"
+              onFinish={addNewsType}
+            >
+              <Input className="mt-2" name="newstype" />
+              <div className="text-center">
+                <ButtonSubmit>
+                  <LoadingOutlined
+                    className={`${loadingCreate ? "" : "d-none"} mr-1`}
+                  />
+                  Create
+                </ButtonSubmit>
+              </div>
+            </Form>
+          </Modal>
+        </>
+      ) : (
+        <Skeleton height={200} />
+      )}
     </div>
   );
 }

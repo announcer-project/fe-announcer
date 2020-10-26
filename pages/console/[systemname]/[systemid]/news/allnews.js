@@ -1,49 +1,24 @@
 import Head from "next/head";
-import axios from "axios";
-import cookie from "../../../../../tools/cookie";
-import { withAuth } from "../../../../../tools/withAuth";
-import { useRouter } from "next/router";
+import withAuth from "../../../../../hoc/withAuth";
+import withLayout from "../../../../../hoc/withLayoutConsole";
 
 import Page from "../../../../../components/Console/System/News/AllNews/AllNewsPage";
 
-export default function AllNewsPage(props) {
-  const router = useRouter();
-  const { systemname } = router.query;
+function AllNewsPage({ systemname }) {
   return (
     <>
       <Head>
-        <title>{systemname} - NMS</title>
+        <title>{systemname} - Announcer</title>
       </Head>
-      <Page {...props} />
+      <Page />
     </>
   );
 }
 
-const fetchAllNews = async (ctx) => {
-  const query = ctx.query;
-  let allnews = [];
-  await axios
-    .get(
-      `${process.env.REACT_APP_BE_PATH}/news/all?systemid=${query.systemid}`,
-      {
-        headers: {
-          Authorization: "Bearer " + cookie.getJWT(ctx),
-        },
-      }
-    )
-    .then((res) => {
-      allnews = res.data;
-    })
-    .catch((err) => {
-      console.log("err ", err);
-    });
-  return allnews;
+AllNewsPage.getInitialProps = async (ctx) => {
+  return {
+    systemname: ctx.query.systemname,
+  };
 };
 
-export async function getServerSideProps(ctx) {
-  await withAuth(ctx);
-  const allnews = await fetchAllNews(ctx);
-  return {
-    props: { allnews, console: true, system: true },
-  };
-}
+export default withAuth(withLayout(AllNewsPage));

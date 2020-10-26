@@ -1,8 +1,9 @@
 import Head from "next/head";
+import withLayout from "../hoc/withLayout"
 
 import Page from "../components/Home/HomePage";
 
-export default function Home() {
+function Home() {
   return (
     <>
       <Head>
@@ -13,6 +14,4 @@ export default function Home() {
   );
 }
 
-export async function getServerSideProps(ctx) {
-  return { props: { console: true } };
-}
+export default withLayout(Home)

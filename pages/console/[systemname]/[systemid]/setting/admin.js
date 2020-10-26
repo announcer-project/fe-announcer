@@ -1,55 +1,24 @@
-import axios from "axios";
-import cookie from "../../../../../tools/cookie";
-import { withAuth } from "../../../../../tools/withAuth";
-import Page from "../../../../../components/Console/System/Setting/SettingAdminPage";
 import Head from "next/head";
+import withAuth from "../../../../../hoc/withAuth";
+import withLayout from "../../../../../hoc/withLayoutConsole";
 
-export default function SettingAdminPage(props) {
+import Page from "../../../../../components/Console/System/Setting/SettingAdminPage";
+
+function SettingAdminPage({ systemname }) {
   return (
     <React.Fragment>
       <Head>
-        <title>{props.query.systemname} - NMS</title>
+        <title>{systemname} - Announcer</title>
       </Head>
-      <Page {...props} />
+      <Page />
     </React.Fragment>
   );
 }
 
-const fetchAllAdmin = async (ctx) => {
-  const { systemid } = ctx.query;
-  let admins = [];
-  await axios
-    .get(`${process.env.REACT_APP_BE_PATH}/admin/${systemid}`, {
-      headers: {
-        Authorization: "Bearer " + cookie.getJWT(ctx),
-      },
-    })
-    .then((res) => {
-      admins = res.data;
-    });
-  return admins;
-};
-
-const fetchUser = async (ctx) => {
-  const { systemid } = ctx.query;
-  let user = {};
-  await axios
-    .get(`${process.env.REACT_APP_BE_PATH}/user`, {
-      headers: {
-        Authorization: "Bearer " + cookie.getJWT(ctx),
-      },
-    })
-    .then((res) => {
-      user = res.data;
-    });
-  return user;
-};
-
-export async function getServerSideProps(ctx) {
-  await withAuth(ctx);
-  let admins = await fetchAllAdmin(ctx);
-  let user = await fetchUser(ctx);
+SettingAdminPage.getInitialProps = async (ctx) => {
   return {
-    props: { query: ctx.query, console: true, system: true, admins, user },
+    systemname: ctx.query.systemname,
   };
-}
+};
+
+export default withAuth(withLayout(SettingAdminPage));
