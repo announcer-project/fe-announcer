@@ -6,40 +6,20 @@ import withLayout from "../../../../../hoc/withLayoutConsole";
 
 import Page from "../../../../../components/Console/System/News/CreateNewsType/CreateNewsTypePage";
 
-function CreateNewsTypePage({ systemname, newstypes }) {
+function CreateNewsTypePage({ systemname }) {
   return (
     <>
       <Head>
         <title>{systemname} - Announcer</title>
       </Head>
-      <Page newsTypes={newstypes} />
+      <Page />
     </>
   );
 }
 
-const fetchNewsTypes = async (ctx) => {
-  const query = ctx.query;
-  let newstypes = [];
-  await axios
-    .get(
-      `${process.env.REACT_APP_BE_PATH}/news/newstype/all?systemid=${query.systemid}`,
-      {
-        headers: {
-          Authorization: "Bearer " + cookie.getJWT(ctx),
-        },
-      }
-    )
-    .then((res) => {
-      newstypes = res.data;
-    });
-  return newstypes;
-};
-
 CreateNewsTypePage.getInitialProps = async (ctx) => {
-  let newstypes = await fetchNewsTypes(ctx);
   return {
     systemname: ctx.query.systemname,
-    newstypes,
   };
 };
 

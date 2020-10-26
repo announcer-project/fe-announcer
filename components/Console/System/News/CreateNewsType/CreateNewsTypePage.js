@@ -6,11 +6,12 @@ import cookie from "../../../../../tools/cookie";
 import { DeleteOutlined, LoadingOutlined } from "@ant-design/icons";
 import Button from "../../../../common/Button";
 import { Table, Modal } from "antd";
+import Skeleton from "react-loading-skeleton"
 
 import { useForm, Form, Input, ButtonSubmit } from "../../../../common/Form";
 
-export default function CreateNewsTypePage({ newsTypes }) {
-  const [newstypes, setNewstypes] = useState(newsTypes);
+export default function CreateNewsTypePage() {
+  const [newstypes, setNewstypes] = useState(null);
   const [loadingDelete, setLoadingDelete] = useState(false);
   const [loadingCreate, setLoadingCreate] = useState(false);
   const [selected, setSelected] = useState(0);
@@ -21,9 +22,7 @@ export default function CreateNewsTypePage({ newsTypes }) {
   const [loading, setLoading] = useState();
 
   useEffect(() => {
-    form.setFieldsValue({
-      newstype: "",
-    });
+    GetNewsTypes();
   }, []);
 
   const GetNewsTypes = async () => {
@@ -162,30 +161,36 @@ export default function CreateNewsTypePage({ newsTypes }) {
         <h1>Create news type</h1>
         <Button onClick={showModal}>Create news type</Button>
       </div>
-      <Table columns={columns} dataSource={data} />
-      <Modal
-        visible={visible}
-        title="Create news type"
-        onCancel={handleCancel}
-        footer={null}
-      >
-        <Form
-          form={form}
-          layout={"vertical"}
-          name="basic"
-          onFinish={addNewsType}
-        >
-          <Input className="mt-2" name="newstype" />
-          <div className="text-center">
-            <ButtonSubmit>
-              <LoadingOutlined
-                className={`${loadingCreate ? "" : "d-none"} mr-1`}
-              />
-              Create
-            </ButtonSubmit>
-          </div>
-        </Form>
-      </Modal>
+      {newstypes ? (
+        <>
+          <Table columns={columns} dataSource={data} />
+          <Modal
+            visible={visible}
+            title="Create news type"
+            onCancel={handleCancel}
+            footer={null}
+          >
+            <Form
+              form={form}
+              layout={"vertical"}
+              name="basic"
+              onFinish={addNewsType}
+            >
+              <Input className="mt-2" name="newstype" />
+              <div className="text-center">
+                <ButtonSubmit>
+                  <LoadingOutlined
+                    className={`${loadingCreate ? "" : "d-none"} mr-1`}
+                  />
+                  Create
+                </ButtonSubmit>
+              </div>
+            </Form>
+          </Modal>
+        </>
+      ) : (
+        <Skeleton height={200} />
+      )}
     </div>
   );
 }
