@@ -1,13 +1,34 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-
-import Layout from "../../Layout/Layout";
 import AllNewsBox from "./AllNewsBox";
+import axios from "axios";
+import cookie from "../../../../../tools/cookie";
+import Skeleton from "./Skeleton"
 
-export default function AllNewsPage({ allnews }) {
+export default function AllNewsPage() {
   const router = useRouter();
   const { systemid, systemname } = router.query;
   const path = `/console/${systemname}/${systemid}`;
+  const [allnews, setAllnews] = useState(null);
+
+  useEffect(() => {
+    fetchAllNews();
+  });
+
+  const fetchAllNews = async () => {
+    await axios
+      .get(`${process.env.REACT_APP_BE_PATH}/news/all?systemid=${systemid}`, {
+        headers: {
+          Authorization: "Bearer " + cookie.getJWT(),
+        },
+      })
+      .then((res) => {
+        setAllnews(res.data);
+      })
+      .catch((err) => {
+        console.log("err ", err);
+      });
+  };
 
   return (
     <div className="container pt-2">
@@ -18,7 +39,7 @@ export default function AllNewsPage({ allnews }) {
           <AllNewsBox type="Publish" news={allnews.publish} path={path} />
         </div>
       ) : (
-        <p>loading</p>
+        <Skeleton />
       )}
     </div>
   );

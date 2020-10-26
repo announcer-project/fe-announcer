@@ -14,7 +14,7 @@ const withLayout = (WrappedComponent) => {
       return (
         <>
           <Layout>
-            <WrappedComponent />
+            <WrappedComponent {...this.props} />
           </Layout>
         </>
       );
