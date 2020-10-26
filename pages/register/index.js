@@ -1,27 +1,25 @@
 import Head from "next/head";
-import axios from "axios";
-import cookie from "../../tools/cookie";
-import { withNotAuthRegister } from "../../tools/withNotAuth";
+import withNotAuth from "../../hoc/withNotAuth";
+import withLayout from "../../hoc/withLayout";
 
 import Page from "../../components/Register/RegisterPage";
 import { RegisterProvider } from "../../store/RegisterProvider";
 
-function RegisterPage(props) {
+function RegisterPage({ systemname }) {
   return (
     <>
       <Head>
         <title>Announcer - Register</title>
       </Head>
       <RegisterProvider>
-        <Page {...props} />
+        <Page />
       </RegisterProvider>
     </>
   );
 }
 
 export async function getServerSideProps(ctx) {
-  await withNotAuthRegister(ctx);
-  return { props: { query: ctx.query, console: true } };
+  return { systemname: ctx.query.systemname };
 }
 
-export default RegisterPage;
+export default withNotAuth(withLayout(RegisterPage));
