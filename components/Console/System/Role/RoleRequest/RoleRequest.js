@@ -1,14 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Table } from "antd";
 import Button from "../../../../common/Button";
 import axios from "axios";
 import cookie from "../../../../../tools/cookie";
 import { useRouter } from "next/router";
+import Skeleton from "react-loading-skeleton";
 
-export default function RoleRequestPage({ rolerequests }) {
+export default function RoleRequestPage() {
   const router = useRouter();
   const { systemid, systemname } = router.query;
-  const [requests, setRequests] = useState(rolerequests || []);
+  const [requests, setRequests] = useState(null);
+
+  useEffect(() => {
+    fetchRoleRequest();
+  }, []);
 
   const onApprove = async (memberid) => {
     let data = {
@@ -32,8 +37,6 @@ export default function RoleRequestPage({ rolerequests }) {
       memberid: memberid,
       systemid: systemid,
     };
-    console.log(data);
-    console.log(cookie.getJWT());
     await axios
       .delete(`${process.env.REACT_APP_BE_PATH}/role/request/reject`, {
         headers: {
@@ -54,7 +57,11 @@ export default function RoleRequestPage({ rolerequests }) {
         },
       })
       .then((res) => {
-        setRequests(res.data);
+        if (res.data === null) {
+          setRequests([]);
+        } else {
+          setRequests(res.data);
+        }
       });
   };
 
@@ -97,7 +104,11 @@ export default function RoleRequestPage({ rolerequests }) {
   return (
     <div className="container pt-4">
       <h1>Role Request</h1>
-      <Table columns={columns} dataSource={requests} />
+      {requests ? (
+        <Table columns={columns} dataSource={requests} />
+      ) : (
+        <Skeleton height={300} />
+      )}
     </div>
   );
 }
