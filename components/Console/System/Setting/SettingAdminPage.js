@@ -3,24 +3,53 @@ import { Table, Modal } from "antd";
 import Button from "../../../common/Button";
 import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
 import cookie from "../../../../tools/cookie";
+import axios from "axios";
+import { useRouter } from "next/router";
+import Skeleton from "react-loading-skeleton"
 
 import { useForm, Form, Input, ButtonSubmit } from "../../../common/Form";
 
-
-export default function SettingAdminPage({admins, userdb}) {
+export default function SettingAdminPage() {
   let [isAdmin, setIsAdmin] = useState(false);
-  let [user, setUser] = useState(userdb);
+  let [user, setUser] = useState(null);
+  let [admins, setAdmins] = useState(null);
 
   const [loadingCreate, setLoadingCreate] = useState(false);
   const [form] = useForm();
   const [visible, setVisible] = useState();
   const [loading, setLoading] = useState();
 
+  const router = useRouter();
+  const { systemid } = router.query;
   useEffect(() => {
-    if (admins[0].userId === user.ID) {
-      setIsAdmin(true);
-    }
+    fetchAllAdmin();
   });
+
+  const fetchAllAdmin = async () => {
+    await axios
+      .get(`${process.env.REACT_APP_BE_PATH}/admin/${systemid}`, {
+        headers: {
+          Authorization: "Bearer " + cookie.getJWT(),
+        },
+      })
+      .then(async (res) => {
+        let adminsdb = res.data;
+        setAdmins(adminsdb);
+        await axios
+          .get(`${process.env.REACT_APP_BE_PATH}/user`, {
+            headers: {
+              Authorization: "Bearer " + cookie.getJWT(),
+            },
+          })
+          .then((res) => {
+            let userdb = res.data;
+            if (adminsdb[0].userId === userdb.ID) {
+              setIsAdmin(true);
+              setUser(userdb)
+            }
+          });
+      });
+  };
 
   const columns = [
     {
@@ -77,19 +106,19 @@ export default function SettingAdminPage({admins, userdb}) {
   ];
 
   const showModal = () => {
-    setVisible(true)
+    setVisible(true);
   };
 
   const handleOk = () => {
-    setLoading(true)
+    setLoading(true);
     setTimeout(() => {
-      setLoading(false)
-      setVisible(false)
+      setLoading(false);
+      setVisible(false);
     }, 3000);
   };
 
   const handleCancel = () => {
-    setVisible(false)
+    setVisible(false);
   };
 
   const data = admins;
@@ -103,29 +132,35 @@ export default function SettingAdminPage({admins, userdb}) {
           Add admin
         </Button>
       </div>
-      <Table className="mt-4" columns={columns} dataSource={data} />
-      <Modal
-        visible={visible}
-        title="Add admin"
-        onOk={handleOk}
-        onCancel={handleCancel}
-        footer={null}
-      >
-        <Form
-          form={form}
-          layout={"vertical"}
-          name="basic"
-          // onFinish={addNewsType}
-        >
-          <Input className="mt-2" name="admin" />
-          <ButtonSubmit>
-            <LoadingOutlined
-              className={`${loadingCreate ? "" : "d-none"} mr-1`}
-            />
-                  Add
-                </ButtonSubmit>
-        </Form>
-      </Modal>
+      {admins && user ? (
+        <>
+          <Table className="mt-4" columns={columns} dataSource={data} />
+          <Modal
+            visible={visible}
+            title="Add admin"
+            onOk={handleOk}
+            onCancel={handleCancel}
+            footer={null}
+          >
+            <Form
+              form={form}
+              layout={"vertical"}
+              name="basic"
+              // onFinish={addNewsType}
+            >
+              <Input className="mt-2" name="admin" />
+              <ButtonSubmit>
+                <LoadingOutlined
+                  className={`${loadingCreate ? "" : "d-none"} mr-1`}
+                />
+                Add
+              </ButtonSubmit>
+            </Form>
+          </Modal>
+        </>
+      ) : (
+        <Skeleton height={300} />
+      )}
     </div>
   );
 }
