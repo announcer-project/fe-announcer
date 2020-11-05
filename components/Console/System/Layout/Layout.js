@@ -223,6 +223,14 @@ export default function LayoutPage(props) {
               <a>Connect Social</a>
             </Link>
           </Menu.Item>
+          <Menu.Item key="bot" icon={<ShareAltOutlined />}>
+            <Link
+              href={`/console/[systemname]/[systemid]/bot?systemname=${systemname}&systemid=${systemid}`}
+              as={`/console/${systemname}/${systemid}/bot`}
+            >
+              <a>Bot</a>
+            </Link>
+          </Menu.Item>
           <Menu.Item key="setting" icon={<ShareAltOutlined />}>
             <Link
               href={`/console/[systemname]/[systemid]/setting?systemname=${systemname}&systemid=${systemid}`}
