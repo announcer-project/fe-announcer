@@ -14,24 +14,24 @@ export default function AllConnectPage() {
   const [loading, setLoading] = useState(false);
   const [intents, setIntents] = useState(null);
 
-  useEffect(() => {
-    fetchAllIntent();
-  });
+  // useEffect(() => {
+  //   fetchAllIntent();
+  // });
 
-  const fetchAllIntent = async () => {
-    await axios
-      .get(
-        `${process.env.REACT_APP_BE_PATH}/dialogflow/intent/list?systemid=${systemid}`,
-        {
-          headers: {
-            Authorization: "Bearer " + cookie.getJWT(),
-          },
-        }
-      )
-      .then((res) => {
-        setIntents(res.data);
-      });
-  };
+  // const fetchAllIntent = async () => {
+  //   await axios
+  //     .get(
+  //       `${process.env.REACT_APP_BE_PATH}/dialogflow/intent/list?systemid=${systemid}`,
+  //       {
+  //         headers: {
+  //           Authorization: "Bearer " + cookie.getJWT(),
+  //         },
+  //       }
+  //     )
+  //     .then((res) => {
+  //       setIntents(res.data);
+  //     });
+  // };
 
   return (
     <div>

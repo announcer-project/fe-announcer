@@ -5,6 +5,7 @@ import cookie from "../../tools/cookie";
 import Router from "next/router";
 import Button from "../common/Button";
 import jwtDecode from "jwt-decode";
+import {useRouter} from "next/router"
 
 import { Menu, Dropdown } from "antd";
 
@@ -29,14 +30,14 @@ const Profile = styled.img`
   border-radius: 17px;
   cursor: pointer;
 `;
-("");
 
 function Navbar() {
   const [user, setUser] = useState({});
+  const router = useRouter()
+  let pagename = router.pathname.split("/")[1];
 
   useEffect(() => {
     if (cookie.getJWT()) {
-      console.log("have");
       try {
         let userData = jwtDecode(cookie.getJWT());
         setUser(userData);
@@ -89,7 +90,7 @@ function Navbar() {
           </Logo>
         </Link>
         <div>
-          <Button onClick={onLink}>console</Button>
+          {pagename == "" || pagename == "register" ? <Button onClick={onLink}>console</Button> : ""}
           {cookie.getJWT() ? (
             <Dropdown overlay={menu()} trigger={["click"]}>
               <Profile

@@ -1,14 +1,20 @@
-import React, {useState, useEffect} from "react"
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Router from "next/router";
 import cookie from "../../../../tools/cookie";
+import Button from "../../../common/Button";
 import jwtDecode from "jwt-decode";
+import Link from "next/link";
+import {LogoutOutlined} from "@ant-design/icons"
 
 import { Menu, Dropdown } from "antd";
 
 const Bar = styled.nav`
   height: 50px;
   background-color: white;
+  .anticon {
+    vertical-align: 0em;
+  }
 `;
 
 const Profile = styled.img`
@@ -38,7 +44,7 @@ export default function Navbar() {
     return (
       <Menu className="mt-2" style={{ width: "100px" }}>
         <Menu.Item onClick={Logout} key="0">
-          <span>Logout</span>
+          <span><LogoutOutlined/>Logout</span>
         </Menu.Item>
       </Menu>
     );
@@ -50,6 +56,11 @@ export default function Navbar() {
         <div className="container">
           <div />
           <div>
+            <Link href="https://documenter.getpostman.com/view/13231346/TVYF8dpf" prefetch={false}>
+              <a target={"_blank"}>
+                <Button className="mr-lg-2">APIs</Button>
+              </a>
+            </Link>
             <span className="d-none d-sm-inline-block">Hi' {user.fname}</span>
             <Dropdown overlay={menu()} trigger={["click"]}>
               <Profile

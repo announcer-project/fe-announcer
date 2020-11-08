@@ -2,8 +2,6 @@ import Head from "next/head";
 import dynamic from "next/dynamic";
 import { createGlobalStyle } from "styled-components";
 import Theme from "../components/Theme";
-import LayoutSidebar from "../components/Console/System/Layout/Layout";
-import Layout from "../components/Layouts/Layouts";
 
 import "antd/dist/antd.css";
 
@@ -47,14 +45,13 @@ const Loading = dynamic(
 );
 
 function MyApp({ Component, pageProps }) {
-  // const App = ({ children }) => {
   return (
     <>
       <Head>
         <link rel="icon" href="/announcer-logo.ico" />
       </Head>
       <GlobalStyle />
-      <Loading />
+      {/* <Loading /> */}
       <Theme>
         <div className="global">
           <Component {...pageProps} />
@@ -62,34 +59,6 @@ function MyApp({ Component, pageProps }) {
       </Theme>
     </>
   );
-  // };
-
-  // if (pageProps.console && !pageProps.system) {
-  //   return (
-  //     <App>
-  //       <Layout>
-  //         <Component {...pageProps} />
-  //       </Layout>
-  //     </App>
-  //   );
-  // }
-  // if (pageProps.console && pageProps.system) {
-  //   return (
-  //     <App>
-  //       <LayoutSidebar>
-  //         <Component {...pageProps} />
-  //       </LayoutSidebar>
-  //     </App>
-  //   );
-  // }
-  // if (!pageProps.console && !pageProps.system) {
-  //   return (
-  //     <App>
-  //       <Loading />
-  //       <Component {...pageProps} />
-  //     </App>
-  //   );
-  // }
 }
 
 export default MyApp;
