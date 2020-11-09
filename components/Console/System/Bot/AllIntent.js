@@ -42,7 +42,14 @@ export default function AllConnectPage() {
     <div>
       <div className="mb-3 d-flex justify-content-between">
         <h2 className="mt-2">Intents</h2>
-        <Button>Create Intent</Button>
+        <Link
+          href={`/console/[systemname]/[systemid]/bot/intent/create?systemname=${systemname}&systemid=${systemid}`}
+          as={`/console/${systemname}/${systemid}/bot/intent/create`}
+        >
+          <a>
+            <Button>Create Intent</Button>
+          </a>
+        </Link>
       </div>
       {intents ? (
         <div>
