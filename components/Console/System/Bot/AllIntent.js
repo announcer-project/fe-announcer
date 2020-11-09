@@ -47,10 +47,22 @@ export default function AllConnectPage() {
       {intents ? (
         <div>
           {intents.map((intent, key) => {
+            let projectid = intent.name.split("/")[1];
+            let id = intent.name.split("/")[4];
             return (
-              <div key={key} className="border p-2 mb-1 d-flex justify-content-between">
+              <div
+                key={key}
+                className="border p-2 mb-1 d-flex justify-content-between"
+              >
                 <span className="mt-2">{intent.display_name}</span>
-                <Button>Manage</Button>
+                <Link
+                  href={`bot/intent/[projectid]/[id]?projectid=${projectid}&id=${id}`}
+                  as={`bot/intent/${projectid}/${id}`}
+                >
+                  <a>
+                    <Button>Manage</Button>
+                  </a>
+                </Link>
               </div>
             );
           })}
