@@ -28,9 +28,15 @@ export default function LiffInit() {
   const [version, setVersion] = useState("");
   const [accessToken, setAccessToken] = useState("");
 
+  const [image, setImage] = useState("");
+  const [displayName, setDisplayname] = useState("");
+  const [statusMessage, setStatusMessage] = useState("");
+  const [email, setEmail] = useState("");
+
   const LineLiff = async () => {
     await liff.init({ liffId: "1654987123-ekb86RXX" }).then(() => {
       getEnvironment();
+      getUserProfile();
     });
   };
 
@@ -39,6 +45,15 @@ export default function LiffInit() {
     setLangusge(liff.getLanguage());
     setVersion(liff.getVersion());
     setAccessToken(liff.getAccessToken());
+  };
+
+  const getUserProfile = async () => {
+    const profile = await liff.getProfile()
+    setDisplayname(profile.displayName)
+    setImage(profile.pictureUrl)
+    setLineid(profile.userId)
+    setStatusMessage(profile.statusMessage)
+    
   };
 
   useEffect(() => {
@@ -103,6 +118,12 @@ export default function LiffInit() {
       <div className="border-bottom">Version: {version}</div>
       <div className="border-bottom">AccessToken: {accessToken}</div>
       <div className="border-bottom">Language: {langusge}</div>
+
+      <div><img src={image} /></div>
+      <div className="border-bottom">User ID: {lineid}</div>
+      <div className="border-bottom">Displayname: {displayName}</div>
+      <div className="border-bottom">statusMessage: {statusMessage}</div>
+      <div className="border-bottom">Email: {email}</div>
     </div>
   );
   // }
