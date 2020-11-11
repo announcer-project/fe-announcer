@@ -53,7 +53,7 @@ export default function LiffInit() {
     setImage(profile.pictureUrl)
     setLineid(profile.userId)
     setStatusMessage(profile.statusMessage)
-    
+    setEmail(liff.getDecodedIDToken().email)
   };
 
   useEffect(() => {
