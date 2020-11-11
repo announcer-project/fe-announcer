@@ -29,7 +29,9 @@ export default function LiffInit() {
   const [accessToken, setAccessToken] = useState("");
 
   const LineLiff = async () => {
-    await liff.init({ liffId: "1654987123-ekb86RXX" });
+    await liff.init({ liffId: "1654987123-ekb86RXX" }).then(() => {
+      getEnvironment();
+    });
   };
 
   const getEnvironment = () => {
@@ -41,7 +43,6 @@ export default function LiffInit() {
 
   useEffect(() => {
     LineLiff();
-    getEnvironment();
     // const liffId = process.env.REACT_APP_LIFF_ID;
     // liff.init({ liffId }).then(async () => {
     //   if (liff.isLoggedIn()) {
@@ -96,13 +97,13 @@ export default function LiffInit() {
   // if (loading) {
   //   return <div>Loading ...</div>;
   // } else {
-    return (
-      <div>
-        <div className="border-bottom">OS: {os}</div>
-        <div className="border-bottom">Version: {version}</div>
-        <div className="border-bottom">AccessToken: {accessToken}</div>
-        <div className="border-bottom">Language: {langusge}</div>
-      </div>
-    );
+  return (
+    <div>
+      <div className="border-bottom">OS: {os}</div>
+      <div className="border-bottom">Version: {version}</div>
+      <div className="border-bottom">AccessToken: {accessToken}</div>
+      <div className="border-bottom">Language: {langusge}</div>
+    </div>
+  );
   // }
 }
