@@ -10,7 +10,7 @@ import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
 
-export default function LiffInit(props) {
+export default function LiffInit() {
   const {
     step,
     changeNewstypes,
@@ -22,65 +22,87 @@ export default function LiffInit(props) {
     changeHaveUser,
   } = useContext(LineRegisterContext);
   const [loading, setLoading] = useState(true);
-  const liffId = process.env.REACT_APP_LIFF_ID;
+  const [lineid, setLineid] = useState("not");
+  const [os, setOS] = useState("");
+  const [langusge, setLangusge] = useState("");
+  const [version, setVersion] = useState("");
+  const [accessToken, setAccessToken] = useState("");
+
+  const LineLiff = async () => {
+    await liff.init({ liffId: "1654987123-ekb86RXX" });
+  };
+
+  const getEnvironment = () => {
+    setOS(liff.getOS());
+    setLangusge(liff.getLanguage());
+    setVersion(liff.getVersion());
+    setAccessToken(liff.getAccessToken());
+  };
 
   useEffect(() => {
-    changeNewstypes(props.aboutsystem.newstypes);
-    changeRoles(props.aboutsystem.roles);
-    liff.init({ liffId }).then(async () => {
-      if (liff.isLoggedIn()) {
-        let profile = await liff.getProfile();
-        changeLineID(profile.userId);
-        changeImageUrl(profile.pictureUrl);
-        changeEmail(liff.getDecodedIDToken().email);
-        let haveuser = await CheckUser(profile.userId);
-        if (haveuser) {
-          changeHaveUser(true);
-          nextStep(2);
-        }
-        setLoading(false);
-      } else {
-        liff.login({
-          redirectUri:
-            "http://localhost:3000/line/Joknoi/AC-RKDT2M8SS1/register",
-        });
-      }
-    });
+    LineLiff();
+    getEnvironment();
+    // const liffId = process.env.REACT_APP_LIFF_ID;
+    // liff.init({ liffId }).then(async () => {
+    //   if (liff.isLoggedIn()) {
+    //     let profile = await liff.getProfile();
+    //     // changeLineID(profile.userId);
+    //     setLineid(profile.userId)
+    //     // changeImageUrl(profile.pictureUrl);
+    //     // changeEmail(liff.getDecodedIDToken().email);
+    //     // let haveuser = await CheckUser(profile.userId);
+    //     // if (haveuser) {
+    //     //   changeHaveUser(true);
+    //     //   nextStep(2);
+    //     // }
+    //     setLoading(false);
+    //   } else {
+    //     setLineid("not login")
+    //     setLoading(false);
+    //   }
+    // });
   }, []);
 
-  const CheckUser = async (lineid) => {
-    let data = {
-      lineid: lineid,
-    };
-    let haveuser = false;
-    await axios
-      .post(`${process.env.REACT_APP_BE_PATH}/register/checkuserbylineid`, data)
-      .then((res) => {
-        if (res.data.message === "have account.") {
-          haveuser = true;
-        } else {
-          haveuser = false;
-        }
-      });
-    return haveuser;
-  };
+  // const CheckUser = async (lineid) => {
+  //   let data = {
+  //     lineid: lineid,
+  //   };
+  //   let haveuser = false;
+  //   await axios
+  //     .post(`${process.env.REACT_APP_BE_PATH}/register/checkuserbylineid`, data)
+  //     .then((res) => {
+  //       if (res.data.message === "have account.") {
+  //         haveuser = true;
+  //       } else {
+  //         haveuser = false;
+  //       }
+  //     });
+  //   return haveuser;
+  // };
 
   const Steps = () => {
     switch (step) {
       case 1:
-        return <Step1 {...props} />;
+        return <Step1 />;
       case 2:
-        return <Step2 {...props} />;
+        return <Step2 />;
       case 3:
-        return <Step3 {...props} />;
+        return <Step3 />;
       default:
         break;
     }
   };
 
-  if (loading) {
-    return <div>Loading ...</div>;
-  } else {
-    return <div>{Steps()}</div>;
-  }
+  // if (loading) {
+  //   return <div>Loading ...</div>;
+  // } else {
+    return (
+      <div>
+        <div className="border-bottom">OS: {os}</div>
+        <div className="border-bottom">Version: {version}</div>
+        <div className="border-bottom">AccessToken: {accessToken}</div>
+        <div className="border-bottom">Language: {langusge}</div>
+      </div>
+    );
+  // }
 }

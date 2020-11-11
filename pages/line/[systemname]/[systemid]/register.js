@@ -12,20 +12,25 @@ const LineRegister = dynamic(
   { ssr: false }
 );
 
-export default function LineLiffRegister() {
+export default function LineLiffRegisterPage({systemname}) {
   return (
     <>
       <Head>
-        <title>Announcer - register</title>
+        <title>{systemname} - Register</title>
       </Head>
       <LineRegisterProvider>
-        <h1>Register Page</h1>
-        <h1>Register Page</h1>
-        {/* <LineRegister {...props} /> */}
+        <LineRegister />
       </LineRegisterProvider>
     </>
   );
 }
+
+LineLiffRegisterPage.getInitialProps = async (ctx) => {
+  return {
+    systemname: ctx.query.systemname,
+    systemid: ctx.query.systemid,
+  };
+};
 
 // const setData = async (data) => {
 //   let newData = [];
