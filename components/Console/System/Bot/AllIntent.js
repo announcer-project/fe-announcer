@@ -7,11 +7,6 @@ import axios from "axios";
 import cookie from "../../../../tools/cookie";
 import Skeleton from "react-loading-skeleton";
 import Button from "../../../common/Button";
-// import styled from "styled-components"
-
-// const IntentBar = styled.div`
-
-// `
 
 export default function AllConnectPage() {
   const router = useRouter();
