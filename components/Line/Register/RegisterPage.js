@@ -34,7 +34,7 @@ export default function LiffInit() {
   const [email, setEmail] = useState("");
 
   const LineLiff = async () => {
-    await liff.init({ liffId: "1654987123-ekb86RXX" }).then(() => {
+    await liff.init({ liffId: "1655233004-BL5EvPqn" }).then(() => {
       getEnvironment();
       getUserProfile();
     });
