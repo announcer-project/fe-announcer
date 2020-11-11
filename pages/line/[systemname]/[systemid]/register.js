@@ -12,12 +12,11 @@ const LineRegister = dynamic(
   { ssr: false }
 );
 
-export default function LineLiffRegister(props) {
-  const query = props.query;
+export default function LineLiffRegister() {
   return (
     <>
       <Head>
-        <title>Announcer - {query.systemname} register</title>
+        <title>Announcer - register</title>
       </Head>
       <LineRegisterProvider>
         <h1>Register Page</h1>
