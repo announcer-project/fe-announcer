@@ -9,7 +9,7 @@ const LineLiff = dynamic(
 );
 
 export default function LiffPage() {
-  return <><LineLiff/></>
+  return <>Loading ...</>
 }
 
 // export function getServerSideProps(ctx) {
