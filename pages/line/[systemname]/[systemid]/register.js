@@ -21,6 +21,7 @@ export default function LineLiffRegister(props) {
       </Head>
       <LineRegisterProvider>
         <h1>Register Page</h1>
+        <h1>Register Page</h1>
         {/* <LineRegister {...props} /> */}
       </LineRegisterProvider>
     </>
