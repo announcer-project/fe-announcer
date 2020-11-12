@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
-import Router from "next/router";
+import {useRouter} from "next/router";
 import axios from "axios";
 import { LineRegisterContext } from "../../../store/LineRegisterProvider";
+import {useRouter} from "next/router"
+import {lineliff as lineliffapi} from "../../../api"
 
 import liff from "@line/liff";
 
@@ -33,11 +35,16 @@ export default function LiffInit() {
   const [statusMessage, setStatusMessage] = useState("");
   const [email, setEmail] = useState("");
 
+  const router = useRouter()
+  const {systemid} = router.query
+
   const LineLiff = async () => {
-    await liff.init({ liffId: "1655233004-BL5EvPqn" }).then(() => {
-      getEnvironment();
-      getUserProfile();
-    });
+    await lineliffapi.get(`/liffid?systemid=${systemid}`).then((res) => {
+      await liff.init({ liffId: res.data }).then(() => {
+        getEnvironment();
+        getUserProfile();
+      });
+    })
   };
 
   const getEnvironment = () => {

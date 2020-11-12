@@ -8,4 +8,8 @@ const intent = axios.create({
   },
 });
 
-export { intent };
+const lineliff = axios.create({
+  baseURL: `${process.env.REACT_APP_BE_PATH}/line`,
+});
+
+export { intent, lineliff };
