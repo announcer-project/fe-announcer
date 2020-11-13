@@ -19,7 +19,6 @@ export default function LineLiffRegisterPage({systemname}) {
         <title>{systemname} - Register</title>
       </Head>
       <LineRegisterProvider>
-        <h1>test</h1>
         <LineRegister />
       </LineRegisterProvider>
     </>

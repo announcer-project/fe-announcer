@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 
 const WaitingPicture = styled.img`
@@ -19,8 +19,4 @@ export default function WaitingPage() {
             </Page>
         </div>
     )
-}
-
-export function getServerSideProps(ctx) {
-    return { props: {} };
 }

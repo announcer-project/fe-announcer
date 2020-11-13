@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from "react";
 import styled from "styled-components";
 import { LineRegisterContext } from "../../../store/LineRegisterProvider";
 import { Form, Input, ButtonSubmit, useForm } from "../../common/Form";
+import {useRouter} from "next/router"
 
 const Bg = styled.div`
   min-height: 100vh;
@@ -11,6 +12,8 @@ const Bg = styled.div`
 `;
 
 export default function Step1(props) {
+  const router = useRouter()
+  const {systemid} = router.query
   const [form] = useForm();
   const {
     nextStep,
@@ -37,7 +40,7 @@ export default function Step1(props) {
       <div className="text-center pt-5">
         <img
           className="col-8"
-          src={`${process.env.REACT_APP_STORAGE}/systems/${props.query.systemid}.png`}
+          src={`${process.env.REACT_APP_STORAGE}/systems/${systemid}.png`}
         />
       </div>
       <div className="container mt-4">

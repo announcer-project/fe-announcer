@@ -39,10 +39,10 @@ export default function Step2() {
           <b>Choose your role</b>
         </span>
       </div>
-      <div className="row mt-4">
+      <div className="row mt-3">
         {roles.map((role, key) => {
           return (
-            <div className="col-6 px-2">
+            <div key={key} className="col-6 px-2 mt-2">
               <RoleBox
                 key={key}
                 onClick={() => onSelectRole(role.ID)}

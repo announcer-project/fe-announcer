@@ -2,13 +2,16 @@ import React, { useContext } from "react";
 import { LineRegisterContext } from "../../../store/LineRegisterProvider";
 import styled from "styled-components";
 import Swal from "sweetalert2";
-import axios from "axios";
-import Button from "../../common/Button"
+import { lineliff as lineliffapi } from "../../../api";
+import Button from "../../common/Button";
+import { useRouter } from "next/router";
+import liff from "@line/liff";
 
 const NewstypeBox = styled.div`
   border-radius: 20px;
   cursor: pointer;
-  background-color: ${(props) => (props.selected ? props.theme.color.base : "white")};
+  background-color: ${(props) =>
+    props.selected ? props.theme.color.base : "white"};
   color: ${(props) => (props.selected ? "white" : "rgb(0,0,0,0.65)")};
 `;
 
@@ -25,6 +28,8 @@ export default function Step3(props) {
     email,
     roleSelected,
   } = useContext(LineRegisterContext);
+  const router = useRouter();
+  const { systemid } = router.query;
 
   const onSelectNewstype = async (key) => {
     let newNewstypes = newstypes;
@@ -42,26 +47,23 @@ export default function Step3(props) {
       });
     } else {
       let data = {
-        isuser: haveuser,
         fname: firstname,
         lname: lastname,
-        email: email,
-        imageUrl: imageUrl,
         roleid: roleSelected,
         newsinterested: newstypesSelected,
-        systemid: props.query.systemid,
+        systemid: systemid,
         line: lineid,
       };
-      console.log(data)
-      axios
-        .post(`${process.env.REACT_APP_BE_PATH}/line/register`, data)
-        .then((res) => {
-          Swal.fire({
-            icon: "success",
-            title: "Register success",
-            text: "You can edit profile in profile menu",
-          });
-        });
+      console.log(data);
+      await lineliffapi.post(`/register`, data).then((res) => {
+        Swal.fire({
+          icon: "success",
+          title: "Register success",
+          text: "You can edit profile in profile menu",
+        }).then(() => {
+          liff.closeWindow()
+        })
+      });
     }
   };
 
@@ -72,10 +74,10 @@ export default function Step3(props) {
           <b>Choose your role</b>
         </span>
       </div>
-      <div className="row mt-4">
+      <div className="row mt-3">
         {newstypes.map((newstype, key) => {
           return (
-            <div className="col-6 px-2">
+            <div className="col-6 px-2 mt-2">
               <NewstypeBox
                 key={key}
                 onClick={() => onSelectNewstype(key)}
@@ -92,9 +94,7 @@ export default function Step3(props) {
         <Button danger={true} onClick={() => nextStep(2)}>
           Back
         </Button>
-        <Button onClick={() => onNextStep()}>
-          Next
-        </Button>
+        <Button onClick={() => onNextStep()}>Next</Button>
       </div>
     </div>
   );
