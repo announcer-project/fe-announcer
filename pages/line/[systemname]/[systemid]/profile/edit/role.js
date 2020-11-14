@@ -1,7 +1,6 @@
 import React, { useEffect, useContext } from "react";
 import Head from "next/head";
 import dynamic from "next/dynamic";
-import axios from "axios";
 
 const EditRole = dynamic(
   () => {
@@ -10,22 +9,22 @@ const EditRole = dynamic(
   { ssr: false }
 );
 
-export default function LineLiffRegister(props) {
-  const query = props.query;
+function LineLiffEditRole({systemname}) {
   return (
     <>
       <Head>
-        <title>Announcer - {query.systemname} register</title>
+        <title>Edit Profile - {systemname}</title>
       </Head>
       <EditRole />
     </>
   );
 }
 
-export async function getServerSideProps(ctx) {
+
+LineLiffEditRole.getInitialProps = async (ctx) => {
   return {
-    props: {
-      query: ctx.query,
-    },
+    systemname: ctx.query.systemname,
   };
-}
+};
+
+export default LineLiffEditRole

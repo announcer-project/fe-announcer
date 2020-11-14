@@ -1,7 +1,6 @@
 import React, { useEffect, useContext } from "react";
 import Head from "next/head";
 import dynamic from "next/dynamic";
-import axios from "axios";
 
 const Profile = dynamic(
   () => {
@@ -10,22 +9,21 @@ const Profile = dynamic(
   { ssr: false }
 );
 
-export default function LineLiffRegister(props) {
-  const query = props.query;
+function LineLiffProfile({ systemname }) {
   return (
     <>
       <Head>
-        <title>Announcer - {query.systemname} register</title>
+        <title>Profile - {systemname}</title>
       </Head>
       <Profile />
     </>
   );
 }
 
-export async function getServerSideProps(ctx) {
+LineLiffProfile.getInitialProps = async (ctx) => {
   return {
-    props: {
-      query: ctx.query,
-    },
+    systemname: ctx.query.systemname,
   };
-}
+};
+
+export default LineLiffProfile

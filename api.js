@@ -12,4 +12,16 @@ const lineliff = axios.create({
   baseURL: `${process.env.REACT_APP_BE_PATH}/line`,
 });
 
-export { intent, lineliff };
+const member = axios.create({
+  baseURL: `${process.env.REACT_APP_BE_PATH}/member`,
+});
+
+const role = axios.create({
+  baseURL: `${process.env.REACT_APP_BE_PATH}/role`,
+});
+
+const news = axios.create({
+  baseURL: `${process.env.REACT_APP_BE_PATH}/news`,
+});
+
+export { intent, lineliff, member, role, news };

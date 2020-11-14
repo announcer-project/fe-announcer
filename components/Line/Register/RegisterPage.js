@@ -94,7 +94,7 @@ export default function LiffInit() {
   };
 
   if (loading) {
-    return <div>Loading ...</div>;
+    return <div>Loading ...register</div>;
   } else {
     return <div>{Steps()}</div>;
   }

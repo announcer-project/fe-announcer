@@ -1,107 +1,109 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Router, { useRouter } from "next/router";
-import axios from "axios";
+import { lineliff as lineliffapi, member as memberapi } from "../../../../api";
 import liff from "@line/liff";
 import Link from "next/link";
-import Button from "../../../common/Button"; 
+import Button from "../../../common/Button";
+import Layout from "../Profile";
+import Swal from "sweetalert2";
 
-import {
-  useForm,
-  Form,
-  Input,
-  ButtonSubmit,
-} from "../../../common/Form";
-
-//conmponents
-const Profilepicture = styled.img`
-  width: 177px;
-  height: 177px;
-  object-fit: cover;
-  border-radius: 100px;
-  cursor: pointer;
-`;
+import { useForm, Form, Input, ButtonSubmit } from "../../../common/Form";
 
 const Information = styled.div`
   padding: 10px 15px 10px 15px;
-`
+`;
 
 export default function LiffInit(props) {
-  const liffId = process.env.REACT_APP_LIFF_ID;
   const [form] = useForm();
-  const router = useRouter()
-  const { systemname, systemid } = router.query
+  const router = useRouter();
+  const { systemname, systemid } = router.query;
+  const [loading, setLoading] = useState(false);
+  const [displayName, setDisplayName] = useState("");
+  const [memberID, setMemberID] = useState("");
 
-  const onFinish = (values) => {
-    console.log("Success:", values);
+  const fetchMemberDetail = async (lineid) => {
+    await lineliffapi.get(`/member/${lineid}`).then((res) => {
+      form.setFieldsValue({
+        fname: res.data.member.f_name,
+        lname: res.data.member.l_name,
+      });
+      setMemberID(res.data.member.ID);
+    });
+  };
+
+  const LineLiff = async () => {
+    await lineliffapi.get(`/liffid?systemid=${systemid}`).then(async (res) => {
+      console.log(res.data);
+      await liff.init({ liffId: res.data }).then(async () => {
+        getEnvironment();
+        getUserProfile();
+        const profile = await liff.getProfile();
+        await fetchMemberDetail(profile.userId);
+        setLoading(false);
+      });
+    });
   };
 
   useEffect(() => {
-    form.setFieldsValue({
-      name: "Panupong",
-      lastname: "Joknoi",
-      // liff.init({ liffId }).then(async () => {
-      //   if (liff.isLoggedIn()) {
-      //     let profile = await liff.getProfile();
-      //     changeLineID(profile.userId);
-      //     changeImageUrl(profile.pictureUrl);
-      //     changeEmail(liff.getDecodedIDToken().email);
-      //   } else {
-      //     liff.login({
-      //       redirectUri:
-      //         "http://localhost:3000/line/announcer/AC-3R6O8UG513/register",
-      //     });
-      //   }
-      // });
-    });
+    setLoading(true);
+    LineLiff();
   }, []);
 
+  const onChangeName = async (values) => {
+    console.log("Fname: ", values.fname);
+    console.log("Lname: ", values.lname);
+    let data = {
+      fname: values.fname,
+      lname: values.lname,
+    };
+    await memberapi.put(`/${memberID}/name`, data).then((res) => {
+      Swal.fire({
+        icon: "success",
+        title: "Update success",
+      }).then(() => {
+        Router.push(
+          `/line/[systemname]/[systemid]/profile?systemname=${systemname}&systemid=${systemid}`,
+          `/line/${systemname}/${systemid}/profile`
+        );
+      });
+    });
+  };
 
   return (
-    <div className="container pt-5">
-      <div className="text-center">
-        <h1 className="pb-5">Edit name</h1>
-        <Profilepicture src="/img/user-profile.png"
-        // src={profile.pictureUrl} 
-        />
-        <div className="pt-3 pb-4">User ID: ANNIONW18E80A47I6LXVQ4</div>
-      </div>
+    <Layout memberid={memberID} displayname={displayName} loading={loading}>
       <Information>
         <Form
           form={form}
           layout={"vertical"}
           name="basic"
-          onFinish={onFinish}>
+          onFinish={onChangeName}
+        >
           <Input
-            label="Name"
-            name="name"
-            placeholder="Name"
-            rules={[
-              { required: true, message: "Please input your name!" },
-            ]}
+            label="Firstname"
+            name="fname"
+            placeholder="Firstname"
+            rules={[{ required: true, message: "Please input your name!" }]}
           />
-        </Form>
-      </Information>
-      <Information>
-        <Form
-          form={form}
-          layout={"vertical"}
-          name="basic"
-          onFinish={onFinish}>
           <Input
             label="Lastname"
-            name="lastname"
-            placeholder="Name"
-            rules={[
-              { required: true, message: "Please input your lastname!" },
-            ]}
+            name="lname"
+            placeholder="Lastname"
+            rules={[{ required: true, message: "Please input your lastname!" }]}
           />
+          <div className="d-flex justify-content-between">
+            <Link
+              href={`/line/[systemname]/[systemid]/profile?systemname=${systemname}&systemid=${systemid}`}
+              as={`/line/${systemname}/${systemid}/profile`}
+            >
+              <a>
+                <Button danger={true}>Back</Button>
+              </a>
+            </Link>
+            <ButtonSubmit>Confirm</ButtonSubmit>
+          </div>
         </Form>
       </Information>
-      <Information className="d-flex justify-content-between">
-        <Link href="/line/systemname/systemid/profile"><Button danger={true}>Back</Button></Link>
-        <ButtonSubmit>Confirm</ButtonSubmit>
-      </Information>
-    </div>
-  )
+    </Layout>
+  );
 }
