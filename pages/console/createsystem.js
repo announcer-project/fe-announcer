@@ -5,14 +5,14 @@ import withLayout from "../../hoc/withLayout"
 
 import Page from "../../components/Console/Createsystem/CreatesystemPage";
 
-function SystemsPage(props) {
+function SystemsPage() {
   return (
     <>
       <Head>
         <title>Announcer - Create system</title>
       </Head>
       <CreatesystemProvider>
-        <Page {...props} />
+        <Page />
       </CreatesystemProvider>
     </>
   );

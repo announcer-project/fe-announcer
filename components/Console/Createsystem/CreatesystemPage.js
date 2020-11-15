@@ -13,17 +13,15 @@ const Box = styled.div`
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.25);
 `;
 
-function CreatesystemPage(props) {
+function CreatesystemPage() {
   const { step } = useContext(CreatesystemContext);
 
   const StepCreatesystem = () => {
     switch (step) {
       case 1:
-        return <Step1 {...props} />;
+        return <Step1 />;
       case 2:
-        return <Step2 {...props} />;
-      case 3:
-        return <Step4 {...props} />;
+        return <Step4 />;
     }
   };
 
@@ -38,7 +36,6 @@ function CreatesystemPage(props) {
             <Step
               StepShow={[
                 { title: "System detail" },
-                { title: "Line Official Account" },
                 { title: "Confirm" },
               ]}
               now={step}

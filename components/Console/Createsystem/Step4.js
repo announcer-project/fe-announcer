@@ -88,11 +88,11 @@ export default function ConfirmStep() {
         systemprofile: image === "" ? logo.profilesystem : image,
         systemname: systemname,
         newstypes: newstype,
-        lineoa: {
-          channelID: channelID,
-          channelAccessToken: channelaccesstoken,
-          roleUsers: roleuser,
-        },
+        // lineoa: {
+        //   channelID: channelID,
+        //   channelAccessToken: channelaccesstoken,
+        //   roleUsers: roleuser,
+        // },
       };
       axios
         .post(`${process.env.REACT_APP_BE_PATH}/system/create`, data, {
@@ -132,7 +132,7 @@ export default function ConfirmStep() {
           })}
         </div>
       </p>
-      <div>
+      {/* <div>
         <span>
           <b>Line Official Account</b>
         </span>
@@ -143,9 +143,9 @@ export default function ConfirmStep() {
             roleUsers={roleuser}
           />
         </div>
-      </div>
+      </div> */}
       <div className="mt-5 d-flex justify-content-between">
-        <Button danger={true} onClick={() => nextStep(2)}>
+        <Button danger={true} onClick={() => nextStep(1)}>
           Back
         </Button>
         <Button onClick={() => onCreateSystem()}>
