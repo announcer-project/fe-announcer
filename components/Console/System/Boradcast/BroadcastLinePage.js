@@ -54,7 +54,8 @@ export default function BroadcastLinePage() {
         let aboutLineBroadcast = res.data;
         selectNewsTypes(setSelected(aboutLineBroadcast.newstypes));
         selectTargetGroups(setSelected(aboutLineBroadcast.targetgroups));
-        selectUsers(setSelected(aboutLineBroadcast.users));
+        console.log(aboutLineBroadcast)
+        selectUsers(setSelected(aboutLineBroadcast.members));
         setNews(aboutLineBroadcast.news);
       });
   };

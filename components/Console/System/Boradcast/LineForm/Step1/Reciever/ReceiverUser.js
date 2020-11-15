@@ -42,7 +42,7 @@ export default function UserSelector() {
     setUsersNotSelect(users);
     if (search !== "") {
       let newusers = users.filter((user) => {
-        let name = user.fname.toUpperCase() + " " + user.lname.toUpperCase();
+        let name = user.f_name.toUpperCase() + " " + user.l_name.toUpperCase();
         return (
           name.search(search.toUpperCase()) > -1 ||
           user.ID.search(search.toUpperCase()) > -1
@@ -73,7 +73,7 @@ export default function UserSelector() {
   const onSearch = (value) => {
     setSearch(value);
     let newusers = users.filter((user) => {
-      let name = user.fname.toUpperCase() + " " + user.lname.toUpperCase();
+      let name = user.f_name.toUpperCase() + " " + user.l_name.toUpperCase();
       return (
         name.search(value.toUpperCase()) > -1 ||
         user.ID.search(value.toUpperCase()) > -1
@@ -105,7 +105,7 @@ export default function UserSelector() {
                   <div className="d-flex justify-content-between px-3 border-bottom py-2">
                     <h6 className="m-0 d-inline-block">
                       <h6>
-                        {user.fname} {user.lname}
+                        {user.f_name} {user.l_name}
                       </h6>
                       <span className="mt-2">{user.ID}</span>
                     </h6>
@@ -137,7 +137,7 @@ export default function UserSelector() {
                   <div className="d-flex justify-content-between px-3 border-bottom py-2">
                     <h6 className="m-0 d-inline-block">
                       <h6>
-                        {user.fname} {user.lname}
+                        {user.f_name} {user.l_name}
                       </h6>
                       <span className="mt-2">{user.ID}</span>
                     </h6>
