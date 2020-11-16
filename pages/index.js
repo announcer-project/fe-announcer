@@ -1,5 +1,5 @@
 import Head from "next/head";
-import withLayout from "../hoc/withLayout"
+import withLayout from "../hoc/withLayout";
 
 import Page from "../components/Home/HomePage";
 
@@ -14,4 +14,8 @@ function Home() {
   );
 }
 
-export default withLayout(Home)
+Home.getInitialProps = async (ctx) => {
+  return { page: "home" };
+};
+
+export default withLayout(Home);

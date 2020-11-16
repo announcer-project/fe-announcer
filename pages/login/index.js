@@ -20,4 +20,8 @@ function LoginPage() {
   );
 }
 
+LoginPage.getInitialProps = async (ctx) => {
+  return { page: "login" };
+};
+
 export default withNotAuth(LoginPage);
