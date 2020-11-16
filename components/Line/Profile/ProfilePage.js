@@ -6,7 +6,7 @@ import liff from "@line/liff";
 import Link from "next/link";
 import { RightOutlined } from "@ant-design/icons";
 import Layout from "./Profile";
-import Swal from "sweetalert2"
+import Loading from "../../common/Loading"
 
 const Information = styled.div`
   padding: 10px 15px 10px 15px;
@@ -26,7 +26,7 @@ export default function LiffInit(props) {
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
   const [role, setRole] = useState("");
-  const [userID, setUserID] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [memberID, setMemberID] = useState("");
 
@@ -43,7 +43,8 @@ export default function LiffInit(props) {
       console.log(res.data);
       await liff.init({ liffId: res.data }).then(async () => {
         const profile = await liff.getProfile();
-        setUserID(profile.userId)
+        setDisplayName(profile.displayName)
+        setImageUrl(profile.pictureUrl)
         await fetchMemberDetail(profile.userId);
         setLoading(false);
       });
@@ -56,11 +57,10 @@ export default function LiffInit(props) {
   }, []);
 
   if(loading) {
-    return <p>loading...</p>
+    return <Loading/>
   }
   return (
-    <Layout memberid={memberID} displayname={displayName}>
-      <p>Line: {userID}</p>
+    <Layout memberid={memberID} displayname={displayName} imageUrl={imageUrl}>
       <Information>
         <Link
           href={`/line/[systemname]/[systemid]/profile/edit/name?systemname=${systemname}&systemid=${systemid}`}

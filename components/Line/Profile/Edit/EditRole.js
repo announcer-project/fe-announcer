@@ -11,6 +11,7 @@ import Button from "../../../common/Button";
 import liff from "@line/liff";
 import Layout from "../Profile";
 import Swal from "sweetalert2";
+import Loading from "../../../common/Loading";
 
 import { ButtonSubmit } from "../../../common/Form";
 
@@ -32,6 +33,7 @@ export default function LiffInit(props) {
   const router = useRouter();
   const { systemname, systemid } = router.query;
   const [displayName, setDisplayName] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
   const [memberID, setMemberID] = useState("");
   const [role, setRole] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -54,6 +56,8 @@ export default function LiffInit(props) {
     await lineliffapi.get(`/liffid?systemid=${systemid}`).then(async (res) => {
       await liff.init({ liffId: res.data }).then(async () => {
         const profile = await liff.getProfile();
+        setDisplayName(profile.displayName);
+        setImageUrl(profile.pictureUrl);
         await fetchMemberDetail(profile.userId);
         await fetchAllrole();
         setLoading(false);
@@ -88,8 +92,11 @@ export default function LiffInit(props) {
     });
   };
 
+  if (loading) {
+    return <Loading />;
+  }
   return (
-    <Layout memberid={memberID} displayname={displayName} loading={loading}>
+    <Layout memberid={memberID} displayname={displayName} imageUrl={imageUrl}>
       <Information>
         <p>
           <b>Role</b>

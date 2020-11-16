@@ -7,6 +7,7 @@ import Link from "next/link";
 import Button from "../../../common/Button";
 import Layout from "../Profile";
 import Swal from "sweetalert2";
+import Loading from "../../../common/Loading"
 
 import { useForm, Form, Input, ButtonSubmit } from "../../../common/Form";
 
@@ -19,6 +20,7 @@ export default function LiffInit(props) {
   const router = useRouter();
   const { systemname, systemid } = router.query;
   const [loading, setLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [memberID, setMemberID] = useState("");
 
@@ -37,6 +39,8 @@ export default function LiffInit(props) {
       console.log(res.data);
       await liff.init({ liffId: res.data }).then(async () => {
         const profile = await liff.getProfile();
+        setDisplayName(profile.displayName)
+        setImageUrl(profile.pictureUrl)
         await fetchMemberDetail(profile.userId);
         setLoading(false);
       });
@@ -68,8 +72,11 @@ export default function LiffInit(props) {
     });
   };
 
+  if(loading) {
+    return <Loading/>
+  }
   return (
-    <Layout memberid={memberID} displayname={displayName} loading={loading}>
+    <Layout memberid={memberID} displayname={displayName} imageUrl={imageUrl}>
       <Information>
         <Form
           form={form}

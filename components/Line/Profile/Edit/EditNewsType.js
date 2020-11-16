@@ -11,6 +11,7 @@ import Button from "../../../common/Button";
 import Swal from "sweetalert2";
 import liff from "@line/liff";
 import Layout from "../Profile";
+import Loading from "../../../common/Loading"
 
 import { ButtonSubmit } from "../../../common/Form";
 //conmponents
@@ -32,6 +33,7 @@ const NewstypeButton = styled.div`
 
 export default function LiffInit() {
   const [displayName, setDisplayName] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
   const [memberID, setMemberID] = useState("");
   const [newstypes, setNewstypes] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -59,6 +61,8 @@ export default function LiffInit() {
     await lineliffapi.get(`/liffid?systemid=${systemid}`).then(async (res) => {
       await liff.init({ liffId: res.data }).then(async () => {
         const profile = await liff.getProfile();
+        setDisplayName(profile.displayName)
+        setImageUrl(profile.pictureUrl)
         await fetchMemberDetail(profile.userId);
         setLoading(false);
       });
@@ -105,8 +109,11 @@ export default function LiffInit() {
     }
   };
 
+  if(loading) {
+    return <Loading />
+  }
   return (
-    <Layout memberid={memberID} displayname={displayName} loading={loading}>
+    <Layout memberid={memberID} displayname={displayName} imageUrl={imageUrl}>
       <Information>
         <p>
           <b>Interested news</b>
