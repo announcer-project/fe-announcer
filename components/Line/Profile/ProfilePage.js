@@ -6,6 +6,7 @@ import liff from "@line/liff";
 import Link from "next/link";
 import { RightOutlined } from "@ant-design/icons";
 import Layout from "./Profile";
+import Swal from "sweetalert2"
 
 const Information = styled.div`
   padding: 10px 15px 10px 15px;
@@ -25,6 +26,7 @@ export default function LiffInit(props) {
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
   const [role, setRole] = useState("");
+  const [userID, setUserID] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [memberID, setMemberID] = useState("");
 
@@ -43,8 +45,9 @@ export default function LiffInit(props) {
         getEnvironment();
         getUserProfile();
         const profile = await liff.getProfile();
-        await fetchMemberDetail(profile.userId);
-        setLoading(false);
+        setUserID(profile.userId)
+        // await fetchMemberDetail(profile.userId);
+        // setLoading(false);
       });
     });
   };
@@ -56,6 +59,7 @@ export default function LiffInit(props) {
 
   return (
     <Layout memberid={memberID} displayname={displayName} loading={loading}>
+      <p>Line: {userID}</p>
       <Information>
         <Link
           href={`/line/[systemname]/[systemid]/profile/edit/name?systemname=${systemname}&systemid=${systemid}`}
