@@ -44,8 +44,8 @@ export default function LiffInit(props) {
       await liff.init({ liffId: res.data }).then(async () => {
         const profile = await liff.getProfile();
         setUserID(profile.userId)
-        // await fetchMemberDetail(profile.userId);
-        // setLoading(false);
+        await fetchMemberDetail(profile.userId);
+        setLoading(false);
       });
     });
   };
@@ -55,8 +55,11 @@ export default function LiffInit(props) {
     LineLiff();
   }, []);
 
+  if(loading) {
+    return <p>loading...</p>
+  }
   return (
-    <Layout memberid={memberID} displayname={displayName} loading={loading}>
+    <Layout memberid={memberID} displayname={displayName}>
       <p>Line: {userID}</p>
       <Information>
         <Link
