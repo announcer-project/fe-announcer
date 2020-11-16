@@ -58,8 +58,6 @@ export default function LiffInit() {
   const LineLiff = async () => {
     await lineliffapi.get(`/liffid?systemid=${systemid}`).then(async (res) => {
       await liff.init({ liffId: res.data }).then(async () => {
-        getEnvironment();
-        getUserProfile();
         const profile = await liff.getProfile();
         await fetchMemberDetail(profile.userId);
         setLoading(false);
