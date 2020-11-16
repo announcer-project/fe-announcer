@@ -16,7 +16,7 @@ export default function LiffInit({
   imageUrl,
 }) {
   return (
-    <div className="container pt-5">
+    <div className="container">
       <div className="text-center">
         <h1 className="pb-4">Profile</h1>
         <Profilepicture src={imageUrl} />

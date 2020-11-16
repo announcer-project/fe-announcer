@@ -24,4 +24,8 @@ const news = axios.create({
   baseURL: `${process.env.REACT_APP_BE_PATH}/news`,
 });
 
-export { intent, lineliff, member, role, news };
+const system = axios.create({
+  baseURL: `${process.env.REACT_APP_BE_PATH}/system`,
+});
+
+export { intent, lineliff, member, role, news, system };

@@ -7,6 +7,8 @@ import Button from "../../../common/Button";
 import axios from "axios";
 import cookie from "../../../../tools/cookie";
 import Skeleton from "react-loading-skeleton";
+import {system as systemapi} from "../../../../api"
+import Swal from "sweetalert2"
 
 const Systempicture = styled.img`
   width: 177px;
@@ -46,6 +48,12 @@ export default function SettingPage() {
       });
   };
 
+  const deleteSystem = async () => {
+    await systemapi.delete(`/${systemid}`).then((res) => {
+      Router.push("/console/systems");
+    })
+  }
+
   return (
     <div className="container py-4">
       <h1>Setting</h1>
@@ -75,7 +83,7 @@ export default function SettingPage() {
           </Link>
           <div className="pt-3">
             <h1 className="pb-2">Delete this system</h1>
-            <Button danger={true}>Delete</Button>
+            <Button onClick={deleteSystem} danger={true}>Delete</Button>
           </div>
         </>
       ) : (
