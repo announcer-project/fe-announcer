@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
 import { LineRegisterContext } from "../../../store/LineRegisterProvider";
 import { lineliff as lineliffapi } from "../../../api";
+import Loading from "../../common/Loading"
 
 import liff from "@line/liff";
 
@@ -15,16 +16,6 @@ export default function LiffInit() {
     LineRegisterContext
   );
   const [loading, setLoading] = useState(true);
-  // const [lineid, setLineid] = useState("not");
-  // const [os, setOS] = useState("");
-  // const [langusge, setLangusge] = useState("");
-  // const [version, setVersion] = useState("");
-  // const [accessToken, setAccessToken] = useState("");
-
-  // const [image, setImage] = useState("");
-  // const [displayName, setDisplayname] = useState("");
-  // const [statusMessage, setStatusMessage] = useState("");
-  // const [email, setEmail] = useState("");
 
   const router = useRouter();
   const { systemid } = router.query;
@@ -40,7 +31,6 @@ export default function LiffInit() {
     await lineliffapi.get(`/liffid?systemid=${systemid}`).then(async (res) => {
       console.log(res.data);
       await liff.init({ liffId: res.data }).then(() => {
-        // getEnvironment();
         getUserProfile();
         setLoading(false);
       });
@@ -58,21 +48,9 @@ export default function LiffInit() {
     return newData;
   };
 
-  // const getEnvironment = () => {
-  //   setOS(liff.getOS());
-  //   setLangusge(liff.getLanguage());
-  //   setVersion(liff.getVersion());
-  //   setAccessToken(liff.getAccessToken());
-  // };
-
   const getUserProfile = async () => {
     const profile = await liff.getProfile();
-    // setDisplayname(profile.displayName);
-    // setImage(profile.pictureUrl);
-    // setLineid(profile.userId);
     changeLineID(profile.userId);
-    // setStatusMessage(profile.statusMessage);
-    // setEmail(liff.getDecodedIDToken().email);
   };
 
   useEffect(() => {
@@ -94,7 +72,7 @@ export default function LiffInit() {
   };
 
   if (loading) {
-    return <div>Loading ...register</div>;
+    return <Loading />
   } else {
     return <div>{Steps()}</div>;
   }
