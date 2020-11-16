@@ -26,6 +26,9 @@ const news = axios.create({
 
 const system = axios.create({
   baseURL: `${process.env.REACT_APP_BE_PATH}/system`,
+  headers: {
+    Authorization: "Bearer " + cookie.getJWT(),
+  },
 });
 
 export { intent, lineliff, member, role, news, system };
