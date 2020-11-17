@@ -8,6 +8,7 @@ import NewsTypes from "./NewsTypes";
 import TargerGroups from "./TargetGroups";
 
 import { NewsLoading, NewsTypesLoading, TargetgroupsLoading } from "./Skeleton";
+import { system } from "../../../../api";
 
 function HomeSystemPage(props) {
   const router = useRouter();
@@ -42,7 +43,7 @@ function HomeSystemPage(props) {
     <>
       <div className="container py-3">
         <h1>{systemname}</h1>
-        {news ? <News news={news} systemname systemid /> : <NewsLoading />}
+        {news ? <News news={news} systemname={systemname} systemid={systemid} /> : <NewsLoading />}
         <div className="mt-3">
           {newstypes ? (
             <NewsTypes newstypes={newstypes} />
@@ -52,7 +53,7 @@ function HomeSystemPage(props) {
         </div>
         <div className="mt-3">
           {targetgroups ? (
-            <TargerGroups targetgroups={targetgroups} systemname systemid />
+            <TargerGroups targetgroups={targetgroups} systemname={systemname} systemid={systemid} />
           ) : (
             <TargetgroupsLoading />
           )}
