@@ -7,8 +7,8 @@ import Button from "../../../common/Button";
 import axios from "axios";
 import cookie from "../../../../tools/cookie";
 import Skeleton from "react-loading-skeleton";
-import {system as systemapi} from "../../../../api"
-import Swal from "sweetalert2"
+import { system as systemapi } from "../../../../api";
+import Swal from "sweetalert2";
 
 const Systempicture = styled.img`
   width: 177px;
@@ -21,6 +21,10 @@ const Box = styled.div`
   border: 1px solid #c4c4c4;
   padding: 10px 15px 10px 15px;
   margin-bottom: 15px;
+`;
+
+const DeleteBox = styled.div`
+  border: 1px solid ${(props) => props.theme.color.danger};
 `;
 
 const Text = styled.div`
@@ -49,10 +53,25 @@ export default function SettingPage() {
   };
 
   const deleteSystem = async () => {
-    await systemapi.delete(`/${systemid}`).then((res) => {
-      Router.push("/console/systems");
-    })
-  }
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to delete this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+      reverseButtons: true,
+    }).then( async (result) => {
+      if (result.isConfirmed) {
+        await systemapi.delete(`/${systemid}`).then((res) => {
+          Swal.fire("Deleted!", "Your system has been deleted.", "success").then(() => {
+            Router.push("/console/systems");
+          })
+        });
+      }
+    });
+  };
 
   return (
     <div className="container py-4">
@@ -81,10 +100,14 @@ export default function SettingPage() {
               </a>
             </Box>
           </Link>
-          <div className="pt-3">
-            <h1 className="pb-2">Delete this system</h1>
-            <Button onClick={deleteSystem} danger={true}>Delete</Button>
-          </div>
+          <DeleteBox className="mt-4 p-3 d-flex justify-content-between">
+            <div>
+              <b>Delete this system</b>
+            </div>
+            <Button onClick={deleteSystem} danger={true}>
+              Delete
+            </Button>
+          </DeleteBox>
         </>
       ) : (
         <>
