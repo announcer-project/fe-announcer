@@ -101,8 +101,12 @@ export default function ConfirmStep() {
           },
         })
         .then((res) => {
-          console.log("response", res.data);
-          Router.push("/console/systems");
+          Swal.fire({
+            icon: "success",
+            title: "Create system success",
+          }).then(() => {
+            Router.push("/console/systems");
+          })
         })
         .catch((err) => {
           console.log("error", err.response.data);
