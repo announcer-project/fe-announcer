@@ -5,6 +5,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import System from "./SystemBox";
 import axios from "axios";
 import cookie from "../../../tools/cookie";
+import LoadingFetch from "./LoadingFetch"
 
 const SystemBox = styled.div`
   height: 250px;
@@ -12,7 +13,7 @@ const SystemBox = styled.div`
   cursor: pointer;
   color: black;
   border-radius: 10px;
-  padding-top: 80px;
+  padding-top: 90px;
   box-shadow: 10px 10px 32px -8px rgba(0, 0, 0, 0.2);
   &:hover {
     box-shadow: 10px 10px 32px -8px rgba(0, 0, 0, 0.8);
@@ -27,11 +28,7 @@ const Background = styled.div`
   background-color: white;
 `;
 
-const ButtonAdd = styled.div`
-  font-size: 20px;
-`;
-
-function SystemsPage(props) {
+function SystemsPage() {
   const [admins, setAdmins] = useState(null);
 
   useEffect(() => {
@@ -56,23 +53,21 @@ function SystemsPage(props) {
       <Background>
         <div className="container">
           <div className="py-3 py-sm-5">
-            <div className="font-title" style={{ color: "white" }}>
+            <div style={{ color: "white" }}>
               <b>All system</b>
             </div>
             <div className="row">
               <div className="col-12 col-sm-4 mt-3">
                 <Link href="/console/createsystem">
                   <SystemBox className="text-center">
-                    <ButtonAdd>
-                      <PlusOutlined className="pb-3" />
-                      <br />
-                      Add system
-                    </ButtonAdd>
+                    <PlusOutlined className="pb-3" />
+                    <br />
+                    <h5>Create system</h5>
                   </SystemBox>
                 </Link>
               </div>
               {!admins ? (
-                <>loading</>
+                <LoadingFetch />
               ) : (
                 <>
                   {admins.map((admin, key) => {
