@@ -31,4 +31,11 @@ const system = axios.create({
   },
 });
 
-export { intent, lineliff, member, role, news, system };
+const admin = axios.create({
+  baseURL: `${process.env.REACT_APP_BE_PATH}/admin`,
+  headers: {
+    Authorization: "Bearer " + cookie.getJWT(),
+  },
+});
+
+export { intent, lineliff, member, role, news, system, admin };

@@ -5,7 +5,9 @@ import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
 import cookie from "../../../../tools/cookie";
 import axios from "axios";
 import { useRouter } from "next/router";
-import Skeleton from "react-loading-skeleton"
+import Skeleton from "react-loading-skeleton";
+import { admin as adminapi } from "../../../../api";
+import Swal from "sweetalert2";
 
 import { useForm, Form, Input, ButtonSubmit } from "../../../common/Form";
 
@@ -21,9 +23,10 @@ export default function SettingAdminPage() {
 
   const router = useRouter();
   const { systemid } = router.query;
+
   useEffect(() => {
     fetchAllAdmin();
-  });
+  }, []);
 
   const fetchAllAdmin = async () => {
     await axios
@@ -45,7 +48,7 @@ export default function SettingAdminPage() {
             let userdb = res.data;
             if (adminsdb[0].userId === userdb.ID) {
               setIsAdmin(true);
-              setUser(userdb)
+              setUser(userdb);
             }
           });
       });
@@ -121,6 +124,32 @@ export default function SettingAdminPage() {
     setVisible(false);
   };
 
+  const onAddCoAdmin = (values) => {
+    console.log(values);
+    let data = {
+      UserID: values.admin,
+    };
+    adminapi
+      .post(`/create?systemid=${systemid}`, data)
+      .then((res) => {
+        console.log(res.data);
+        Swal.fire("Success!", "Your add co-admin success.", "success").then(() => {
+          form.setFieldsValue({
+            admin: ""
+          })
+          fetchAllAdmin();
+          setVisible(false)
+        })
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'User ID incorrect.',
+        })
+      });
+  };
+
   const data = admins;
 
   return (
@@ -146,15 +175,20 @@ export default function SettingAdminPage() {
               form={form}
               layout={"vertical"}
               name="basic"
-              // onFinish={addNewsType}
+              onFinish={onAddCoAdmin}
             >
-              <Input className="mt-2" name="admin" />
-              <ButtonSubmit>
-                <LoadingOutlined
-                  className={`${loadingCreate ? "" : "d-none"} mr-1`}
-                />
-                Add
-              </ButtonSubmit>
+              <Input
+                name="admin"
+                rules={[{ required: true, message: "Please input user ID" }]}
+              />
+              <div className="text-center">
+                <ButtonSubmit className="mx-auto">
+                  <LoadingOutlined
+                    className={`${loadingCreate ? "" : "d-none"} mr-1`}
+                  />
+                  Add
+                </ButtonSubmit>
+              </div>
             </Form>
           </Modal>
         </>
