@@ -7,6 +7,7 @@ import axios from "axios";
 import Button from "../../../../common/Button";
 import { Table } from "antd";
 import Skeleton from "react-loading-skeleton";
+import Swal from "sweetalert2";
 
 export default function AllTargetGroupPage() {
   const [loading, setLoading] = useState(false);
@@ -45,7 +46,20 @@ export default function AllTargetGroupPage() {
           }
         )
         .then((res) => {
+          Swal.fire({
+            icon: "success",
+            title: "Delete success",
+          });
           fetchTargetgroups();
+          setLoading(false);
+          setSelected(0);
+        })
+        .catch((error) => {
+          Swal.fire({
+            icon: "error",
+            title: "Oops!",
+            text: error.response.data.message
+          });
           setLoading(false);
           setSelected(0);
         });

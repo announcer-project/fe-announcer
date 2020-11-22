@@ -46,9 +46,9 @@ export default function CreateTargetGroupPage() {
 
   const onAddUser = (id) => {
     let notselect = membersNotSelect.filter(
-      (member) => member.member.ID !== id
+      (member) => member.ID !== id
     );
-    let member = membersNotSelect.filter((member) => member.member.ID === id);
+    let member = membersNotSelect.filter((member) => member.ID === id);
     let select = membersSelect;
     select.push(member[0]);
     setMembersNotSelect(notselect);
@@ -70,10 +70,10 @@ export default function CreateTargetGroupPage() {
     setSearch(value);
     let newusers = members.filter((member) => {
       let name =
-        member.user.fname.toUpperCase() + " " + member.user.lname.toUpperCase();
+        member.f_name.toUpperCase() + " " + member.l_name.toUpperCase();
       return (
         name.search(value.toUpperCase()) > -1 ||
-        member.user.ID.search(value.toUpperCase()) > -1
+        member.ID.search(value.toUpperCase()) > -1
       );
     });
     setMembersNotSelect(newusers);
@@ -83,7 +83,7 @@ export default function CreateTargetGroupPage() {
     let membersReq = [];
     await membersSelect.forEach((m) => {
       let data = {
-        memberid: m.member.ID,
+        memberid: m.ID,
       };
       membersReq.push(data);
     });
@@ -165,12 +165,12 @@ export default function CreateTargetGroupPage() {
                     <div className="d-flex justify-content-between px-3 border-bottom py-2">
                       <h6 className="m-0 d-inline-block">
                         <h6>
-                          {member.user.fname} {member.user.lname}
+                          {member.f_name} {member.l_name}
                         </h6>
-                        <span className="mt-2">{member.user.ID}</span>
+                        <span className="mt-2">{member.ID}</span>
                       </h6>
                       <div>
-                        <Button onClick={() => onAddUser(member.member.ID)}>
+                        <Button onClick={() => onAddUser(member.ID)}>
                           <span style={{ fontSize: "12px" }}>Add</span>
                         </Button>
                       </div>
@@ -192,14 +192,14 @@ export default function CreateTargetGroupPage() {
                     <div className="d-flex justify-content-between px-3 border-bottom py-2">
                       <h6 className="m-0 d-inline-block">
                         <h6>
-                          {member.user.fname} {member.user.lname}
+                          {member.f_name} {member.l_name}
                         </h6>
-                        <span className="mt-2">{member.user.ID}</span>
+                        <span className="mt-2">{member.ID}</span>
                       </h6>
                       <div>
                         <Button
                           danger={true}
-                          onClick={() => onRemoveUser(member.member.ID)}
+                          onClick={() => onRemoveUser(member.ID)}
                         >
                           <span style={{ fontSize: "12px" }}>Remove</span>
                         </Button>

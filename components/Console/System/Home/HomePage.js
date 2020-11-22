@@ -33,6 +33,7 @@ function HomeSystemPage(props) {
       )
       .then((res) => {
         let aboutSystem = res.data;
+        console.log(aboutSystem);
         setNews(aboutSystem.news);
         setNewstypes(aboutSystem.newstypes);
         setTagetgroups(aboutSystem.targetgroups);
