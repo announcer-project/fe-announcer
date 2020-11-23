@@ -13,7 +13,7 @@ export default function AllNewsPage() {
 
   useEffect(() => {
     fetchAllNews();
-  });
+  }, []);
 
   const fetchAllNews = async () => {
     await axios

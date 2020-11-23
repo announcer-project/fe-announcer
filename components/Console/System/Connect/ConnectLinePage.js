@@ -64,7 +64,12 @@ export default function ConnectLinePage() {
   };
 
   const onFinish = async (values) => {
-    if (channelid !== "" && liffid !== "" && accesstoken !== "" && roles.length !== 0) {
+    if (
+      channelid !== "" &&
+      liffid !== "" &&
+      accesstoken !== "" &&
+      roles.length !== 0
+    ) {
       setLoading(true);
       console.log("Success:", values);
       console.log("roles", roles);
@@ -73,7 +78,7 @@ export default function ConnectLinePage() {
         channelid: channelid,
         channelaccesstoken: accesstoken,
         roles: roles,
-        liffid: liffid
+        liffid: liffid,
       };
       await axios
         .post(`${process.env.REACT_APP_BE_PATH}/connect/line`, data, {
@@ -82,8 +87,16 @@ export default function ConnectLinePage() {
           },
         })
         .then((res) => {
-          console.log(res.data);
-          Router.push(`/console/${systemname}/${systemid}/connect`);
+          Swal.fire({
+            icon: "success",
+            title: "Connect success",
+          }).then(() => {
+            console.log(res.data);
+            Router.push(
+              `/console/systemname=${systemname}/systemid=${systemid}/connect`,
+              `/console/${systemname}/${systemid}/connect`
+            );
+          });
         })
         .catch((err) => {
           console.log(err.response.data.message);
@@ -105,92 +118,96 @@ export default function ConnectLinePage() {
   return (
     <div className="container pt-4">
       <h1>Connect Line Official Account</h1>
-      <div className="mt-5">
-        <p style={{ color: "rgba(0, 0, 0, 0.65)" }}>
-          Endpoint URL: {process.env.REACT_APP_FE_PATH}/line/{systemname}/{systemid}
-        </p>
+      <div className="mt-4">
         <Form
           form={form}
           layout={"vertical"}
           name="basic"
           initialValues={{ remember: false }}
         >
-          <p>
-            <span className="text-danger">*</span> LIFF ID
-          </p>
-          <Input
-            value={liffid}
-            onChange={(e) => setLiffid(e.target.value)}
-          />
-          <p>
-            <span className="text-danger">*</span> Channel ID
-          </p>
-          <Input
-            value={channelid}
-            onChange={(e) => setChannelid(e.target.value)}
-          />
-          <p>
-            <span className="text-danger">*</span> Channel Access Token
-          </p>
-          <Input
-            value={accesstoken}
-            onChange={(e) => setAccessToken(e.target.value)}
-          />
-          <div className="row pt-2">
-            <p>
-              <span className="text-danger">*</span> Add role of users in line
+          <div>
+            <b>For Line Login</b>
+            <p style={{ color: "rgba(0, 0, 0, 0.65)" }}>
+              Endpoint URL: https://announcer-system.com/line/{systemname}/
+              {systemid}
             </p>
-            <div className="col-8 col-xs-9 col-lg-10 pr-0">
-              <Input
-                value={roleInput}
-                onChange={(e) => setRoleInput(e.target.value)}
-              />
-            </div>
-            <div className="col-4 col-xs-3 col-lg-2">
-              <Button
-                style={{ width: "100%" }}
-                className="py-1"
-                onClick={() => addRole()}
-              >
-                Add
-              </Button>
-            </div>
-            <div>
-              {roles.map((role, key) => {
-                return (
-                  <div
-                    key={key}
-                    className="mt-2 d-flex justify-content-between border p-3"
-                  >
-                    <div>
-                      <span>{role.rolename}</span>
+            <p>
+              <span className="text-danger">*</span> LIFF ID
+            </p>
+            <Input value={liffid} onChange={(e) => setLiffid(e.target.value)} />
+          </div>
+          <div>
+            <b>For Line Messaging API</b>
+            <p>
+              <span className="text-danger">*</span> Channel ID
+            </p>
+            <Input
+              value={channelid}
+              onChange={(e) => setChannelid(e.target.value)}
+            />
+            <p>
+              <span className="text-danger">*</span> Channel Access Token
+            </p>
+            <Input
+              value={accesstoken}
+              onChange={(e) => setAccessToken(e.target.value)}
+            />
+            <div className="row pt-2">
+              <p>
+                <span className="text-danger">*</span> Add role of users in line
+              </p>
+              <div className="col-8 col-xs-9 col-lg-10 pr-0">
+                <Input
+                  value={roleInput}
+                  onChange={(e) => setRoleInput(e.target.value)}
+                />
+              </div>
+              <div className="col-4 col-xs-3 col-lg-2">
+                <Button
+                  style={{ width: "100%" }}
+                  className="py-1"
+                  onClick={() => addRole()}
+                >
+                  Add
+                </Button>
+              </div>
+              <div>
+                {roles.map((role, key) => {
+                  return (
+                    <div
+                      key={key}
+                      className="mt-2 d-flex justify-content-between border p-3"
+                    >
+                      <div>
+                        <span>{role.rolename}</span>
+                      </div>
+                      <div>
+                        <span>Must approve ? </span>
+                        {role.require ? (
+                          <Switch
+                            className="mb-0 ml-1 mr-3 d-inline-block "
+                            onChange={() => onRequire(key)}
+                            size="small"
+                            defaultChecked
+                          />
+                        ) : (
+                          <Switch
+                            className="mb-0 ml-1 mr-3 d-inline-block "
+                            onChange={() => onRequire(key)}
+                            size="small"
+                          />
+                        )}
+                        <Button
+                          danger={true}
+                          onClick={() => deleteRole(role.rolename)}
+                        >
+                          <DeleteOutlined />
+                        </Button>
+                      </div>
                     </div>
-                    <div>
-                      <span>Must approve ? </span>
-                      {role.require ? (
-                        <Switch
-                          className="mb-0 ml-1 mr-3 d-inline-block "
-                          onChange={() => onRequire(key)}
-                          size="small"
-                          defaultChecked
-                        />
-                      ) : (
-                        <Switch
-                          className="mb-0 ml-1 mr-3 d-inline-block "
-                          onChange={() => onRequire(key)}
-                          size="small"
-                        />
-                      )}
-                      <Button
-                        danger={true}
-                        onClick={() => deleteRole(role.rolename)}
-                      >
-                        <DeleteOutlined />
-                      </Button>
-                    </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           </div>
           <div className="d-flex justify-content-between mt-5">

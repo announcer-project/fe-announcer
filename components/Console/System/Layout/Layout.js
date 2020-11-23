@@ -7,7 +7,7 @@ import Navbar from "./Navbar";
 import { Layout as LayoutAnt, Menu } from "antd";
 import {
   HomeOutlined,
-  AreaChartOutlined,
+  RobotOutlined,
   SendOutlined,
   TeamOutlined,
   UsergroupAddOutlined,
@@ -15,7 +15,7 @@ import {
   FileOutlined,
   FileAddOutlined,
   PlusOutlined,
-  ApiOutlined,
+  SettingOutlined,
   FacebookOutlined,
   AimOutlined,
   UserAddOutlined,
@@ -220,10 +220,10 @@ export default function LayoutPage(props) {
               href={`/console/[systemname]/[systemid]/connect?systemname=${systemname}&systemid=${systemid}`}
               as={`/console/${systemname}/${systemid}/connect`}
             >
-              <a>Connect Social</a>
+              <a>Connect Line</a>
             </Link>
           </Menu.Item>
-          <Menu.Item key="bot" icon={<ShareAltOutlined />}>
+          <Menu.Item key="bot" icon={<RobotOutlined />}>
             <Link
               href={`/console/[systemname]/[systemid]/bot?systemname=${systemname}&systemid=${systemid}`}
               as={`/console/${systemname}/${systemid}/bot`}
@@ -231,7 +231,7 @@ export default function LayoutPage(props) {
               <a>Bot</a>
             </Link>
           </Menu.Item>
-          <Menu.Item key="setting" icon={<ShareAltOutlined />}>
+          <Menu.Item key="setting" icon={<SettingOutlined />}>
             <Link
               href={`/console/[systemname]/[systemid]/setting?systemname=${systemname}&systemid=${systemid}`}
               as={`/console/${systemname}/${systemid}/setting`}

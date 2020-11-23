@@ -26,8 +26,8 @@ function CreatesystemPage() {
   };
 
   return (
-    <div className="container">
-      <Box className="col-12 col-lg-9 px-3 px-lg-5 py-3 py-lg-5 my-3 my-sm-5 mx-sm-auto">
+    <div className="container py-3 py-sm-5 ">
+      <Box className="col-12 col-lg-9 px-3 px-lg-5 py-3 py-lg-5 mx-sm-auto">
         <div className="">
           <div className="text-center">
             <h1>Create System</h1>

@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import styled from "styled-components";
 import NewsCard from "../NewsPublishCard";
-import { Empty } from 'antd';
+import { Empty } from "antd";
 import Button from "../../../common/Button";
 
 const SeeMore = styled.span`
@@ -18,9 +18,7 @@ export default function News({ news, systemname, systemid }) {
     <div className="border rounded p-3 mt-3 ">
       <div className="d-flex justify-content-between">
         <span className="font-large">News</span>
-        <Link
-          href={`/console/${systemname}/${systemid}/news/allnews`}
-        >
+        <Link href={`/console/${systemname}/${systemid}/news/allnews`}>
           <SeeMore className="font-small align-text-bottom mt-1">
             See more
           </SeeMore>
@@ -38,14 +36,18 @@ export default function News({ news, systemname, systemid }) {
           </Empty>
         </div>
       ) : (
-          <div className="col-12 mt-2">
-            <div className="row">
-              {news.map((news) => {
-                return <Link href={`/news/${systemname}/${systemid}/${news.ID}`}><NewsCard className="col-12 col-lg-4" news={news} /></Link>;
-              })}
-            </div>
+        <div className="col-12">
+          <div className="row">
+            {news.slice(0).reverse().slice(0,3).map((news) => {
+              return (
+                <div className="mt-2 col-12 col-sm-4">
+                  <NewsCard news={news} />
+                </div>
+              );
+            })}
           </div>
-        )}
+        </div>
+      )}
     </div>
   );
 }

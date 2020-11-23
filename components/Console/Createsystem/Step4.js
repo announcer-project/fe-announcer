@@ -106,7 +106,7 @@ export default function ConfirmStep() {
             title: "Create system success",
           }).then(() => {
             Router.push("/console/systems");
-          })
+          });
         })
         .catch((err) => {
           console.log("error", err.response.data);
@@ -118,10 +118,13 @@ export default function ConfirmStep() {
 
   return (
     <div>
-      <p>
+      <div className="text-center">
+        <img className="rounded-circle border w-15" src={image} />
+      </div>
+      <div className="mt-2">
         <b>System name : </b>
         {systemname}
-      </p>
+      </div>
       <p>
         <b>News type</b>
         <div>

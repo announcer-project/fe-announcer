@@ -16,18 +16,25 @@ const ChatRoom = styled.div`
   color: white;
   overflow: auto;
 `;
-const Profile = styled.div`
+const Profile = styled.img`
   height: 40px;
   width: 40px;
-  background-color: black;
+  object-fit: cover;
 `;
-export default React.memo(function MobileScreen({ messages, systemname }) {
+export default React.memo(function MobileScreen({
+  messages,
+  systemname,
+  systemid,
+}) {
   return (
     <div>
       <Screen>
         <Bar className="text-center pt-3">{systemname}</Bar>
         <ChatRoom className="pl-2 py-2">
-          <Profile className="rounded-circle d-inline-block align-top" />
+          <Profile
+            className="rounded-circle d-inline-block align-top"
+            src={`${process.env.REACT_APP_STORAGE}/systems/${systemid}.png`}
+          />
           <span className="pl-2 d-sm-none">{systemname}</span>
           <div className="d-inline-block pl-5 pl-sm-2">
             <span className="d-none d-sm-block">{systemname}</span>
@@ -48,7 +55,7 @@ export default React.memo(function MobileScreen({ messages, systemname }) {
                 case "news":
                   return (
                     <div className="pt-2">
-                      <NewsMessage news={message.data} />
+                      <NewsMessage systemid={systemid} news={message.data} />
                     </div>
                   );
                 default:

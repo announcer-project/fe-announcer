@@ -94,7 +94,7 @@ export default function Step3() {
       <span className="font-large">Preview</span>
       <div className=" border-bottom d-flex justify-content-center">
         <div className="pb-5 pt-3 col-12 col-lg-4">
-          <MobileScreen systemname={systemname} messages={messages} />
+          <MobileScreen systemname={systemname} systemid={systemid} messages={messages} />
         </div>
       </div>
       <div className="d-flex justify-content-between pt-3">

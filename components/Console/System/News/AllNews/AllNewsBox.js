@@ -54,9 +54,7 @@ export default function AllNewsBox(props) {
                 );
               } else {
                 return (
-                  <Link href={`/news/${systemname}/${systemid}/${news.ID}`}>
-                    <NewsPublishCard className="col-12 col-lg-4" news={news} />
-                  </Link>
+                  <NewsPublishCard className="col-12 col-lg-4" news={news} />
                 );
               }
             })}
