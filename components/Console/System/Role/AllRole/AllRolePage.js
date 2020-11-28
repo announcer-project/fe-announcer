@@ -5,10 +5,13 @@ import Button from "../../../../common/Button";
 import { Table } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import axios from "axios";
+import { rolewithjwt as roleapi } from "../../../../../api";
 import Skeleton from "react-loading-skeleton";
+import Swal from "sweetalert2";
 
 export default function AllRolePage() {
   const [rolenames, setRoles] = useState(null);
+  const [loading, setLoading] = useState(false);
   let router = useRouter();
   let { systemid, systemname } = router.query;
 
@@ -36,6 +39,43 @@ export default function AllRolePage() {
       });
   };
 
+  const onDeleteRole = (roleid) => {
+    Swal.fire({
+      title: "You want to delete this role ?",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.value) {
+        roleapi
+          .delete(`/${systemid}/${roleid}`)
+          .then((res) => {
+            Swal.fire({
+              icon: "success",
+              title: "Delete success",
+              showConfirmButton: true,
+              timer: 3000,
+            }).then(() => {
+              fetchRole();
+              setLoading(true);
+            });
+          })
+          .catch(() => {
+            Swal.fire({
+              icon: "error",
+              title: "Delete fail",
+              showConfirmButton: true,
+              timer: 3000,
+            }).then(() => {
+              setLoading(true);
+            });
+          });
+      }
+    });
+  };
+
   const columns = [
     {
       title: "Role",
@@ -54,7 +94,7 @@ export default function AllRolePage() {
       dataIndex: "delete",
       key: "delete",
       render: (text, record) => (
-        <Button danger={true} onClick={() => onApprove(record.key)}>
+        <Button danger={true} onClick={() => onDeleteRole(record.ID)}>
           <DeleteOutlined />
         </Button>
       ),

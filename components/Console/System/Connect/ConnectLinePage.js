@@ -128,8 +128,7 @@ export default function ConnectLinePage() {
           <div>
             <b>For Line Login</b>
             <p style={{ color: "rgba(0, 0, 0, 0.65)" }}>
-              Endpoint URL: https://announcer-system.com/line/{systemname}/
-              {systemid}
+              Endpoint URL: https://announcer-system.com/line/{systemid}
             </p>
             <p>
               <span className="text-danger">*</span> LIFF ID

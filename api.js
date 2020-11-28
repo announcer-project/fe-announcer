@@ -20,6 +20,13 @@ const role = axios.create({
   baseURL: `${process.env.REACT_APP_BE_PATH}/role`,
 });
 
+const rolewithjwt = axios.create({
+  baseURL: `${process.env.REACT_APP_BE_PATH}/role`,
+  headers: {
+    Authorization: "Bearer " + cookie.getJWT(),
+  },
+});
+
 const news = axios.create({
   baseURL: `${process.env.REACT_APP_BE_PATH}/news`,
 });
@@ -38,4 +45,4 @@ const admin = axios.create({
   },
 });
 
-export { intent, lineliff, member, role, news, system, admin };
+export { intent, lineliff, member, role, news, system, admin, rolewithjwt };
