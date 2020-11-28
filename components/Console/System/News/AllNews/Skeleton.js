@@ -16,7 +16,7 @@ export default function NewsLoading() {
   let news = [{}, {}, {}];
   return (
     <div>
-      <BoxAllNews type={"Draft"} className={`col-12 p-3 px-5 rounded mt-3`}>
+      {/* <BoxAllNews type={"Draft"} className={`col-12 p-3 px-5 rounded mt-3`}>
         <span className={`font-large text-light`}>Draft</span>
         <div className="row">
           {news.map((n, key) => {
@@ -48,9 +48,9 @@ export default function NewsLoading() {
             );
           })}
         </div>
-      </BoxAllNews>
+      </BoxAllNews> */}
       <BoxAllNews type={"Publish"} className={`col-12 p-3 px-5 rounded mt-3 border`}>
-        <span className={`font-large`}>Publish</span>
+        {/* <span className={`font-large`}>Publish</span> */}
         <div className="row">
           {news.map((n, key) => {
             return (

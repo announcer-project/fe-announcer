@@ -1,6 +1,5 @@
 import Head from "next/head";
 import withLayout from "../hoc/withLayout";
-import Page from "../components/Home/HomePage";
 import styled from "styled-components";
 import Button from "../components/common/Button";
 import Link from "next/link";
@@ -93,7 +92,6 @@ function Home() {
       <div className="border-top py-3">
         <div className="container color-drop" style={{fontSize:"12px"}}>@ Announcer</div>
       </div>
-      <Page />
     </>
   );
 }

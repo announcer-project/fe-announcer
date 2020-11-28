@@ -88,10 +88,10 @@ export default function Step1() {
           </Form>
         </div>
       </div>
-      <div className="d-flex justify-content-between pt-3">
-        <Link href={`/console/${systemname}/${systemid}/broadcast`}>
+      <div className="text-right pt-3">
+        {/* <Link href={`/console/${systemname}/${systemid}/broadcast`}>
           <Button className="px-5"  danger={true} >Back</Button>
-        </Link>
+        </Link> */}
         <Button className="px-5" onClick={() => onNextStep()}>Next</Button>
       </div>
     </div>

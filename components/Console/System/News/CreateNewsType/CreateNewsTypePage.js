@@ -6,7 +6,7 @@ import cookie from "../../../../../tools/cookie";
 import { DeleteOutlined, LoadingOutlined } from "@ant-design/icons";
 import Button from "../../../../common/Button";
 import { Table, Modal } from "antd";
-import Skeleton from "react-loading-skeleton"
+import Skeleton from "react-loading-skeleton";
 
 import { useForm, Form, Input, ButtonSubmit } from "../../../../common/Form";
 
@@ -96,17 +96,39 @@ export default function CreateNewsTypePage() {
         systemid: systemid,
         newstypeid: newstypeid,
       };
-      axios
-        .post(`${process.env.REACT_APP_BE_PATH}/news/newstype/delete`, data, {
-          headers: {
-            Authorization: "Bearer " + cookie.getJWT(),
-          },
-        })
-        .then((res) => {
-          GetNewsTypes();
-          setSelected(0);
-          setLoadingDelete(false);
-        });
+      Swal.fire({
+        title: "You want to delete this news type ?",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes",
+        reverseButtons: true,
+      }).then((result) => {
+        if (result.value) {
+          axios
+            .post(
+              `${process.env.REACT_APP_BE_PATH}/news/newstype/delete`,
+              data,
+              {
+                headers: {
+                  Authorization: "Bearer " + cookie.getJWT(),
+                },
+              }
+            )
+            .then((res) => {
+              Swal.fire({
+                icon: "success",
+                title: "Delete success",
+                showConfirmButton: true,
+                timer: 3000,
+              }).then(() => {
+                GetNewsTypes();
+                setSelected(0);
+                setLoadingDelete(false);
+              });
+            });
+        }
+      });
     }
   };
 

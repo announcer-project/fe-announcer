@@ -24,9 +24,9 @@ export default function AllNewsBox(props) {
         type === "Draft" ? "" : "border"
       }`}
     >
-      <span className={`font-large ${type === "Draft" ? "text-light" : ""} `}>
+      {/* <span className={`font-large ${type === "Draft" ? "text-light" : ""} `}>
         {type}
-      </span>
+      </span> */}
       <div className="row">
         {news.length === 0 ? (
           <div
@@ -54,7 +54,7 @@ export default function AllNewsBox(props) {
                 );
               } else {
                 return (
-                  <NewsPublishCard className="col-12 col-lg-4" news={news} />
+                  <NewsPublishCard className="col-12 col-lg-4 mt-3" news={news} footer={true} />
                 );
               }
             })}

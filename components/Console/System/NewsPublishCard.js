@@ -58,12 +58,12 @@ export default function NewsPublishCard(props) {
             <div dangerouslySetInnerHTML={createMarkup(props.news.body)}></div>
           </Body>
           <Footer
-            className={`font-small color-drop mt-1 text-right ${
+            className={`mt-1 text-right ${
               !props.footer ? "d-none" : ""
             }`}
           >
             <Link
-              href={`/news/${systemid}/${props.news.ID}`}
+              href={`/news/${systemname}/${systemid}/${props.news.ID}`}
               prefetch={false}
             >
               <a target="_blank">

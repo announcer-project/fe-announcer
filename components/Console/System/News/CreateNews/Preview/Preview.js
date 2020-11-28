@@ -165,6 +165,7 @@ export default function PreviewNews() {
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
                 confirmButtonText: "Yes",
+                reverseButtons: true
               }).then((result) => {
                 if (result.value) {
                   Router.push(path + `/broadcast/line`);

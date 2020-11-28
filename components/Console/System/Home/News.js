@@ -41,7 +41,7 @@ export default function News({ news, systemname, systemid }) {
             {news.slice(0).reverse().slice(0,3).map((news) => {
               return (
                 <div className="mt-2 col-12 col-sm-4">
-                  <NewsCard news={news} />
+                  <NewsCard news={news} footer={true} />
                 </div>
               );
             })}
