@@ -3,6 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { Modal } from "antd";
 import moment from "moment";
+import Navbar from "../../../../components/News/Navbar";
 
 const Topic = styled.div`
   font-size: 1.8rem;
@@ -31,9 +32,7 @@ const Cover = styled.img`
   object-fit: cover;
 `;
 
-export default function LiffPage(props) {
-  let news = props.news;
-  console.log(news);
+export default function NewsPage({news, systemname, systemid}) {
 
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
@@ -52,65 +51,65 @@ export default function LiffPage(props) {
   const createMarkup = (body) => {
     return { __html: body };
   };
-  console.log(
-    `${process.env.REACT_APP_STORAGE}/news/${news.systemid}-${news.ID}-cover.png`
-  );
   return (
-    <div className="container">
-      <div className="col-lg-8 mx-auto py-5">
-        <Cover
-          src={`${process.env.REACT_APP_STORAGE}/news/${news.system_id}-${news.ID}-cover.png`}
-        />
-        <Topic className="mt-3">{news.title}</Topic>
-        <Line />
-        <div className="d-flex justify-content-between">
-          <div>
-            Post date : {moment(news.create_date).format("DD/MM/YYYY")}
-            <br />
-            Expire date : {moment(news.expire_date).format("DD/MM/YYYY")}
+    <div>
+      <Navbar systemname={systemname} systemid={systemid} />
+      <div className="container">
+        <div className="col-lg-8 mx-auto py-5">
+          <Cover
+            src={`${process.env.REACT_APP_STORAGE}/news/${news.system_id}-${news.ID}-cover.png`}
+          />
+          <Topic className="mt-3">{news.title}</Topic>
+          <Line />
+          <div className="d-flex justify-content-between">
+            <div>
+              Post date : {moment(news.create_date).format("DD/MM/YYYY")}
+              <br />
+              Expire date : {moment(news.expire_date).format("DD/MM/YYYY")}
+            </div>
+            <div>Written by : Panupong</div>
           </div>
-          <div>Written by : Panupong</div>
-        </div>
-        <div className="mt-4">
-          <div
-            dangerouslySetInnerHTML={createMarkup(news.body)}
-            className="editor"
-          ></div>
-        </div>
-        <div className="row mt-3">
-          {news.Image.map((image, key) => {
-            return (
-              <div className="col-12 col-lg-4">
-                <Image
-                  onClick={() =>
-                    showModal(
-                      `${process.env.REACT_APP_STORAGE}/news/${image.ImageName}`,
-                      image.ImageName
-                    )
-                  }
-                  src={`${process.env.REACT_APP_STORAGE}/news/${image.ImageName}`}
-                />
-                <Modal
-                  title={previewTitle}
-                  visible={previewVisible}
-                  onCancel={() => handleCancel()}
-                  footer={null}
-                >
-                  <Image src={previewImage} />
-                </Modal>
-              </div>
-            );
-          })}
-        </div>
-        <div className="mt-3">
-          News type :
-          {news.type_of_news.map((newstype, key) => {
-            return (
-              <BoxNewstype className="shadow">
-                {newstype.NewsTypeName}
-              </BoxNewstype>
-            );
-          })}
+          <div className="mt-4">
+            <div
+              dangerouslySetInnerHTML={createMarkup(news.body)}
+              className="editor"
+            ></div>
+          </div>
+          <div className="row mt-3">
+            {news.Image.map((image, key) => {
+              return (
+                <div className="col-12 col-lg-4">
+                  <Image
+                    onClick={() =>
+                      showModal(
+                        `${process.env.REACT_APP_STORAGE}/news/${image.ImageName}`,
+                        image.ImageName
+                      )
+                    }
+                    src={`${process.env.REACT_APP_STORAGE}/news/${image.ImageName}`}
+                  />
+                  <Modal
+                    title={previewTitle}
+                    visible={previewVisible}
+                    onCancel={() => handleCancel()}
+                    footer={null}
+                  >
+                    <Image src={previewImage} />
+                  </Modal>
+                </div>
+              );
+            })}
+          </div>
+          <div className="mt-3">
+            News type :
+            {news.type_of_news.map((newstype, key) => {
+              return (
+                <BoxNewstype className="shadow">
+                  {newstype.NewsTypeName}
+                </BoxNewstype>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
@@ -127,7 +126,11 @@ const fetchNews = async (id) => {
   return news;
 };
 
-export async function getServerSideProps(ctx) {
+NewsPage.getInitialProps = async (ctx) => {
   let news = await fetchNews(ctx.query.newsid);
-  return { props: { news } };
-}
+  return {
+    systemname: ctx.query.systemname,
+    systemid: ctx.query.systemid,
+    news: news,
+  };
+};
