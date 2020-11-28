@@ -63,8 +63,8 @@ export default function LiffInit(props) {
     <Layout memberid={memberID} displayname={displayName} imageUrl={imageUrl}>
       <Information>
         <Link
-          href={`/line/[systemname]/[systemid]/profile/edit/name?systemname=${systemname}&systemid=${systemid}`}
-          as={`/line/${systemname}/${systemid}/profile/edit/name`}
+          href={`/line/[systemid]/profile/edit/name?systemid=${systemid}`}
+          as={`/line/${systemid}/profile/edit/name`}
         >
           <a>
             <div className="d-flex justify-content-between">
@@ -78,8 +78,8 @@ export default function LiffInit(props) {
       </Information>
       <Information>
         <Link
-          href={`/line/[systemname]/[systemid]/profile/edit/role?systemname=${systemname}&systemid=${systemid}`}
-          as={`/line/${systemname}/${systemid}/profile/edit/role`}
+          href={`/line/[systemid]/profile/edit/role?systemid=${systemid}`}
+          as={`/line/${systemid}/profile/edit/role`}
         >
           <a>
             <div className="d-flex justify-content-between">
@@ -93,8 +93,8 @@ export default function LiffInit(props) {
       </Information>
       <Information>
         <Link
-          href={`/line/[systemname]/[systemid]/profile/edit/newstype?systemname=${systemname}&systemid=${systemid}`}
-          as={`/line/${systemname}/${systemid}/profile/edit/newstype`}
+          href={`/line/[systemid]/profile/edit/newstype?systemid=${systemid}`}
+          as={`/line/${systemid}/profile/edit/newstype`}
         >
           <a>
             <div className="d-flex justify-content-between">
