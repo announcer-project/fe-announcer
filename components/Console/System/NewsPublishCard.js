@@ -63,7 +63,7 @@ export default function NewsPublishCard(props) {
             }`}
           >
             <Link
-              href={`/news/${systemname}/${systemid}/${props.news.ID}`}
+              href={`/news/${systemid}/${props.news.ID}`}
               prefetch={false}
             >
               <a target="_blank">

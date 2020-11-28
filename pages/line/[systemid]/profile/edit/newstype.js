@@ -1,21 +1,19 @@
 import React, { useEffect, useContext } from "react";
 import Head from "next/head";
 import dynamic from "next/dynamic";
-import axios from "axios";
 
 const EditNewsType = dynamic(
   () => {
-    return import("../../../../../../components/Line/Profile/Edit/EditNewsType");
+    return import("../../../../../components/Line/Profile/Edit/EditNewsType");
   },
   { ssr: false }
 );
 
-export default function LineLiffRegister(props) {
-  const query = props.query;
+export default function LineLiffRegister() {
   return (
     <>
       <Head>
-        <title>Announcer - {query.systemname} register</title>
+        <title>Edit Profile</title>
       </Head>
       <EditNewsType />
     </>

@@ -38,7 +38,7 @@ export default function LiffInit() {
   const [newstypes, setNewstypes] = useState(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const { systemname, systemid } = router.query;
+  const { systemid } = router.query;
 
   const fetchMemberDetail = async (lineid) => {
     await lineliffapi.get(`/member/${lineid}`).then((res) => {
@@ -101,8 +101,8 @@ export default function LiffInit() {
           title: "Update success",
         }).then(() => {
           Router.push(
-            `/line/[systemname]/[systemid]/profile?systemname=${systemname}&systemid=${systemid}`,
-            `/line/${systemname}/${systemid}/profile`
+            `/line/[systemid]/profile?systemid=${systemid}`,
+            `/line/${systemid}/profile`
           );
         });
       });
@@ -136,8 +136,8 @@ export default function LiffInit() {
         </div>
         <div className="d-flex justify-content-between">
           <Link
-            href={`/line/[systemname]/[systemid]/profile?systemname=${systemname}&systemid=${systemid}`}
-            as={`/line/${systemname}/${systemid}/profile`}
+            href={`/line/[systemid]/profile?systemid=${systemid}`}
+            as={`/line/${systemid}/profile`}
           >
             <a>
               <Button danger={true}>Back</Button>

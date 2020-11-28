@@ -268,7 +268,7 @@ export default function PreviewNews() {
         </div>
         <div className="d-inine-block">
           <div className="d-flex">
-            <div className="d-inine-block">
+            {/* <div className="d-inine-block">
               <Button onClick={onDraft} className="mr-2">
                 <LoadingOutlined
                   className={`mr-2 ${creating ? "" : "d-none"} `}
@@ -278,7 +278,7 @@ export default function PreviewNews() {
                 />
                 <span>Draft</span>
               </Button>
-            </div>
+            </div> */}
             <div className="d-inine-block">
               <Button onClick={onPublish}>
                 <LoadingOutlined

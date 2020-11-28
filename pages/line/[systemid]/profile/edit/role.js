@@ -4,16 +4,16 @@ import dynamic from "next/dynamic";
 
 const EditRole = dynamic(
   () => {
-    return import("../../../../../../components/Line/Profile/Edit/EditRole");
+    return import("../../../../../components/Line/Profile/Edit/EditRole");
   },
   { ssr: false }
 );
 
-function LineLiffEditRole({systemname}) {
+function LineLiffEditRole() {
   return (
     <>
       <Head>
-        <title>Edit Profile - {systemname}</title>
+        <title>Edit Profile</title>
       </Head>
       <EditRole />
     </>
@@ -23,7 +23,7 @@ function LineLiffEditRole({systemname}) {
 
 LineLiffEditRole.getInitialProps = async (ctx) => {
   return {
-    systemname: ctx.query.systemname,
+    systemid: ctx.query.systemid,
   };
 };
 

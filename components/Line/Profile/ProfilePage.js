@@ -22,7 +22,7 @@ const Subtext = styled.div`
 
 export default function LiffInit(props) {
   const router = useRouter();
-  const { systemid, systemname } = router.query;
+  const { systemid } = router.query;
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
   const [role, setRole] = useState("");

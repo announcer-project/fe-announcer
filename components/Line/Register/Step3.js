@@ -71,7 +71,7 @@ export default function Step3(props) {
     <div className="container pt-5">
       <div className="text-center">
         <span className="font-title">
-          <b>Choose your role</b>
+          <b>Choose news type that your interested</b>
         </span>
       </div>
       <div className="row mt-3">
