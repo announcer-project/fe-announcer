@@ -62,12 +62,14 @@ export default function Navbar() {
           </span>
         </div>
         <Menu.Item key="0">
-          <MenuStyle>
-            <span>
-              <UserOutlined className="mr-2" />
-              Profile
-            </span>
-          </MenuStyle>
+          <Link href={`/profile`} as={`/profile`}>
+            <MenuStyle>
+              <span>
+                <UserOutlined className="mr-2" />
+                Profile
+              </span>
+            </MenuStyle>
+          </Link>
         </Menu.Item>
         <Menu.Item onClick={Logout} key="1">
           <MenuStyle>

@@ -77,12 +77,14 @@ function Navbar() {
           </span>
         </div>
         <Menu.Item key="0">
-          <MenuStyle>
-            <span>
-              <UserOutlined className="mr-2" />
-              Profile
-            </span>
-          </MenuStyle>
+          <Link href={`/profile`} as={`/profile`}>
+            <MenuStyle>
+              <span>
+                <UserOutlined className="mr-2" />
+                Profile
+              </span>
+            </MenuStyle>
+          </Link>
         </Menu.Item>
         <Menu.Item onClick={Logout} key="0">
           <MenuStyle>
@@ -112,7 +114,7 @@ function Navbar() {
           </Logo>
         </Link>
         <div className="d-flex justify-content-between">
-          {pagename == "" || pagename == "register" ? (
+          {pagename == "register" || pagename == "profile" ? (
             <Button
               onClick={onLink}
               className="mr-2 mt-1"
