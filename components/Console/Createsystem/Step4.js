@@ -119,7 +119,7 @@ export default function ConfirmStep() {
   return (
     <div>
       <div className="text-center">
-        <img className="rounded-circle border w-15" src={image} />
+        <img className="rounded-circle border" width="200px" src={image} />
       </div>
       <div className="mt-2">
         <b>System name : </b>

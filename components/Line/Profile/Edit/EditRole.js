@@ -84,10 +84,11 @@ export default function LiffInit(props) {
         icon: "success",
         title: "Update success",
       }).then(() => {
-        Router.push(
-          `/line/[systemid]/profile?systemid=${systemid}`,
-          `/line/${systemid}/profile`
-        );
+        liff.closeWindow()
+        // Router.push(
+        //   `/line/[systemid]/profile?systemid=${systemid}`,
+        //   `/line/${systemid}/profile`
+        // );
       });
     });
   };
