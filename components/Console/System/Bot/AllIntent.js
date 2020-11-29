@@ -7,8 +7,10 @@ import axios from "axios";
 import cookie from "../../../../tools/cookie";
 import Skeleton from "react-loading-skeleton";
 import Button from "../../../common/Button";
+import { intent as dialogflowapi } from "../../../../api";
+import Swal from "sweetalert2"
 
-export default function AllConnectPage() {
+export default function AllConnectPage({ setConnect }) {
   const router = useRouter();
   const { systemid, systemname } = router.query;
   const [loading, setLoading] = useState(false);
@@ -33,18 +35,63 @@ export default function AllConnectPage() {
       });
   };
 
+  const disconnect = async () => {
+    setLoading(true);
+    Swal.fire({
+      title: "You want to disconnect dialogflow ?",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+      reverseButtons: true,
+    }).then(async (result) => {
+      if (result.value) {
+        await dialogflowapi
+          .delete(`/disconnect?systemid=${systemid}`)
+          .then((res) => {
+            Swal.fire({
+              icon: "success",
+              title: "Delete success",
+              showConfirmButton: true,
+              timer: 3000,
+            }).then(() => {
+              setConnect(false);
+              setLoading(false);
+            });
+          })
+          .catch((error) => {
+            Swal.fire({
+              icon: "error",
+              title: "Delete fail",
+              showConfirmButton: true,
+              timer: 3000,
+            }).then(() => {
+              setLoading(false);
+            });
+          });
+      } else {
+        setLoading(false);
+      }
+    });
+  };
+
   return (
     <div>
       <div className="mb-3 d-flex justify-content-between">
         <h2 className="mt-2">Intents</h2>
-        <Link
-          href={`/console/[systemname]/[systemid]/bot/intent/create?systemname=${systemname}&systemid=${systemid}`}
-          as={`/console/${systemname}/${systemid}/bot/intent/create`}
-        >
-          <a>
-            <Button>Create Intent</Button>
-          </a>
-        </Link>
+        <div>
+          <Button danger={true} className="mr-2" onClick={disconnect}>
+            Disconnect
+          </Button>
+          <Link
+            href={`/console/[systemname]/[systemid]/bot/intent/create?systemname=${systemname}&systemid=${systemid}`}
+            as={`/console/${systemname}/${systemid}/bot/intent/create`}
+          >
+            <a>
+              <Button>Create Intent</Button>
+            </a>
+          </Link>
+        </div>
       </div>
       {intents ? (
         <div>

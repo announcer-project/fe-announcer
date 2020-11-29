@@ -87,6 +87,13 @@ function ConnectDialogflowPage({ systemname, systemid }) {
           name="connectdialogflow"
           formItemLayout={null}
         >
+          <p>
+            <b>For Line Official account</b>
+            <br/>
+            <b>Webhook URL: </b>https://api-announcer-system.tk/webhook/
+            {systemid}
+          </p>
+          <b>For Dialogflow</b>
           <Input
             label="ProjectID"
             name="projectid"

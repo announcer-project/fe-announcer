@@ -52,7 +52,7 @@ function BotPage({ systemname, systemid }) {
         ) : (
           <>
             {connect ? (
-              <AllIntentsPage />
+              <AllIntentsPage setConnect={setConnect} />
             ) : (
               <div>
                 <Box>
