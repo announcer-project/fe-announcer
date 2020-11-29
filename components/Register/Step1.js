@@ -11,6 +11,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
 import { LoadingOutlined } from "@ant-design/icons";
+import emailjs from "emailjs-com"
 
 function Step1() {
   const router = useRouter();
@@ -61,18 +62,39 @@ function Step1() {
     changeEmail(values.email);
     let OTP = generateOTP();
     setgenOTP(OTP);
+    // let data = {
+    //   otp: OTP,
+    //   email: values.email,
+    // };
     let data = {
       otp: OTP,
-      email: values.email,
+      receiver: values.email,
     };
-    axios
-      .post(`${process.env.REACT_APP_BE_PATH}/register/sendotp`, data)
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    let type = "gmail";
+    let template = "announcerotp";
+    let userid = "user_TrNSWK27wszTjEUslSoMG";
+    emailjs.send(type, template, data, userid).then(
+      (result) => {
+        Swal.fire({
+          icon: "success",
+          title: "ส่ง OTP สำเร็จ",
+        });
+      },
+      (error) => {
+        Swal.fire({
+          icon: "error",
+          title: "ส่ง OTP ไม่สำเร็จ",
+        });
+      }
+    );
+    // axios
+    //   .post(`${process.env.REACT_APP_BE_PATH}/register/sendotp`, data)
+    //   .then(function (response) {
+    //     console.log(response);
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
   };
 
   const checkOTP = (values) => {
