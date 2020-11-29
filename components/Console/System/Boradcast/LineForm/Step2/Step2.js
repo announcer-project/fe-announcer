@@ -103,9 +103,7 @@ export default function Step2() {
               <div className="pt-3 text-right">
                 <Button
                   danger={true}
-                  className={`px-4 px-sm-5 py-2 font-small ${
-                    messages.length === 5 ? "d-none" : ""
-                  }`}
+                  className={`px-4 px-sm-5 py-2 font-small`}
                   onClick={() => onRemoveMessage(key)}
                 >
                   Remove
