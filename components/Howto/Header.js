@@ -1,6 +1,6 @@
 export default function Header() {
   return (
-    <div className="shadow-sm">
+    <div className="shadow-sm py-2">
       <div className="container">
         <div>
           <img
