@@ -36,33 +36,45 @@ export default function AllTargetGroupPage() {
     if (!loading) {
       setLoading(true);
       setSelected(targetgroupid);
-      await axios
-        .delete(
-          `${process.env.REACT_APP_BE_PATH}/targetgroup/${systemid}/${targetgroupid}`,
-          {
-            headers: {
-              Authorization: "Bearer " + cookie.getJWT(),
-            },
-          }
-        )
-        .then((res) => {
-          Swal.fire({
-            icon: "success",
-            title: "Delete success",
-          });
-          fetchTargetgroups();
+      Swal.fire({
+        title: "You want to delete this target group?",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes",
+      }).then(async (result) => {
+        if (result.value) {
+          await axios
+            .delete(
+              `${process.env.REACT_APP_BE_PATH}/targetgroup/${systemid}/${targetgroupid}`,
+              {
+                headers: {
+                  Authorization: "Bearer " + cookie.getJWT(),
+                },
+              }
+            )
+            .then((res) => {
+              Swal.fire({
+                icon: "success",
+                title: "Delete success",
+              });
+              fetchTargetgroups();
+              setLoading(false);
+              setSelected(0);
+            })
+            .catch((error) => {
+              Swal.fire({
+                icon: "error",
+                title: "Oops!",
+                text: error.response.data.message
+              });
+              setLoading(false);
+              setSelected(0);
+            });
+        } else {
           setLoading(false);
-          setSelected(0);
-        })
-        .catch((error) => {
-          Swal.fire({
-            icon: "error",
-            title: "Oops!",
-            text: error.response.data.message
-          });
-          setLoading(false);
-          setSelected(0);
-        });
+        }
+      });
     }
   };
 
@@ -111,8 +123,8 @@ export default function AllTargetGroupPage() {
       {targetgroups ? (
         <Table columns={columns} dataSource={targetgroups} />
       ) : (
-        <Skeleton height={200} />
-      )}
+          <Skeleton height={200} />
+        )}
     </div>
   );
 }

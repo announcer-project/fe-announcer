@@ -7,6 +7,7 @@ import Button from "../../../../common/Button";
 import { useForm, Form, Input, ButtonSubmit } from "../../../../common/Form";
 import { LoadingOutlined } from "@ant-design/icons";
 import Skeleton from "react-loading-skeleton";
+import Link from "next/link"
 
 export default function CreateTargetGroupPage() {
   const router = useRouter();
@@ -124,7 +125,7 @@ export default function CreateTargetGroupPage() {
           Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: "Server error",
+            text: err.response.data.message,
           });
           setLoading(false);
         });
@@ -211,9 +212,14 @@ export default function CreateTargetGroupPage() {
             </div>
           </div>
           <div className="mt-4 d-flex justify-content-between">
-            <Button className="d-inline-block" danger={true}>
-              Back
-            </Button>
+            <Link
+              href={`/console/[systemname]/[systemid]/targetgroup/alltargetgroup?systemname=${systemname}&systemid=${systemid}`}
+              as={`/console/${systemname}/${systemid}/targetgroup/alltargetgroup`}
+            >
+              <Button className="d-inline-block" danger={true}>
+                Back
+              </Button>
+            </Link>
             <ButtonSubmit className="d-inline-block">
               <LoadingOutlined className={`${loading ? "" : "d-none"} mr-2`} />
               Create
@@ -221,20 +227,20 @@ export default function CreateTargetGroupPage() {
           </div>
         </Form>
       ) : (
-        <div>
-          <Skeleton height={30} />
-          <div className="col-12">
-            <div className="row">
-              <div className="col-12 col-lg-6">
-                <Skeleton height={250} />
-              </div>
-              <div className="col-12 col-lg-6">
-                <Skeleton height={250} />
+          <div>
+            <Skeleton height={30} />
+            <div className="col-12">
+              <div className="row">
+                <div className="col-12 col-lg-6">
+                  <Skeleton height={250} />
+                </div>
+                <div className="col-12 col-lg-6">
+                  <Skeleton height={250} />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
     </div>
   );
 }
