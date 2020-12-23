@@ -69,7 +69,14 @@ export default function CreateNewsTypePage() {
               setLoading(true);
               setLoading(false);
               setVisible(false);
-            });
+            }).catch(err => {
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: err.response.data.message,
+              });
+              setLoadingCreate(false);
+            })
         } else {
           Swal.fire({
             icon: "error",
@@ -127,6 +134,8 @@ export default function CreateNewsTypePage() {
                 setLoadingDelete(false);
               });
             });
+        } else {
+          setLoadingDelete(false);
         }
       });
     }

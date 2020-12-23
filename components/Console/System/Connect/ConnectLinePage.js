@@ -99,7 +99,10 @@ export default function ConnectLinePage() {
           });
         })
         .catch((err) => {
-          console.log(err.response.data.message);
+          Swal.fire({
+            icon: "error",
+            title: "Connect line account fail"
+          })
           setLoading(false);
         });
     } else {
@@ -210,7 +213,7 @@ export default function ConnectLinePage() {
             </div>
           </div>
           <div className="d-flex justify-content-between mt-5">
-            <Link href={`/console/${systemid}/${systemname}/connect`}>
+            <Link href={`/console/${systemname}/${systemid}/connect`}>
               <Button danger={true}>Back</Button>
             </Link>
             <ButtonSubmit onClick={onFinish}>
