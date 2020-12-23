@@ -5,6 +5,7 @@ import axios from "axios";
 import cookie from "../../../../../tools/cookie";
 import { useRouter } from "next/router";
 import Skeleton from "react-loading-skeleton";
+import Swal from "sweetalert2"
 
 export default function RoleRequestPage() {
   const router = useRouter();
@@ -16,37 +17,70 @@ export default function RoleRequestPage() {
   }, []);
 
   const onApprove = async (memberid) => {
-    let data = {
-      memberid: memberid,
-      systemid: systemid,
-    };
-    console.log(data);
-    await axios
-      .put(`${process.env.REACT_APP_BE_PATH}/role/request/approve`, data, {
-        headers: {
-          Authorization: "Bearer " + cookie.getJWT(),
-        },
-      })
-      .then((res) => {
-        fetchRoleRequest();
-      });
+    Swal.fire({
+      title: "Do you want to approve this member?",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+    }).then(async(result) => {
+      if (result.value) {
+        let data = {
+          memberid: memberid,
+          systemid: systemid,
+        };
+        await axios
+          .put(`${process.env.REACT_APP_BE_PATH}/role/request/approve`, data, {
+            headers: {
+              Authorization: "Bearer " + cookie.getJWT(),
+            },
+          })
+          .then((res) => {
+            Swal.fire({
+              icon: "success",
+              title: "Approve member success",
+              showConfirmButton: true,
+              timer: 3000,
+            }).then(() => {
+              fetchRoleRequest();
+            });
+          });
+      }
+    });
   };
 
   const onReject = async (memberid) => {
-    let data = {
-      memberid: memberid,
-      systemid: systemid,
-    };
-    await axios
-      .delete(`${process.env.REACT_APP_BE_PATH}/role/request/reject`, {
-        headers: {
-          Authorization: "Bearer " + cookie.getJWT(),
-        },
-        data,
-      })
-      .then((res) => {
-        fetchRoleRequest();
-      });
+    Swal.fire({
+      title: "Do you want to reject this member?",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+    }).then(async(result) => {
+      if (result.value) {
+        let data = {
+          memberid: memberid,
+          systemid: systemid,
+        };
+        await axios
+          .delete(`${process.env.REACT_APP_BE_PATH}/role/request/reject`, {
+            headers: {
+              Authorization: "Bearer " + cookie.getJWT(),
+            },
+            data,
+          })
+          .then((res) => {
+            Swal.fire({
+              icon: "success",
+              title: "Reject member success",
+              showConfirmButton: true,
+              timer: 3000,
+            }).then(() => {
+              fetchRoleRequest();
+            });
+          });
+      }
+    });
   };
 
   const fetchRoleRequest = async () => {
@@ -107,8 +141,8 @@ export default function RoleRequestPage() {
       {requests ? (
         <Table columns={columns} dataSource={requests} />
       ) : (
-        <Skeleton height={300} />
-      )}
+          <Skeleton height={300} />
+        )}
     </div>
   );
 }
