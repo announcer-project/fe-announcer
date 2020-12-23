@@ -70,42 +70,42 @@ export default function SettingAdminPage() {
       dataIndex: "position",
       key: "position",
     },
-    {
-      title: "Edit",
-      dataIndex: "edit",
-      key: "edit",
-      render: (text, record) => {
-        console.log(record.userId);
-        if (isAdmin) {
-          if (user.ID !== record.userId) {
-            return (
-              <Button onClick={() => console.log(record.key)}>Edit</Button>
-            );
-          }
-        }
-        return <div></div>;
-      },
-    },
-    {
-      title: "Delete",
-      dataIndex: "delete",
-      key: "delete",
-      render: (text, record) => {
-        if (user.ID === record.userId) {
-          if (!isAdmin) {
-            return (
-              <Button danger={true} onClick={() => console.log(record.key)}>
-                Leave
-              </Button>
-            );
-          } else {
-            return <div />;
-          }
-        } else {
-          return <div />;
-        }
-      },
-    },
+    // {
+    //   title: "Edit",
+    //   dataIndex: "edit",
+    //   key: "edit",
+    //   render: (text, record) => {
+    //     console.log(record.userId);
+    //     if (isAdmin) {
+    //       if (user.ID !== record.userId) {
+    //         return (
+    //           <Button onClick={() => console.log(record.key)}>Edit</Button>
+    //         );
+    //       }
+    //     }
+    //     return <div></div>;
+    //   },
+    // },
+    // {
+    //   title: "Delete",
+    //   dataIndex: "delete",
+    //   key: "delete",
+    //   render: (text, record) => {
+    //     if (user.ID === record.userId) {
+    //       if (!isAdmin) {
+    //         return (
+    //           <Button danger={true} onClick={() => console.log(record.key)}>
+    //             Leave
+    //           </Button>
+    //         );
+    //       } else {
+    //         return <div />;
+    //       }
+    //     } else {
+    //       return <div />;
+    //     }
+    //   },
+    // },
   ];
 
   const showModal = () => {
@@ -180,6 +180,7 @@ export default function SettingAdminPage() {
               <Input
                 name="admin"
                 rules={[{ required: true, message: "Please input user ID" }]}
+                label="User ID"
               />
               <div className="text-center">
                 <ButtonSubmit className="mx-auto">
