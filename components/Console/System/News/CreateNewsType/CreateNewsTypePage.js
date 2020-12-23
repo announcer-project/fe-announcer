@@ -152,14 +152,12 @@ export default function CreateNewsTypePage() {
       render: (text, record) => (
         <Button danger={true} onClick={() => Delete(record.ID)}>
           <LoadingOutlined
-            className={`${
-              record.ID === selected && loadingDelete ? "" : "d-none"
-            }`}
+            className={`${record.ID === selected && loadingDelete ? "" : "d-none"
+              }`}
           />
           <DeleteOutlined
-            className={`${
-              record.ID === selected && loadingDelete ? "d-none" : ""
-            }`}
+            className={`${record.ID === selected && loadingDelete ? "d-none" : ""
+              }`}
           />
         </Button>
       ),
@@ -198,7 +196,11 @@ export default function CreateNewsTypePage() {
               name="basic"
               onFinish={addNewsType}
             >
-              <Input className="mt-2" name="newstype" />
+              <Input
+                name="newstype"
+                label="News type name"
+                rules={[{ required: true, message: "Please input news type name" }]}
+              />
               <div className="text-center">
                 <ButtonSubmit>
                   <LoadingOutlined
@@ -211,8 +213,8 @@ export default function CreateNewsTypePage() {
           </Modal>
         </>
       ) : (
-        <Skeleton height={200} />
-      )}
+          <Skeleton height={200} />
+        )}
     </div>
   );
 }
