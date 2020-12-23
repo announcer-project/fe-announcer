@@ -29,6 +29,9 @@ const rolewithjwt = axios.create({
 
 const news = axios.create({
   baseURL: `${process.env.REACT_APP_BE_PATH}/news`,
+  headers: {
+    Authorization: "Bearer " + cookie.getJWT(),
+  },
 });
 
 const system = axios.create({

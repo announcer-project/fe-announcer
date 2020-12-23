@@ -36,7 +36,7 @@ export default function AllNewsPage() {
       {allnews ? (
         <div>
           {/* <AllNewsBox type="Draft" news={allnews.draft} path={path} /> */}
-          <AllNewsBox type="Publish" news={allnews.publish} path={path} />
+          <AllNewsBox type="Publish" fetchNews={fetchAllNews} news={allnews.publish} path={path} />
         </div>
       ) : (
         <Skeleton />

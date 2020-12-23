@@ -4,6 +4,8 @@ import { useRouter } from "next/router";
 import Button from "../../common/Button";
 import { ReadOutlined, SendOutlined } from "@ant-design/icons";
 import Link from "next/link";
+import { news as newsapi } from "../../../api"
+import Swal from "sweetalert2";
 
 const Cover = styled.img`
   height: 100px;
@@ -40,6 +42,36 @@ export default function NewsPublishCard(props) {
   const router = useRouter();
   const { systemid, systemname } = router.query;
 
+  const deleteNews = async () => {
+    Swal.fire({
+      title: "Do you want to delete this news?",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+    }).then( async (result) => {
+      if (result.value) {
+        await newsapi.delete(`/delete/${props.news.ID}`).then(res => {
+          Swal.fire({
+            icon: "success",
+            title: "Delete news success",
+            showConfirmButton: true,
+            timer: 3000,
+          }).then((result) => {
+            props.fetchNews()
+          });
+        }).catch(err => {
+          Swal.fire({
+            icon: "error",
+            title: "Delete news fail",
+            showConfirmButton: true,
+            timer: 3000,
+          })
+        })
+      }
+    });
+  }
+
   const createMarkup = (body) => {
     return { __html: body };
   };
@@ -58,36 +90,45 @@ export default function NewsPublishCard(props) {
             <div dangerouslySetInnerHTML={createMarkup(props.news.body)}></div>
           </Body>
           <Footer
-            className={`mt-1 text-right ${
-              !props.footer ? "d-none" : ""
-            }`}
+            className={`mt-1 d-flex justify-content-between ${!props.footer ? "d-none" : ""
+              }`}
           >
-            <Link
-              href={`/news/${systemname}/${systemid}/${props.news.ID}`}
-              prefetch={false}
-            >
-              <a target="_blank">
-                <ButtonCard className="mr-2">
-                  <span className="mr-1">
-                    <ReadOutlined />
-                  </span>
+            <ButtonCard onClick={_ => deleteNews()} danger={true} className="mr-2">
+              <span className="mr-1">
+                <ReadOutlined />
+              </span>
+              <span>
+                Delete
+              </span>
+            </ButtonCard>
+            <div>
+              <Link
+                href={`/news/${systemname}/${systemid}/${props.news.ID}`}
+                prefetch={false}
+              >
+                <a target="_blank">
+                  <ButtonCard className="mr-2">
+                    <span className="mr-1">
+                      <ReadOutlined />
+                    </span>
                   Read
                 </ButtonCard>
-              </a>
-            </Link>
-            <Link
-              href={`/console/[systemname]/[systemid]/broadcast/line?systemname=${systemname}&systemid=${systemid}`}
-              as={`/console/${systemname}/${systemid}/broadcast/line`}
-            >
-              <a>
-                <ButtonCard>
-                  <span className="mr-1">
-                    <SendOutlined />
-                  </span>
+                </a>
+              </Link>
+              <Link
+                href={`/console/[systemname]/[systemid]/broadcast/line?systemname=${systemname}&systemid=${systemid}`}
+                as={`/console/${systemname}/${systemid}/broadcast/line`}
+              >
+                <a>
+                  <ButtonCard>
+                    <span className="mr-1">
+                      <SendOutlined />
+                    </span>
                   Send
                 </ButtonCard>
-              </a>
-            </Link>
+                </a>
+              </Link>
+            </div>
             {/* <div>Post {postdateFormat}</div> */}
           </Footer>
         </div>

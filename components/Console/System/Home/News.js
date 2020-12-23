@@ -13,7 +13,7 @@ const SeeMore = styled.span`
   }
 `;
 
-export default function News({ news, systemname, systemid }) {
+export default function News({fetchNews, news, systemname, systemid }) {
   return (
     <div className="border rounded p-3 mt-3 ">
       <div className="d-flex justify-content-between">
@@ -41,7 +41,7 @@ export default function News({ news, systemname, systemid }) {
             {news.slice(0).reverse().slice(0,3).map((news) => {
               return (
                 <div className="mt-2 col-12 col-sm-4">
-                  <NewsCard news={news} footer={true} />
+                  <NewsCard fetchNews={fetchNews} news={news} footer={true} />
                 </div>
               );
             })}

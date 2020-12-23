@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import cookie from "../../../../tools/cookie";
 import axios from "axios";
+import {news as newsapi} from "../../../../api";
 
 import News from "./News";
 import NewsTypes from "./NewsTypes";
@@ -39,12 +40,18 @@ function HomeSystemPage(props) {
         setTagetgroups(aboutSystem.targetgroups);
       });
   };
+  
+  const fetchNews = async () => {
+    await newsapi.get("/all/publish").then(res => {
+      console.log(res.data)
+    })
+  }
 
   return (
     <>
       <div className="container py-3">
         <h1>{systemname}</h1>
-        {news ? <News news={news} systemname={systemname} systemid={systemid} /> : <NewsLoading />}
+        {news ? <News fetchNews={fetchNews} news={news} systemname={systemname} systemid={systemid} /> : <NewsLoading />}
         <div className="mt-3">
           {newstypes ? (
             <NewsTypes newstypes={newstypes} />

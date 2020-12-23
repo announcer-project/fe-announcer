@@ -54,7 +54,7 @@ export default function AllNewsBox(props) {
                 );
               } else {
                 return (
-                  <NewsPublishCard className="col-12 col-lg-4 mt-3" news={news} footer={true} />
+                  <NewsPublishCard className="col-12 col-lg-4 mt-3" fetchNews={props.fetchNews} news={news} footer={true} />
                 );
               }
             })}
