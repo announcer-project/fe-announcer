@@ -41,7 +41,7 @@ export default function AllRolePage() {
 
   const onDeleteRole = (roleid) => {
     Swal.fire({
-      title: "You want to delete this role ?",
+      title: "You want to delete this role?",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",

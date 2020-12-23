@@ -5,6 +5,7 @@ import axios from "axios";
 import { LoadingOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import Button from "../../../../common/Button";
+import Swal from "sweetalert2"
 
 import {
   useForm,
@@ -36,7 +37,13 @@ export default function CreateRolePage() {
         })
         .then((res) => {
           Router.push(`/console/${systemname}/${systemid}/role/allrole`);
-        });
+        }).catch(err => {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: err.response.data.message,
+          });
+        })
     }
   };
 
@@ -52,7 +59,10 @@ export default function CreateRolePage() {
         />
         <Switch name="require" label="Must approve" />
         <div className="d-flex justify-content-between">
-          <Link href={`/console/${systemname}/${systemid}/role/allrole`}>
+          <Link
+            href={`/console/[systemname]/[systemid]/role/allrole?systemname=${systemname}&systemid=${systemid}`}
+            as={`/console/${systemname}/${systemid}/role/allrole`}
+          >
             <Button danger={true}>Back</Button>
           </Link>
           <ButtonSubmit>
