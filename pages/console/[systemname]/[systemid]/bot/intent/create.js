@@ -1,13 +1,13 @@
 import Head from "next/head";
-import axios from "axios";
-import cookie from "../../../../../../tools/cookie";
 import withAuth from "../../../../../../hoc/withAuth";
 import withLayout from "../../../../../../hoc/withLayoutConsole";
 import { useEffect, useState } from "react";
-import { Form, Input } from "../../../../../../components/common/Form";
+import { Form, Input, ButtonSubmit } from "../../../../../../components/common/Form";
 import Button from "../../../../../../components/common/Button";
 import { intent as intentapi } from "../../../../../../api";
 import Router from "next/router"
+import Link from "next/link"
+import Swal from "sweetalert2"
 
 // import AllIntentsPage from "../../../../../../components/Console/System/Bot/AllIntent";
 
@@ -19,16 +19,37 @@ function CreateIntentPage({ systemname, systemid }) {
 
   const createIntent = async () => {
     setLoading(false);
-    let data = {
-      DisplayName: intentname,
-      TrainingPhrase: training_phrases,
-      MessageTexts: responses,
-    };
-    console.log(data)
-    await intentapi.post(`/intent/create?systemid=${systemid}`, data).then((res) => {
-      console.log("Res ", res.data)
-      Router.push(`/console/${systemname}/${systemid}/bot`);
-    })
+    let training_phrases_check = [], responses_check = [];
+    if (training_phrases[training_phrases.length - 1] !== "") {
+      training_phrases_check = training_phrases.slice(0, training_phrases.length)
+    }
+    if (responses[responses.length - 1] !== "") {
+      responses_check = responses.slice(0, responses.length)
+    }
+    if (training_phrases_check.length === 0 || responses_check.length === 0) {
+      Swal.fire({
+        icon: "error",
+        title: "Please input value",
+        showConfirmButton: true,
+        timer: 3000,
+      })
+    } else {
+      let data = {
+        DisplayName: intentname,
+        TrainingPhrase: training_phrases_check,
+        MessageTexts: responses_check,
+      };
+      await intentapi.post(`/intent/create?systemid=${systemid}`, data).then((res) => {
+        Swal.fire({
+          icon: "success",
+          title: "Create intent success",
+          showConfirmButton: true,
+          timer: 3000,
+        }).then(_ => {
+          Router.push(`/console/${systemname}/${systemid}/bot`);
+        })
+      })
+    }
   };
 
   const onChangeTrainingPhrase = (training_phrase, index) => {
@@ -44,15 +65,19 @@ function CreateIntentPage({ systemname, systemid }) {
   };
 
   const addTrainingPhrase = () => {
-    let training_phrases_clone = training_phrases;
-    training_phrases_clone.push("");
-    setTraining_phrases([...training_phrases_clone]);
+    if (training_phrases[training_phrases.length - 1] !== "") {
+      let training_phrases_clone = training_phrases;
+      training_phrases_clone.push("");
+      setTraining_phrases([...training_phrases_clone]);
+    }
   };
 
   const addResponse = () => {
-    let responses_clone = responses;
-    responses_clone.push("");
-    setResponses([...responses_clone]);
+    if (responses[responses.length - 1] !== "") {
+      let responses_clone = responses;
+      responses_clone.push("");
+      setResponses([...responses_clone]);
+    }
   };
 
   return (
@@ -74,7 +99,7 @@ function CreateIntentPage({ systemname, systemid }) {
                   value={intentname}
                   onChange={(e) => setIntentname(e.target.value)}
                 />
-                <Button onClick={createIntent}>Save</Button>
+                {/* <Button onClick={createIntent}>Save</Button> */}
               </div>
               <div className="p-2 border mt-2">
                 <span>Traing Phrase</span>
@@ -115,6 +140,17 @@ function CreateIntentPage({ systemname, systemid }) {
                 </div>
               </div>
             </div>
+          </div>
+          <div className="d-flex justify-content-between mt-3 container">
+            <Link
+              href={`/console/[systemname]/[systemid]/bot?systemname=${systemname}&systemid=${systemid}`}
+              as={`/console/${systemname}/${systemid}/bot`}
+            >
+              <Button danger={true}>Back</Button>
+            </Link>
+            <ButtonSubmit onClick={createIntent}>
+              Create Intent
+            </ButtonSubmit>
           </div>
         </Form>
       </div>
