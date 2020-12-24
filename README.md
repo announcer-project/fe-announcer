@@ -1,6 +1,6 @@
 # Announcer - Frontend
 ## Installing
-ลง <a href="https://nodejs.org/en/download/">Node.js</a> บนเครื่องที่จะทำการรันตัวโปรเจค
+ติดตั้ง <a href="https://nodejs.org/en/download/">Node.js</a> บนเครื่องที่จะทำการรันตัวโปรเจค
 
 ## Getting Started
 1. ติดตั้ง package ที่จะต้องใช้สำหรับตัวโปรเจค
