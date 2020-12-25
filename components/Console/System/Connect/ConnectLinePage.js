@@ -131,7 +131,7 @@ export default function ConnectLinePage() {
           <div>
             <b>For Line Login</b>
             <p style={{ color: "rgba(0, 0, 0, 0.65)" }}>
-              Endpoint URL: https://announcer-system.com/line/{systemid}
+              Endpoint URL: {process.env.REACT_APP_FE_PATH}/line/{systemid}
             </p>
             <p>
               <span className="text-danger">*</span> LIFF ID

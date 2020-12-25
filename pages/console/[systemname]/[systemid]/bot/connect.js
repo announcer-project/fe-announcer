@@ -90,7 +90,7 @@ function ConnectDialogflowPage({ systemname, systemid }) {
           <p>
             <b>For Line Official account</b>
             <br/>
-            <b>Webhook URL: </b>https://api-announcer-system.tk/webhook/
+            <b>Webhook URL: </b>{process.env.REACT_APP_BE_PATH}/webhook/
             {systemid}
           </p>
           <b>For Dialogflow</b>
