@@ -39,6 +39,7 @@ const ButtonCard = styled(Button)`
 const Footer = styled.div``;
 
 export default function NewsPublishCard(props) {
+  console.log(props, "sdsdsd")
   const router = useRouter();
   const { systemid, systemname } = router.query;
 
@@ -90,7 +91,7 @@ export default function NewsPublishCard(props) {
             <div dangerouslySetInnerHTML={createMarkup(props.news.body)}></div>
           </Body>
           <Footer
-            className={`mt-1 d-flex justify-content-between ${!props.footer ? "d-none" : ""
+            className={`mt-1 justify-content-between ${!props.footer ? "d-none" : "d-flex"
               }`}
           >
             <ButtonCard onClick={_ => deleteNews()} danger={true} className="mr-2">
