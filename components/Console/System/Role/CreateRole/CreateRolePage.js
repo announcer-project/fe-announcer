@@ -36,13 +36,20 @@ export default function CreateRolePage() {
           },
         })
         .then((res) => {
-          Router.push(`/console/${systemname}/${systemid}/role/allrole`);
+          Swal.fire({
+            icon: "success",
+            title: "Create role success",
+          }).then(_=>{
+            Router.push(`/console/${systemname}/${systemid}/role/allrole`);
+          })
         }).catch(err => {
           Swal.fire({
             icon: "error",
             title: "Oops...",
             text: err.response.data.message,
-          });
+          }).then(_=> {
+            setLoading(false)
+          })
         })
     }
   };
