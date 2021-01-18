@@ -72,7 +72,11 @@ function LoginPage() {
       Code: code,
     };
     await axios
-      .post(`${process.env.REACT_APP_BE_PATH}/login/line`, data)
+      .post(`${process.env.REACT_APP_BE_PATH}/login/line`, data, {
+        headers: {
+          'Access-Control-Allow-Origin': '*'
+        }
+      })
       .then(async (res) => {
         if (res.data.jwt === undefined) {
           Router.push(`/register?social=line&socialid=${res.data.UserId}&email=${res.data.Email}&pictureurl=${res.data.PictureUrl}`);
